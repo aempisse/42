@@ -1,15 +1,6 @@
 #include "fdf.h"
 #include <stdlib.h>
 
-double			ft_posd(int min, int max, int curr)
-{
-	if (curr <= min || curr >= max)
-		return ((curr <= min) ? 0 : 1);
-	if (min < 0)
-		return ((double)(curr - min) / (double)(max - min));
-	return ((double)(curr + min) / (double)(max + min));
-}
-
 int				ft_parseint(t_buff *buff)
 {
 	int				nb;

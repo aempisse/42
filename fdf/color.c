@@ -17,14 +17,14 @@ int				ft_mixd(int a, int b, double pos)
 	return (DOWN((double)(b - a) * pos) + a);
 }
 
-t_color			ft_color_get(t_array *gradient, double pos)
+t_color			ft_get_color(t_array *color, double pos)
 {
 	t_color			*tmp1;
 	t_color			*tmp2;
 	t_color			c;
 	int				down;
 
-	if (pos >= 1 || gradient->length == 1)
+	if (pos >= 1 || color->length == 1)
 		return (*((t_color*)color->data[color->length - 1]));
 	if (pos <= 0)
 		return (*((t_color*)color->data[0]));
@@ -40,7 +40,7 @@ t_color			ft_color_get(t_array *gradient, double pos)
 	return (c);
 }
 
-t_array			*ft_color_new(char *input)
+t_array			*ft_new_color(char *input)
 {
 	int				i;
 	t_array			*color;

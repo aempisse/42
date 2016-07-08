@@ -14,7 +14,7 @@ static int		key_hook(int keycode, t_env *env)
 		free(env->img);
 		mlx_destroy_window(env->mlx, env->win);
 		ft_arraykil(env->map, &ft_tabkil);
-		ft_arraykil(env->gradient, &free);
+		ft_arraykil(env->color, &free);
 		exit(0);
 	}	
 	return (0);
@@ -71,7 +71,7 @@ int				main(int argc, char **argv)
 		ft_error("Error: The file is too small.\n");
 	ft_mapoffset(env);
 	close(fd);
-	env->color = ft_colornew(DEF_COLORS);
+	env->color = ft_new_color(DEF_COLORS);
 	ft_draw_map(env);
 	mlx_loop(env->mlx);
 	return (0);
