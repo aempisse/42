@@ -10,7 +10,8 @@ static int		key_hook(int keycode, t_env *env)
 {
 	if (keycode == 65307)
 	{
-		ft_memset(env->img->data, 0, env->img->width * env->img->height * env->img->opp);
+		ft_memset(env->img->data, 0, env->img->width * env->img->height * 
+			env->img->opp);
 		free(env->img);
 		mlx_destroy_window(env->mlx, env->win);
 		ft_arraykil(env->map, &ft_tabkil);
@@ -26,11 +27,9 @@ static t_image	*ft_new_image(t_env *env)
 
 	img = (t_image*)malloc(sizeof(t_image));
 	img->img = mlx_new_image(env->mlx, WIDTH, HEIGHT);
-	img->data = (unsigned char*)mlx_get_data_addr(img->img, &img->opp, &img->l_size, &img->endian);
-	printf("bpp : %d\n", img->opp);
+	img->data = (unsigned char*)mlx_get_data_addr(img->img, &img->opp, 
+		&img->l_size, &img->endian);
 	img->opp = img->opp / 8;
-	printf("opp : %d\n", img->opp);
-	printf("endian : %d\n", img->endian);
 	img->width = WIDTH;
 	img->height = HEIGHT;
 	return (img);
@@ -71,7 +70,7 @@ int				main(int argc, char **argv)
 		ft_error("Error: The file is too small.\n");
 	ft_mapoffset(env);
 	close(fd);
-	env->color = ft_new_color(DEF_COLORS);
+	env->color = (argc > 1 ? ft_new_color(argv[2]) : ft_new_color(DEF_COLORS));
 	ft_draw_map(env);
 	mlx_loop(env->mlx);
 	return (0);

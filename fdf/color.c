@@ -57,7 +57,7 @@ t_array			*ft_new_color(char *input)
 		ft_arrayadd(color, tmp);
 		free(color_split[i]);
 	}
-	if (i < 0)
+	if (i <= 0)
 		ft_error("Error: Bad gradient.\n");
 //		ft_arrayadd(gradient, ft_memdup(tmp, sizeof(t_color)));
 //	else
