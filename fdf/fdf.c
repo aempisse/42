@@ -70,7 +70,8 @@ int				main(int argc, char **argv)
 		ft_error("Error: The file is too small.\n");
 	ft_mapoffset(env);
 	close(fd);
-	env->color = (argc > 1 ? ft_new_color(argv[2]) : ft_new_color(DEF_COLORS));
+//	env->color = ft_new_color(DEF_COLORS);
+	env->color = (argc > 2 ? ft_new_color(argv[2]) : ft_new_color(DEF_COLORS));
 	ft_draw_map(env);
 	mlx_loop(env->mlx);
 	return (0);

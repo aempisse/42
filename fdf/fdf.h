@@ -7,7 +7,7 @@
 # define WIDTH		1280
 # define HEIGHT		700
 
-# define DEF_COLORS	"0,255,64 ; 255,0,0"
+# define DEF_COLORS	"255,255,255"
 # define DEF_PTDIST	70
 
 typedef struct	s_image
