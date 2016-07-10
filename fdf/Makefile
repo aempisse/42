@@ -12,7 +12,7 @@
 
 NAME = fdf
 
-SRC = fdf.c map.c draw.c color.c misc.c
+SRC = fdf.c map.c draw.c color.c
 
 OBJ = $(SRC:%.c=obj/%.o) 
 
@@ -28,7 +28,7 @@ CFLAGS = -Wall -Wextra -Werror
 all: obj $(NAME)
 
 $(NAME): $(OBJ)
-#	@$(MAKE) -C ./libft/ -f Makefile
+	@$(MAKE) -C ./libft/ -f Makefile
 	@$(GCC) $(CFLAGS) -o $@ $(OBJ) $(LIBFT) $(LIBMLX) 
 	@echo "\|/        "
 	@echo "-o------.  "
@@ -56,7 +56,7 @@ $(LIBMLX): ./minilibx/libmlx.a
 
 clean:
 	@rm -rf obj/
-#	@$(MAKE) clean -C ./libft/ -f Makefile
+	@$(MAKE) clean -C ./libft/ -f Makefile
 	@$(MAKE) clean -C ./minilibx/ -f Makefile
 	@echo "\|/        "
 	@echo "-o------.  "
@@ -69,7 +69,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-#	@$(MAKE) fclean -C ./libft/ -f Makefile
+	@$(MAKE) fclean -C ./libft/ -f Makefile
 
 norme:
 	norminette $(SRC)

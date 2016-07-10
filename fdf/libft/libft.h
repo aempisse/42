@@ -168,4 +168,10 @@ int					ft_tabext(t_tab *tab, int need);
 void				ft_tabini(t_tab *tab, int size);
 void				ft_tabkil(void *tab);
 
+int					ft_parseint(t_buff *buff);
+void				ft_parsespace(t_buff *buff);
+double				ft_parsedouble(t_buff *buff);
+void				ft_parsespace(t_buff *buff);
+void				ft_parsenot(t_buff *buff, const char *parse);
+
 #endif

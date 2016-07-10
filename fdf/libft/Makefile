@@ -36,6 +36,7 @@ SRC += ft_arrayadd.c ft_arrayclr.c ft_arrayext.c ft_arrayini.c
 SRC += ft_arraykil.c ft_arraynew.c
 SRC += ft_tabadd.c ft_tabaddn.c ft_tabext.c ft_tabini.c
 SRC += ft_tabkil.c ft_tabnew.c
+SRC += ft_parseint.c ft_parsedouble.c ft_parsespace.c ft_parsenot.c
 
 OBJ = $(SRC:.c=.o)
 

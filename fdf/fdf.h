@@ -62,10 +62,4 @@ double			ft_posd(int min, int max, int pos);
 int				ft_mixd(int a, int b, double pos);
 void			ft_put_image(t_image *img, int pos, t_color color);
 
-int				ft_parseint(t_buff *buff);
-double			ft_parsedouble(t_buff *buff);
-void			ft_parsespace(t_buff *buff);
-void			ft_parsenot(t_buff *buff, const char *parse);
-
-
 #endif
