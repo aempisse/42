@@ -33,9 +33,9 @@ SRC += ft_tolower.c ft_toupper.c ft_lstadd.c ft_lstdel.c
 SRC += ft_lstdelone.c ft_lstiter.c ft_lstmap.c ft_lstnew.c
 SRC += get_next_line.c ft_error.c
 SRC += ft_array_add.c ft_array_clr.c ft_array_ext.c ft_array_ini.c
-SRC += ft_array_kill.c ft_array+new.c
+SRC += ft_array_kill.c ft_array_new.c
 SRC += ft_tab_add.c ft_tab_addn.c ft_tab_ext.c ft_tab_ini.c
-SRC += ft_tab_kil.c ft_tab_new.c
+SRC += ft_tab_kill.c ft_tab_new.c
 SRC += ft_parse_int.c ft_parse_double.c ft_parse_space.c ft_parse_not.c
 
 OBJ = $(SRC:.c=.o)

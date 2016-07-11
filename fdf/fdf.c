@@ -14,7 +14,7 @@ static int		key_hook(int keycode, t_env *env)
 			env->img->opp);
 		free(env->img);
 		mlx_destroy_window(env->mlx, env->win);
-		ft_array_kill(env->map, &ft_tab_kil);
+		ft_array_kill(env->map, &ft_tab_kill);
 		ft_array_kill(env->color, &free);
 		exit(0);
 	}	
@@ -35,7 +35,7 @@ static t_image	*ft_new_image(t_env *env)
 	return (img);
 }
 
-static t_env	*env_init(void)
+static t_env	*env_ini(void)
 {
 	t_env		*env;
 
@@ -63,12 +63,12 @@ int				main(int argc, char **argv)
 		ft_error("Error: No file specified.\n");
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 		ft_error("Error: File not found.\n");
-	env = env_init();
+	env = env_ini();
 	if (!ft_load_map(fd, env))
 		ft_putstr_fd("Warning: File contains error.\n", 2);
 	if (env->map->length <= 0)
 		ft_error("Error: The file is too small.\n");
-	ft_mapoffset(env);
+	ft_map_offset(env);
 	close(fd);
 	env->color = (argc > 2 ? ft_new_color(argv[2]) : ft_new_color(DEF_COLORS));
 	ft_draw_map(env);

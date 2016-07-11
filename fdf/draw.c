@@ -26,7 +26,7 @@ void			ft_draw_point(t_env *env, t_pos pos)
 	 pt.y >= env->img->height)
 		return ;
 	ft_put_image(env->img, (env->img->width * pt.y + pt.x) * env->img->opp,
-		 ft_get_color(env->color, ft_posd(env->min_z, env->max_z, pos.z)));
+		 ft_get_color(env->color, ft_position_z(env->min_z, env->max_z, pos.z)));
 }
 
 void			ft_draw_line(t_env *env, t_pos p1, t_pos p2)

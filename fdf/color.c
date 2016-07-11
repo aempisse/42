@@ -9,7 +9,7 @@ double			ft_position_z(int min, int max, int curr)
 	return ((double)(curr + min) / (double)(max + min));
 }
 
-int				ft_mixd(int a, int b, double pos)
+int				ft_mix_color(int a, int b, double pos)
 {
 	if (a > b)
 		return (a - DOWN((double)(a - b) * pos));
@@ -32,10 +32,10 @@ t_color			ft_get_color(t_array *color, double pos)
 	tmp1 = color->data[down];
 	tmp2 = color->data[down + 1];
 	pos -= down;
-	c.b.a = ft_mixd(tmp1->b.a, tmp2->b.a, pos);
-	c.b.r = ft_mixd(tmp1->b.r, tmp2->b.r, pos);
-	c.b.g = ft_mixd(tmp1->b.g, tmp2->b.g, pos);
-	c.b.b = ft_mixd(tmp1->b.b, tmp2->b.b, pos);
+	c.b.a = ft_mix_color(tmp1->b.a, tmp2->b.a, pos);
+	c.b.r = ft_mix_color(tmp1->b.r, tmp2->b.r, pos);
+	c.b.g = ft_mix_color(tmp1->b.g, tmp2->b.g, pos);
+	c.b.b = ft_mix_color(tmp1->b.b, tmp2->b.b, pos);
 	return (c);
 }
 
@@ -76,6 +76,6 @@ t_color			ft_atocolor(char *str)
 	color.b.b = (unsigned char)ft_parse_int(&buff);
 	ft_parse_not(&buff, "0123456789");
 	color.b.a = (buff.data[buff.i] != '\0') ? 
-	(unsigned char)ft_parseint(&buff) : 255;
+	(unsigned char)ft_parse_int(&buff) : 255;
 	return (color);
 }

@@ -50,16 +50,16 @@ typedef struct	s_env
 }				t_env;
 
 int				ft_load_map(int fd, t_env *env);
-void			ft_mapoffset(t_env *env);
-void			ft_draw_map(t_env *env);
+void			ft_map_offset(t_env *env);
 t_pt			ft_project_iso(t_pos pos);
 t_array			*ft_new_color(char *input);
 t_color			ft_atocolor(char *str);
-void			ft_draw_point(t_env *env, t_pos pos);
+void			ft_draw_map(t_env *env);
 void			ft_draw_line(t_env *env, t_pos p1, t_pos p2);
+void			ft_draw_point(t_env *env, t_pos pos);
 t_color			ft_get_color(t_array *gradient, double pos);
 double			ft_position_z(int min, int max, int pos);
-int				ft_mixd(int a, int b, double pos);
+int				ft_mix_color(int a, int b, double pos);
 void			ft_put_image(t_image *img, int pos, t_color color);
 
 #endif

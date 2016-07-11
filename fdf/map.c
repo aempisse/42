@@ -63,7 +63,7 @@ static void		ft_get_maxmin(t_env *env, t_pt *max, t_pt *min)
 	}
 }
 
-void			ft_mapoffset(t_env *env)
+void			ft_map_offset(t_env *env)
 {
 	t_pt		max;
 	t_pt		min;
