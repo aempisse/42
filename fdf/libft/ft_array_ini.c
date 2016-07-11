@@ -1,6 +1,6 @@
 #include "libft.h"
 
-void			ft_arrayini(t_array *array)
+void			ft_array_ini(t_array *array)
 {
 	array->data = (void**)malloc(sizeof(void*) * 16);
 	if (array->data != NULL)

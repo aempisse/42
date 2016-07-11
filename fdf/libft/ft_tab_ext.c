@@ -1,6 +1,6 @@
 #include "libft.h"
 
-int				ft_tabext(t_tab *tab, int need)
+int				ft_tab_ext(t_tab *tab, int need)
 {
 	unsigned char	*tmp;
 	int				len;

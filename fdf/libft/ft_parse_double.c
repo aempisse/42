@@ -1,6 +1,6 @@
 #include "libft.h"
 
-double			ft_parsedouble(t_buff *buff)
+double			ft_parse_double(t_buff *buff)
 {
 	double			nb;
 	double			part;

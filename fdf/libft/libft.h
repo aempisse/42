@@ -70,7 +70,7 @@ typedef struct	s_buff
 	int				length;
 }				t_buff;
 
-typedef struct		s_list
+typedef struct	s_list
 {
 	void			*content;
 	size_t			content_size;
@@ -154,24 +154,24 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 int					get_next_line(int const fd, t_buff *line);
 void				ft_error(const char *str);
 
-t_array				*ft_arraynew(void);
-void				ft_arrayadd(t_array *array, void *add);
-void				ft_arrayclr(void *array, void (*f)(void *data));
-int					ft_arrayext(t_array *array, int need);
-void				ft_arrayini(t_array *array);
-void				ft_arraykil(void *array, void (*f)(void *data));
+t_array				*ft_array_new(void);
+void				ft_array_add(t_array *array, void *add);
+void				ft_array_clr(void *array, void (*f)(void *data));
+int					ft_array_ext(t_array *array, int need);
+void				ft_array_ini(t_array *array);
+void				ft_array_kill(void *array, void (*f)(void *data));
 
-t_tab				*ft_tabnew(int size);
-void				ft_tabadd(t_tab *tab, const void *add);
-void				ft_tabaddn(t_tab *tab, const void *add, int n);
-int					ft_tabext(t_tab *tab, int need);
-void				ft_tabini(t_tab *tab, int size);
-void				ft_tabkil(void *tab);
+t_tab				*ft_tab_new(int size);
+void				ft_tab_add(t_tab *tab, const void *add);
+void				ft_tab_addn(t_tab *tab, const void *add, int n);
+int					ft_tab_ext(t_tab *tab, int need);
+void				ft_tab_ini(t_tab *tab, int size);
+void				ft_tab_kill(void *tab);
 
-int					ft_parseint(t_buff *buff);
-void				ft_parsespace(t_buff *buff);
-double				ft_parsedouble(t_buff *buff);
-void				ft_parsespace(t_buff *buff);
-void				ft_parsenot(t_buff *buff, const char *parse);
+int					ft_parse_int(t_buff *buff);
+void				ft_parse_space(t_buff *buff);
+double				ft_parse_double(t_buff *buff);
+void				ft_parse_space(t_buff *buff);
+void				ft_parse_not(t_buff *buff, const char *parse);
 
 #endif

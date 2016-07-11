@@ -1,8 +1,8 @@
 #include "libft.h"
 
-void			ft_arrayclr(void *array, void (*f)(void *data))
+void			ft_array_clr(void *array, void (*f)(void *data))
 {
-	int				i;
+	int			i;
 
 	i = -1;
 	if (f != NULL)

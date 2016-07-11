@@ -1,6 +1,6 @@
 #include "libft.h"
 
-void			ft_tabini(t_tab *tab, int size)
+void			ft_tab_ini(t_tab *tab, int size)
 {
 	tab->data = (unsigned char*)malloc(sizeof(unsigned char) * (size * 16));
 	tab->length = 0;

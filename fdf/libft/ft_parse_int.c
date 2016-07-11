@@ -1,6 +1,6 @@
 #include "libft.h"
 
-int				ft_parseint(t_buff *buff)
+int				ft_parse_int(t_buff *buff)
 {
 	int				nb;
 	int				negatif;

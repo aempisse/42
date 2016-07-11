@@ -1,7 +1,6 @@
 #include "fdf.h"
-#include <stdlib.h>
 
-double			ft_posd(int min, int max, int curr)
+double			ft_position_z(int min, int max, int curr)
 {
 	if (curr <= min || curr >= max)
 		return ((curr <= min) ? 0 : 1);
@@ -48,13 +47,13 @@ t_array			*ft_new_color(char *input)
 	char			**color_split;
 
 	color_split = ft_strsplit(input, ';');
-	color = ft_arraynew();
+	color = ft_array_new();
 	i = -1;
 	while (color_split[++i] != NULL)
 	{
 		tmp = (t_color*)malloc(sizeof(t_color));
 		*tmp = ft_atocolor(color_split[i]);
-		ft_arrayadd(color, tmp);
+		ft_array_add(color, tmp);
 		free(color_split[i]);
 	}
 	if (i == 0)
@@ -69,13 +68,14 @@ t_color			ft_atocolor(char *str)
 	t_buff			buff;
 
 	buff = (t_buff){str, 0, ft_strlen(str)};
-	ft_parsenot(&buff, "0123456789");
-	color.b.r = (unsigned char)ft_parseint(&buff);
-	ft_parsenot(&buff, "0123456789");
-	color.b.g = (unsigned char)ft_parseint(&buff);
-	ft_parsenot(&buff, "0123456789");
-	color.b.b = (unsigned char)ft_parseint(&buff);
-	ft_parsenot(&buff, "0123456789");
-	color.b.a = (buff.data[buff.i] != '\0') ? (unsigned char)ft_parseint(&buff) : 255;
+	ft_parse_not(&buff, "0123456789");
+	color.b.r = (unsigned char)ft_parse_int(&buff);
+	ft_parse_not(&buff, "0123456789");
+	color.b.g = (unsigned char)ft_parse_int(&buff);
+	ft_parse_not(&buff, "0123456789");
+	color.b.b = (unsigned char)ft_parse_int(&buff);
+	ft_parse_not(&buff, "0123456789");
+	color.b.a = (buff.data[buff.i] != '\0') ? 
+	(unsigned char)ft_parseint(&buff) : 255;
 	return (color);
 }

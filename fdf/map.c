@@ -1,49 +1,48 @@
 #include "fdf.h"
-#include <stdlib.h>
 
-static int			ft_load_line(t_env *env, t_tab *pts, t_buff *line)
+static int		ft_load_line(t_env *env, t_tab *pts, t_buff *line)
 {
-	double			tmp;
+	double		tmp;
 	int			valid;
 
 	valid = 1;
-	ft_parsespace(line);
+	ft_parse_space(line);
 	while (line->data[line->i] != '\0')
 	{
-		tmp = ft_parsedouble(line);
+		tmp = ft_parse_double(line);
 		env->max_z = MAX(env->max_z, tmp);
 		env->min_z = MIN(env->min_z, tmp);
-		ft_tabadd(pts, &tmp);
+		ft_tab_add(pts, &tmp);
 		if (line->data[line->i] != ' ' && line->data[line->i] != '\0')
 			valid = 0;
-		ft_parsenot(line, " \t\n");
-		ft_parsespace(line);
+		ft_parse_not(line, " \t\n");
+		ft_parse_space(line);
 	}
 	return (valid);
 }
 
-int			ft_load_map(int fd, t_env *env)
+int				ft_load_map(int fd, t_env *env)
 {
-	t_buff			line;
-	t_tab			*tmp;
-	int				valid;
+	t_buff		line;
+	t_tab		*tmp;
+	int			valid;
 
 	valid = 1;
 	while (get_next_line(fd, &line) > 0)
 	{
-		tmp = ft_tabnew(sizeof(double));
+		tmp = ft_tab_new(sizeof(double));
 		if (!ft_load_line(env, tmp, &line))
 			valid = 0;
-		ft_arrayadd(env->map, tmp);
+		ft_array_add(env->map, tmp);
 	}
 	return (valid);
 }
 
 static void		ft_get_maxmin(t_env *env, t_pt *max, t_pt *min)
 {
-	t_pt			i;
-	t_tab			*line;
-	t_pt			tmp;
+	t_pt		i;
+	t_tab		*line;
+	t_pt		tmp;
 
 	*max = PT(0, 0);
 	*min = PT(WIDTH, HEIGHT);
@@ -66,9 +65,9 @@ static void		ft_get_maxmin(t_env *env, t_pt *max, t_pt *min)
 
 void			ft_mapoffset(t_env *env)
 {
-	t_pt			max;
-	t_pt			min;
-	t_pt			first;
+	t_pt		max;
+	t_pt		min;
+	t_pt		first;
 
 	env->pt_dist = 1;
 	ft_get_maxmin(env, &max, &min);
@@ -87,7 +86,7 @@ void			ft_mapoffset(t_env *env)
 
 t_pt			ft_project_iso(t_pos pos)
 {
-	t_pt			pt;
+	t_pt		pt;
 
 	pt.x = ROUND(0.6 * pos.x - 0.6 * pos.y);
 	pt.y = ROUND(-pos.z + 0.3 * pos.x + 0.3 * pos.y);

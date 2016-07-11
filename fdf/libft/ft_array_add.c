@@ -1,8 +1,8 @@
 #include "libft.h"
 
-void			ft_arrayadd(t_array *array, void *add)
+void			ft_array_add(t_array *array, void *add)
 {
-	if (!ft_arrayext(array, 1))
+	if (!ft_array_ext(array, 1))
 		return ;
 	array->data[array->length] = add;
 	array->length++;

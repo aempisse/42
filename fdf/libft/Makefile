@@ -32,11 +32,11 @@ SRC += ft_strsplit.c ft_strstr.c ft_strsub.c ft_strtrim.c
 SRC += ft_tolower.c ft_toupper.c ft_lstadd.c ft_lstdel.c 
 SRC += ft_lstdelone.c ft_lstiter.c ft_lstmap.c ft_lstnew.c
 SRC += get_next_line.c ft_error.c
-SRC += ft_arrayadd.c ft_arrayclr.c ft_arrayext.c ft_arrayini.c
-SRC += ft_arraykil.c ft_arraynew.c
-SRC += ft_tabadd.c ft_tabaddn.c ft_tabext.c ft_tabini.c
-SRC += ft_tabkil.c ft_tabnew.c
-SRC += ft_parseint.c ft_parsedouble.c ft_parsespace.c ft_parsenot.c
+SRC += ft_array_add.c ft_array_clr.c ft_array_ext.c ft_array_ini.c
+SRC += ft_array_kill.c ft_array+new.c
+SRC += ft_tab_add.c ft_tab_addn.c ft_tab_ext.c ft_tab_ini.c
+SRC += ft_tab_kil.c ft_tab_new.c
+SRC += ft_parse_int.c ft_parse_double.c ft_parse_space.c ft_parse_not.c
 
 OBJ = $(SRC:.c=.o)
 

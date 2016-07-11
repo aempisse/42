@@ -58,7 +58,7 @@ t_color			ft_atocolor(char *str);
 void			ft_draw_point(t_env *env, t_pos pos);
 void			ft_draw_line(t_env *env, t_pos p1, t_pos p2);
 t_color			ft_get_color(t_array *gradient, double pos);
-double			ft_posd(int min, int max, int pos);
+double			ft_position_z(int min, int max, int pos);
 int				ft_mixd(int a, int b, double pos);
 void			ft_put_image(t_image *img, int pos, t_color color);
 

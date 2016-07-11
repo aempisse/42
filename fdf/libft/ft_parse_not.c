@@ -1,6 +1,6 @@
 #include "libft.h"
 
-void			ft_parsenot(t_buff *buff, const char *parse)
+void			ft_parse_not(t_buff *buff, const char *parse)
 {
 	while (buff->i < buff->length)
 	{

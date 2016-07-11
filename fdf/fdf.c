@@ -14,8 +14,8 @@ static int		key_hook(int keycode, t_env *env)
 			env->img->opp);
 		free(env->img);
 		mlx_destroy_window(env->mlx, env->win);
-		ft_arraykil(env->map, &ft_tabkil);
-		ft_arraykil(env->color, &free);
+		ft_array_kill(env->map, &ft_tab_kil);
+		ft_array_kill(env->color, &free);
 		exit(0);
 	}	
 	return (0);
@@ -23,7 +23,7 @@ static int		key_hook(int keycode, t_env *env)
 
 static t_image	*ft_new_image(t_env *env)
 {
-	t_image			*img;
+	t_image		*img;
 
 	img = (t_image*)malloc(sizeof(t_image));
 	img->img = mlx_new_image(env->mlx, WIDTH, HEIGHT);
@@ -37,7 +37,7 @@ static t_image	*ft_new_image(t_env *env)
 
 static t_env	*env_init(void)
 {
-	t_env			*env;
+	t_env		*env;
 
 	if ((env = (t_env*)malloc(sizeof(t_env))) == NULL)
 		ft_error("Error: malloc failed");
@@ -45,7 +45,7 @@ static t_env	*env_init(void)
 	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fil de fer");
 	env->offset = PT(0, 0);
 	env->img = ft_new_image(env);
-	env->map = ft_arraynew();
+	env->map = ft_array_new();
 	env->color = NULL;
 	env->max_z = 0;
 	env->min_z = 0;
@@ -56,8 +56,8 @@ static t_env	*env_init(void)
 
 int				main(int argc, char **argv)
 {
-	int				fd;
-	t_env			*env;
+	int			fd;
+	t_env		*env;
 
 	if (argc <= 1)
 		ft_error("Error: No file specified.\n");

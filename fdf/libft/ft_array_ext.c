@@ -1,9 +1,9 @@
 #include "libft.h"
 
-int			ft_arrayext(t_array *array, int need)
+int				ft_array_ext(t_array *array, int need)
 {
-	void			**tmp;
-	int				len;
+	void		**tmp;
+	int			len;
 
 	need += array->length + 1;
 	if (need < array->alloc_length)
