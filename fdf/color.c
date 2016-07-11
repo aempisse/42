@@ -51,13 +51,14 @@ t_array			*ft_new_color(char *input)
 	i = -1;
 	while (color_split[++i] != NULL)
 	{
-		tmp = (t_color*)malloc(sizeof(t_color));
+		if ((tmp = (t_color*)malloc(sizeof(t_color))) == NULL)
+			ft_error("Error: malloc failed.\n");
 		*tmp = ft_atocolor(color_split[i]);
 		ft_array_add(color, tmp);
 		free(color_split[i]);
 	}
 	if (i == 0)
-		ft_error("Error: Bad gradient.\n");
+		ft_error("Error: Color argument empty.\n");
 	free(color_split);
 	return (color);
 }

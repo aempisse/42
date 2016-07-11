@@ -25,7 +25,8 @@ static t_image	*ft_new_image(t_env *env)
 {
 	t_image		*img;
 
-	img = (t_image*)malloc(sizeof(t_image));
+	if ((img = (t_image*)malloc(sizeof(t_image))) == NULL)
+		ft_error("Error: malloc failed.\n");
 	img->img = mlx_new_image(env->mlx, WIDTH, HEIGHT);
 	img->data = (unsigned char*)mlx_get_data_addr(img->img, &img->opp, 
 		&img->l_size, &img->endian);
@@ -40,7 +41,7 @@ static t_env	*env_ini(void)
 	t_env		*env;
 
 	if ((env = (t_env*)malloc(sizeof(t_env))) == NULL)
-		ft_error("Error: malloc failed");
+		ft_error("Error: malloc failed.\n");
 	env->mlx = mlx_init();
 	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fil de fer");
 	env->offset = PT(0, 0);
