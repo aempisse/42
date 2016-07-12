@@ -12,24 +12,25 @@
 
 NAME = fdf
 
-SRC = fdf.c map.c draw.c color.c
+GCC = gcc
 
-OBJ = $(SRC:%.c=obj/%.o) 
+CFLAGS = -Wall -Wextra -Werror
+
+OBJ = obj/fdf.o obj/map.o obj/draw.o obj/color.o 
 
 LIBFT = -L./libft/ -lft
 
 #LIBMLX = -L /usr/local/lib -lmlx -framework OpenGL -framework AppKit
 LIBMLX = -L./minilibx/ -lmlx -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
 
-GCC = gcc
-
-CFLAGS = -Wall -Wextra -Werror
-
 all: obj $(NAME)
 
+obj:
+	@mkdir -p obj/
+
 $(NAME): $(OBJ)
-	@$(MAKE) -C ./libft/ -f Makefile
-	@$(GCC) $(CFLAGS) -o $@ $(OBJ) $(LIBFT) $(LIBMLX) 
+	@$(MAKE) -s -C ./libft/
+	@$(GCC) $(CFLAGS) -o $@ $+ $(LIBFT) $(LIBMLX)
 	@echo "\|/        "
 	@echo "-o------.  "
 	@echo "/|\     |\ "
@@ -38,41 +39,20 @@ $(NAME): $(OBJ)
 	@echo " | fdf    |"
 	@echo " '--------'"
 
-obj:
-	@mkdir -p obj/
-
 obj/%.o: %.c
-	@$(GCC) -c $< -o $@ 
+	@$(GCC) -c $+ -o $@
 
 $(LIBMLX): ./minilibx/libmlx.a
-	@$(MAKE) -C ./minilibx/ -f Makefile
-	@echo "\|/        "
-	@echo "-o------.  "
-	@echo "/|\     |\ "
-	@echo " |      '-|"
-	@echo " |        |"
-	@echo " | libmlx |"
-	@echo " '--------'" 
+	@$(MAKE) -s -C ./minilibx/
 
 clean:
 	@rm -rf obj/
-	@$(MAKE) clean -C ./libft/ -f Makefile
-	@$(MAKE) clean -C ./minilibx/ -f Makefile
-	@echo "\|/        "
-	@echo "-o------.  "
-	@echo "/|\     |\ "
-	@echo " |      '-|"
-	@echo " | mlx*.o |"
-	@echo " | deleted|"
-	@echo " '--------'" 
-
+	@$(MAKE) -s clean -C ./libft/
+	@$(MAKE) -s clean -C ./minilibx/
 
 fclean: clean
 	@rm -f $(NAME)
-	@$(MAKE) fclean -C ./libft/ -f Makefile
-
-norme:
-	norminette $(SRC)
+	@$(MAKE) -s fclean -C ./libft/
 
 re: fclean all
 
