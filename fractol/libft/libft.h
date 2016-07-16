@@ -171,7 +171,6 @@ void				ft_tab_kill(void *tab);
 int					ft_parse_int(t_buff *buff);
 void				ft_parse_space(t_buff *buff);
 double				ft_parse_double(t_buff *buff);
-void				ft_parse_space(t_buff *buff);
 void				ft_parse_not(t_buff *buff, const char *parse);
 
 #endif
