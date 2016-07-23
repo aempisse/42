@@ -4,7 +4,7 @@ GCC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-OBJ = fractol.c
+OBJ = obj/fractol.o obj/draw.o obj/hooks.o
 
 LIBFT = -L./libft/ -lft
 

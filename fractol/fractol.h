@@ -4,44 +4,39 @@
 # include "minilibx/mlx.h"
 # include "libft/libft.h"
 
-# define WIDTH 1280
-# define HEIGHT 700
+# define WIDTH 675
+# define HEIGHT 600
+# define LOOP 50
 
-typedef struct	s_image
+typedef	struct s_lpt
 {
-	unsigned char	*data;
-	void			*img;
-	int				width;
-	int				height;
-	int				l_size;
-	int				opp;
-	int				endian;
-}				t_image;
+	long int		x;
+	long int		y;
+}				t_lpt;
 
-typedef struct	s_argb
+typedef struct	s_complex
 {
-	unsigned char	b;
-	unsigned char	g;
-	unsigned char	r;
-	unsigned char	a;
-}				t_argb;
-
-typedef union	u_color
-{
-	t_argb			b;
-	unsigned int	u;
-	int				i;
-}				t_color;
+	long double		r;
+	long double		i;
+}				t_complex;
 
 typedef struct	s_env
 {
 	void			*mlx;
 	void			*win;
-	t_pt			offset;
 	t_image			*img;
-	double			pt_dist;
-	double			max_z;
-	double			min_z;
+	t_lpt			offset;
+	long double		zoom;
+	int				rerender;
 }				t_env;
+
+void			mandelbrot(t_env *env);
+int				ft_mandelbrot_loop(t_env *env, long int x, long int y);
+void			ft_put_image(t_image *img, int pos, t_color color);
+
+int				expose_hook(t_env *env);
+int				key_hook(int keycode, t_env *env);
+int				mouse_hook(int button, int x, int y, t_env *env);
+int				loop_hook(t_env *env);
 
 #endif

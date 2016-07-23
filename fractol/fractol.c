@@ -1,32 +1,5 @@
 #include "fractol.h"
 
-static int		expose_hook(t_env *env)
-{
-	mlx_put_image_to_window(env->mlx, env->win, env->img->img, 0, 0);
-	return (0);
-}
-
-static int		key_hook(int keycode, t_env *env)
-{
-	printf("key pressed : %d\n", keycode);
-	if (keycode == 65307)
-	{
-		ft_memset(env->img->data, 0, env->img->width * env->img->height * 
-			env->img->opp);
-		free(env->img);
-		mlx_destroy_window(env->mlx, env->win);
-		exit(0);
-	}	
-	return (0);
-}
-
-static int		mouse_hook(int button, int x, int y, t_env *env)
-{
-	if (env->mlx)
-		printf("mouse button : %d\nx position : %d\ny position : %d\n", button, x, y);
-	return (0);
-}
-
 static t_image	*ft_new_image(void *mlx)
 {
 	t_image		*img;
@@ -42,19 +15,22 @@ static t_image	*ft_new_image(void *mlx)
 	return (img);
 }
 
-static t_env			*env_init()
+static t_env			*env_init(void)
 {
 	t_env		*env;
 
 	if ((env = (t_env*)malloc(sizeof(t_env))) == NULL)
 		ft_error("Error : malloc failed.\n");
-	if ((env->mlx = mlx_init()) == NULL)
-		ft_error("Error : mlx_init failed\n");
-	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fract'ol");
+	env->mlx = mlx_init();
+	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fract_ol");
 	env->img = ft_new_image(env->mlx);
-	mlx_expose_hook(env->mlx, &expose_hook, env);
-	mlx_key_hook(env->mlx, &key_hook, env);
-	mlx_mouse_hook(env->mlx, &mouse_hook, env);
+	env->offset = (t_lpt){-420, -300};
+	env->zoom = 200;
+	env->rerender = 0;
+	mlx_expose_hook(env->win, &expose_hook, env);
+	mlx_key_hook(env->win, &key_hook, env);
+	mlx_mouse_hook(env->win, &mouse_hook, env);
+	mlx_loop_hook(env->win, &loop_hook, env);
 	return (env);
 }
 

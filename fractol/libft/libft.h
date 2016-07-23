@@ -77,6 +77,34 @@ typedef struct	s_list
 	struct s_list	*next;
 }					t_list;
 
+
+typedef struct	s_image
+{
+	unsigned char	*data;
+	void			*img;
+	int				width;
+	int				height;
+	int				l_size;
+	int				opp;
+	int				endian;
+}				t_image;
+
+typedef struct	s_argb
+{
+	unsigned char	b;
+	unsigned char	g;
+	unsigned char	r;
+	unsigned char	a;
+}				t_argb;
+
+typedef union	u_color
+{
+	t_argb			b;
+	unsigned int	u;
+	int				i;
+}				t_color;
+
+
 typedef struct	s_gnlfd
 {
 	char			*buff;
