@@ -26,11 +26,15 @@ static t_env			*env_init(void)
 	env->img = ft_new_image(env->mlx);
 	env->offset = (t_lpt){-420, -300};
 	env->zoom = 200;
+	env->zoom_offset = 0;
 	env->rerender = 0;
+	env->color_id = 0;
+	env->color = &ft_color0;
+	env->loop = LOOP;
 	mlx_expose_hook(env->win, &expose_hook, env);
 	mlx_key_hook(env->win, &key_hook, env);
 	mlx_mouse_hook(env->win, &mouse_hook, env);
-	mlx_loop_hook(env->win, &loop_hook, env);
+	mlx_loop_hook(env->mlx, &loop_hook, env);
 	return (env);
 }
 

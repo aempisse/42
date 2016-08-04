@@ -9,7 +9,7 @@ int			expose_hook(t_env *env)
 
 int			key_hook(int keycode, t_env *env)
 {
-	printf("%d\n", keycode);
+//	printf("%d\n", keycode);
 	if (keycode == 65307)
 	{
 		ft_memset(env->img->data, 0, env->img->width * env->img->height * 
@@ -26,14 +26,33 @@ int			key_hook(int keycode, t_env *env)
 		env->offset.y -= 50;
 	else if (keycode == 65364)
 		env->offset.y += 50;
+	else if (keycode == 65365)
+		env->loop += 5;
+	else if (keycode == 65366)
+		env->loop -= 5;
+	else if (keycode == 'c')
+		ft_switch_color(env);
+	else
+		return(0);
 	env->rerender = 1;
 	return (0);
 }
 
 int			mouse_hook(int button, int x, int y, t_env *env)
 {
-	if (env->mlx)
-		printf("mouse button : %d\nx position : %d\ny position : %d\n", button, x, y);
+	t_complex	pos;
+
+
+//	printf("mouse button : %d\nx position : %d\ny position : %d\n", button, x, y);
+	if (button == 1 || (button == 3 && env->zoom > 100))
+	{
+		pos.r = (env->offset.x + x) / env->zoom;
+		pos.i = (env->offset.y + y) / env->zoom;
+		env->zoom *= button == 1 ?  1.1 : 0.9;
+		env->offset.x = pos.r * env->zoom - (WIDTH / 2);
+		env->offset.y = pos.i * env->zoom - (HEIGHT / 2);
+	}
+	env->rerender = 1;
 	return (0);
 }
 
