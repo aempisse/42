@@ -2,7 +2,7 @@
 
 int			expose_hook(t_env *env)
 {
-	mandelbrot(env);
+	ft_mandelbrot(env);
 	mlx_put_image_to_window(env->mlx, env->win, env->img->img, 0, 0);
 	return (0);
 }

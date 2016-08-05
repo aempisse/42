@@ -34,8 +34,10 @@ typedef struct	s_env
 	int				loop;
 }				t_env;
 
-void			mandelbrot(t_env *env);
+void			ft_mandelbrot(t_env *env);
 int				ft_mandelbrot_loop(t_env *env, long int x, long int y);
+void			ft_julia(t_env *env);
+int				ft_julia_loop(t_env *env, long int x, long int y);
 void			ft_put_image(t_image *img, int pos, t_color color);
 
 void			ft_switch_color(t_env *env);

@@ -13,7 +13,7 @@ void			ft_put_image(t_image *img, int pos, t_color color)
 	}
 }
 
-int			ft_mandelbrot_loop(t_env *env, long int x, long int y)
+int				ft_mandelbrot_loop(t_env *env, long int x, long int y)
 {
 	const t_complex c = (t_complex){x / env->zoom, y / env->zoom};
 	t_complex		z;
@@ -35,7 +35,7 @@ int			ft_mandelbrot_loop(t_env *env, long int x, long int y)
 	return (loop);
 }
 
-void			mandelbrot(t_env *env)
+void			ft_mandelbrot(t_env *env)
 {
 	t_lpt		pt;
 	t_lpt		max;
