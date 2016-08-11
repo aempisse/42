@@ -2,14 +2,15 @@
 
 int				ft_julia_loop(t_env *env, long int x, long int y)
 {
-	const t_complex c = (t_complex){x / env->zoom, y / env->zoom};
+	t_complex 		c;
 	t_complex		z;
 	t_complex		sq;
 	int				loop;
 	long double		tmp;
 
-	z = (t_complex){0, 0};
-	sq = (t_complex){0, 0};
+	c = (t_complex){env->mouse_position.r, env->mouse_position.i};
+	z = (t_complex){x / env->zoom, y / env->zoom};
+	sq = (t_complex){z.r * z.r, z.i * z.i};
 	loop = -1;
 	while (((sq.r + sq.i) < 4) && ++loop < env->loop)
 	{

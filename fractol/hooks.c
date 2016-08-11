@@ -3,6 +3,7 @@
 int			expose_hook(t_env *env)
 {
 	ft_mandelbrot(env);
+//	ft_julia(env);
 	mlx_put_image_to_window(env->mlx, env->win, env->img->img, 0, 0);
 	return (0);
 }
@@ -32,6 +33,8 @@ int			key_hook(int keycode, t_env *env)
 		env->loop -= 5;
 	else if (keycode == 'c')
 		ft_switch_color(env);
+	else if (keycode == 'z')
+		env->zoom_toggle = (env->zoom_toggle ? 0 : 1);
 	else
 		return(0);
 	env->rerender = 1;
@@ -42,16 +45,21 @@ int			mouse_hook(int button, int x, int y, t_env *env)
 {
 	t_complex	pos;
 
-
 //	printf("mouse button : %d\nx position : %d\ny position : %d\n", button, x, y);
-	if (button == 1 || (button == 3 && env->zoom > 100))
+	if (env->zoom_toggle)
 	{
-		pos.r = (env->offset.x + x) / env->zoom;
-		pos.i = (env->offset.y + y) / env->zoom;
-		env->zoom *= button == 1 ?  1.1 : 0.9;
-		env->offset.x = pos.r * env->zoom - (WIDTH / 2);
-		env->offset.y = pos.i * env->zoom - (HEIGHT / 2);
+		if (button == 1 || (button == 3 && env->zoom > 100))
+		{
+			pos.r = (env->offset.x + x) / env->zoom;
+			pos.i = (env->offset.y + y) / env->zoom;
+			env->zoom *= button == 1 ?  1.1 : 0.9;
+			env->offset.x = pos.r * env->zoom - (WIDTH / 2);
+			env->offset.y = pos.i * env->zoom - (HEIGHT / 2);
+		}
 	}
+	else
+		env->mouse_position = (t_complex){(env->offset.x + x) / env->zoom, 
+			(env->offset.y + y) / env->zoom};
 	env->rerender = 1;
 	return (0);
 }

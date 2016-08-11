@@ -28,10 +28,12 @@ typedef struct	s_env
 	t_lpt			offset;
 	long double		zoom;
 	long double		zoom_offset;
+	int				zoom_toggle;
 	int				rerender;
 	t_color			(*color)(int, int);
 	int				color_id;
 	int				loop;
+	t_complex		mouse_position;
 }				t_env;
 
 void			ft_mandelbrot(t_env *env);
@@ -41,8 +43,9 @@ int				ft_julia_loop(t_env *env, long int x, long int y);
 void			ft_put_image(t_image *img, int pos, t_color color);
 
 void			ft_switch_color(t_env *env);
-t_color			ft_color1(int loop, int max_loop);
 t_color			ft_color0(int loop, int max_loop);
+t_color			ft_color1(int loop, int max_loop);
+t_color			ft_color2(int loop, int max_loop);
 
 int				expose_hook(t_env *env);
 int				key_hook(int keycode, t_env *env);

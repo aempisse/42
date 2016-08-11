@@ -24,13 +24,14 @@ static t_env			*env_init(void)
 	env->mlx = mlx_init();
 	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fract_ol");
 	env->img = ft_new_image(env->mlx);
-	env->offset = (t_lpt){-420, -300};
+	env->offset = (t_lpt){-(WIDTH / 2), -(HEIGHT / 2)}; //mandelbrot {-420, -300} julia {WIDTH / 2, HEIGHT / 2}
 	env->zoom = 200;
 	env->zoom_offset = 0;
 	env->rerender = 0;
 	env->color_id = 0;
 	env->color = &ft_color0;
 	env->loop = LOOP;
+	env->zoom_toggle = 0;
 	mlx_expose_hook(env->win, &expose_hook, env);
 	mlx_key_hook(env->win, &key_hook, env);
 	mlx_mouse_hook(env->win, &mouse_hook, env);
