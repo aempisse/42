@@ -4,8 +4,8 @@
 # include "minilibx/mlx.h"
 # include "libft/libft.h"
 
-# define WIDTH 675
-# define HEIGHT 600
+# define WIDTH 1300
+# define HEIGHT 700
 # define LOOP 50
 
 typedef	struct s_lpt
@@ -29,11 +29,13 @@ typedef struct	s_env
 	long double		zoom;
 	long double		zoom_offset;
 	int				zoom_toggle;
-	int				rerender;
-	t_color			(*color)(int, int);
-	int				color_id;
 	int				loop;
+	int				renderer;
+	int				color_id;
+	t_color			(*color)(int, int);
 	t_complex		mouse_position;
+	t_lpt			start_pos;
+	void			(*draw)(struct s_env*);
 }				t_env;
 
 void			ft_mandelbrot(t_env *env);
@@ -46,6 +48,9 @@ void			ft_switch_color(t_env *env);
 t_color			ft_color0(int loop, int max_loop);
 t_color			ft_color1(int loop, int max_loop);
 t_color			ft_color2(int loop, int max_loop);
+t_color			ft_color3(int loop, int max_loop);
+t_color			ft_color4(int loop, int max_loop);
+t_color			ft_color5(int loop, int max_loop);
 
 int				expose_hook(t_env *env);
 int				key_hook(int keycode, t_env *env);

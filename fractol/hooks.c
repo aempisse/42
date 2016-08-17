@@ -2,8 +2,7 @@
 
 int			expose_hook(t_env *env)
 {
-	ft_mandelbrot(env);
-//	ft_julia(env);
+	env->draw(env);
 	mlx_put_image_to_window(env->mlx, env->win, env->img->img, 0, 0);
 	return (0);
 }
@@ -35,9 +34,14 @@ int			key_hook(int keycode, t_env *env)
 		ft_switch_color(env);
 	else if (keycode == 'z')
 		env->zoom_toggle = (env->zoom_toggle ? 0 : 1);
+	else if (keycode == 'r')
+	{
+		env->offset = (t_lpt){env->start_pos.x, env->start_pos.y};
+		env->zoom = 200;
+	}
 	else
 		return(0);
-	env->rerender = 1;
+	env->renderer = 1;
 	return (0);
 }
 
@@ -60,16 +64,16 @@ int			mouse_hook(int button, int x, int y, t_env *env)
 	else
 		env->mouse_position = (t_complex){(env->offset.x + x) / env->zoom, 
 			(env->offset.y + y) / env->zoom};
-	env->rerender = 1;
+	env->renderer = 1;
 	return (0);
 }
 
 int			loop_hook(t_env *env)
 {
-	if (env->rerender == 1)
+	if (env->renderer == 1)
 	{
 		expose_hook(env);
-		env->rerender = 0;
+		env->renderer = 0;
 	}
 	return (0);
 }
