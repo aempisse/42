@@ -27,6 +27,11 @@ static void		ft_select_fractal(t_env *env, char *input)
 		env->start_pos = (t_lpt){-(WIDTH / 2), -(HEIGHT / 2)};
 		env->draw = &ft_julia;
 	}
+	else if (!ft_strcmp(input, "burning"))
+	{
+		env->start_pos = (t_lpt){-(WIDTH / 2), -(HEIGHT / 2)};
+		env->draw = &ft_burning_ship;
+	}
 	else
 		ft_error("Error : wrong argument.\n");
 }
@@ -42,17 +47,18 @@ static t_env			*env_init(char *input)
 	env->img = ft_new_image(env->mlx);
 	ft_select_fractal(env, input);
 	env->offset = (t_lpt){env->start_pos.x, env->start_pos.y};
-	env->zoom = 200;
-	env->zoom_offset = 0;
+	env->zoom = 250;
 	env->renderer = 0;
 	env->color_id = 0;
 	env->color = &ft_color0;
 	env->loop = LOOP;
-	env->zoom_toggle = 0;
+	env->julia_motion = 0;
 	mlx_expose_hook(env->win, &expose_hook, env);
 	mlx_key_hook(env->win, &key_hook, env);
 	mlx_mouse_hook(env->win, &mouse_hook, env);
 	mlx_loop_hook(env->mlx, &loop_hook, env);
+	mlx_hook(env->win, 6, 64, &motion_hook, env);
+
 	return (env);
 }
 

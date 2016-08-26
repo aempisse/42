@@ -4,12 +4,12 @@ GCC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-OBJ = obj/fractol.o obj/mandelbrot.o obj/hooks.o obj/color.o obj/julia.o
+OBJ = obj/fractol.o obj/mandelbrot.o obj/hooks.o obj/color.o obj/julia.o obj/burning_ship.o
 
 LIBFT = -L./libft/ -lft
 
 #LIBMLX = -L /usr/local/lib -lmlx -framework OpenGL -framework AppKit
-LIBMLX = -L./minilibx/ -lmlx -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
+LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
 
 all: obj $(NAME)
 
