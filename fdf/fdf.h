@@ -33,7 +33,6 @@ typedef union	u_color
 {
 	t_argb			b;
 	unsigned int	u;
-	int				i;
 }				t_color;
 
 typedef struct	s_env

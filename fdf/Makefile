@@ -21,7 +21,7 @@ OBJ = obj/fdf.o obj/map.o obj/draw.o obj/color.o
 LIBFT = -L./libft/ -lft
 
 #LIBMLX = -L /usr/local/lib -lmlx -framework OpenGL -framework AppKit
-LIBMLX = -L./minilibx/ -lmlx -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
+LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
 
 all: obj $(NAME)
 

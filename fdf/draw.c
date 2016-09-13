@@ -8,7 +8,7 @@ void			ft_put_image(t_image *img, int pos, t_color color)
 	while (pos < to)
 	{
 		img->data[pos] = color.b.b;
-		color.i >>= 8;
+		color.u >>= 8;
 		pos++;
 	}
 }

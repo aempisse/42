@@ -38,7 +38,7 @@ int				ft_load_map(int fd, t_env *env)
 	return (valid);
 }
 
-static void		ft_get_maxmin(t_env *env, t_pt *max, t_pt *min)
+static void		ft_map_maxmin(t_env *env, t_pt *max, t_pt *min)
 {
 	t_pt		i;
 	t_tab		*line;
@@ -70,13 +70,13 @@ void			ft_map_offset(t_env *env)
 	t_pt		first;
 
 	env->pt_dist = 1;
-	ft_get_maxmin(env, &max, &min);
+	ft_map_maxmin(env, &max, &min);
 	env->pt_dist = DEF_PTDIST;
 	if (((max.x - min.x) * env->pt_dist) > WIDTH)
 		env->pt_dist *= WIDTH / (env->pt_dist * (max.x - min.x + 2));
 	if (((max.y - min.y) * env->pt_dist) > HEIGHT)
 		env->pt_dist *= HEIGHT / (env->pt_dist * (max.y - min.y + 1));
-	ft_get_maxmin(env, &max, &min);
+	ft_map_maxmin(env, &max, &min);
 	first = ft_project_iso(POS(0, 0, 0));
 	env->offset.x = (WIDTH - ((max.x - min.x + first.x))) / 2;
 	env->offset.y = (HEIGHT - ((max.y - min.y + first.y))) / 2;
