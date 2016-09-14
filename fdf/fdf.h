@@ -4,8 +4,8 @@
 # include "minilibx/mlx.h"
 # include "libft/libft.h"
 
-# define WIDTH		1280
-# define HEIGHT		700
+# define WIDTH		2400
+# define HEIGHT		1200
 
 # define DEF_COLORS	"255,255,255"
 # define DEF_PTDIST	70
@@ -56,9 +56,9 @@ t_color			ft_atocolor(char *str);
 void			ft_draw_map(t_env *env);
 void			ft_draw_line(t_env *env, t_pos p1, t_pos p2);
 void			ft_draw_point(t_env *env, t_pos pos);
-t_color			ft_get_color(t_array *gradient, double pos);
+t_color			ft_get_color(t_array *color, double pos);
 double			ft_position_z(int min, int max, int pos);
 int				ft_mix_color(int a, int b, double pos);
-void			ft_put_image(t_image *img, int pos, t_color color);
+void			ft_put_image(t_image *img, int start, t_color color);
 
 #endif

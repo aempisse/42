@@ -1,15 +1,15 @@
 #include "fdf.h"
 
-void			ft_put_image(t_image *img, int pos, t_color color)
+void			ft_put_image(t_image *img, int start, t_color color)
 {
-	int			to;
+	int			end;
 
-	to = pos + img->opp;
-	while (pos < to)
+	end = start + img->opp;
+	while (start < end)
 	{
-		img->data[pos] = color.b.b;
+		img->data[start] = color.b.b;
 		color.u >>= 8;
-		pos++;
+		start++;
 	}
 }
 
