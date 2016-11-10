@@ -26,7 +26,7 @@ $(NAME): $(OBJ)
 obj:
 	@mkdir -p obj/
 
-obj/%.o: %.c
+obj/%.o: src/%.c
 	@$(GCC) -c $+ -o $@
 
 $(LIBMLX): ./minilibx/libmlx.a
