@@ -25,6 +25,7 @@ void			ft_draw_point(t_env *env, t_pos pos)
 	if (pt.x < 0 || pt.x >= env->img->width || pt.y < 0 ||
 	 pt.y >= env->img->height)
 		return ;
+//	printf("(%d, %d)", pt.x, pt.y);
 	ft_put_image(env->img, (env->img->width * pt.y + pt.x) * env->img->opp,
 		 ft_get_color(env->color, ft_position_z(env->min_z, env->max_z, pos.z)));
 }

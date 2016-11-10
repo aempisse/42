@@ -6,9 +6,8 @@ int				loop_hook(t_env *env)
 	{
 		expose_hook(env);
 		printf("\npos.x = %f\npos.y = %f", env->pos.x, env->pos.y);
-		printf("\nray_pos.x = %f\nray_pos.y = %f", env->ray_pos.x, env->ray_pos.y);
 		printf("\ndir.x = %f\ndir.y = %f", env->dir.x, env->dir.y);
-		printf("\nmap_pos.x = %d\nmap_pos.y = %d", env->map_pos.x, env->map_pos.y);
+		printf("\nplane.x = %f\nplane.y = %f", env->plane.x, env->plane.y);
 		printf("\n");
 		env->render = 0;
 	}
@@ -26,6 +25,8 @@ int				key_hook(int keycode, t_env *env)
 {
 	double			move_speed;
 	double			rot_speed;
+	double			old_dir_x;
+	double			old_plane_x;
 
 	move_speed = 0.3;
 	rot_speed = 0.1;
@@ -33,21 +34,21 @@ int				key_hook(int keycode, t_env *env)
 		exit(0);
 	else if (keycode == 65361) // left
 	{
-		env->old_dir.x = env->dir.x;
+		old_dir_x = env->dir.x;
 		env->dir.x = env->dir.x * cos(rot_speed) - env->dir.y * sin(rot_speed);
-		env->dir.y = env->old_dir.x * sin(rot_speed) + env->dir.y * cos(rot_speed);
-		env->old_plane.x = env->plane.x;
-		env->plane.x = env->plane.x * cos(rot_speed) - env->dir.y * sin(rot_speed);
-		env->plane.y = env->old_plane.x * sin(rot_speed) + env->dir.y * cos(rot_speed);
+		env->dir.y = old_dir_x * sin(rot_speed) + env->dir.y * cos(rot_speed);
+		old_plane_x = env->plane.x;
+		env->plane.x = env->plane.x * cos(rot_speed) - env->plane.y * sin(rot_speed);
+		env->plane.y = old_plane_x * sin(rot_speed) + env->plane.y * cos(rot_speed);
 	}
 	else if (keycode == 65363) // right
 	{
-		env->old_dir.x = env->dir.x;
+		old_dir_x = env->dir.x;
 		env->dir.x = env->dir.x * cos(-rot_speed) - env->dir.y * sin(-rot_speed);
-		env->dir.y = env->old_dir.x * sin(-rot_speed) + env->dir.y * cos(-rot_speed);
-		env->old_plane.x = env->plane.x;
-		env->plane.x = env->plane.x * cos(-rot_speed) - env->dir.y * sin(-rot_speed);
-		env->plane.y = env->old_plane.x * sin(-rot_speed) + env->dir.y * cos(-rot_speed);
+		env->dir.y = old_dir_x * sin(-rot_speed) + env->dir.y * cos(-rot_speed);
+		old_plane_x = env->plane.x;
+		env->plane.x = env->plane.x * cos(-rot_speed) - env->plane.y * sin(-rot_speed);
+		env->plane.y = old_plane_x * sin(-rot_speed) + env->plane.y * cos(-rot_speed);
 	}
 	else if (keycode == 65362) // up
 	{

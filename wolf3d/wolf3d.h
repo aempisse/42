@@ -30,8 +30,6 @@ typedef	struct	s_env
 	t_vector	side_dist;
 	t_vector	delta_dist;
 	t_vector	step;
-	t_vector	old_dir;
-	t_vector	old_plane;
 	double		camera;
 	t_vector	time;
 	int			render;

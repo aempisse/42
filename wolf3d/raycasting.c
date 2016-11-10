@@ -27,7 +27,7 @@ void			raycasting(t_env *env)
 	x = -1;
 	while (++x < WIDTH)
 	{
-		env->camera = 2 * x / WIDTH - 1;
+		env->camera = 2 * x / (double)WIDTH - 1;
 		env->ray_pos = env->pos;
 		env->ray_dir.x = env->dir.x + env->plane.x * env->camera;
 		env->ray_dir.y = env->dir.y + env->plane.y * env->camera;
@@ -90,11 +90,11 @@ void			raycasting(t_env *env)
 		if (wall_dist == 0)
 			line_height = HEIGHT;
 		else
-			line_height = (int)(HEIGHT / wall_dist) * 1.5;
+			line_height = (int)(((double)HEIGHT / wall_dist) * 1.0);
 
-    	if ((draw_start = -line_height / 2 + HEIGHT / 2) < 0)
+    	if ((draw_start = (-line_height / 2) + (HEIGHT / 2)) < 0)
     		draw_start = 0;
-    	if ((draw_end = line_height / 2 + HEIGHT / 2) >= HEIGHT)
+    	if ((draw_end = (line_height / 2) + (HEIGHT / 2)) >= HEIGHT)
     		draw_end = HEIGHT - 1;
     	y = -1;
     	while (++y < HEIGHT)

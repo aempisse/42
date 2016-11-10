@@ -4,10 +4,10 @@
 # include "minilibx/mlx.h"
 # include "libft/libft.h"
 
-# define WIDTH		2400
-# define HEIGHT		1200
+# define WIDTH		1200
+# define HEIGHT		600
 
-# define DEF_COLORS	"255,255,255"
+# define DEF_COLORS	"2555555555555555555555555555555555555555555555555555555555,255,255"
 # define DEF_PTDIST	70
 
 typedef struct	s_image
