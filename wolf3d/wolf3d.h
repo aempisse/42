@@ -37,7 +37,7 @@ typedef	struct	s_env
 
 int				loop_hook(t_env *env);
 int				expose_hook(t_env *env);
-int				key_hook(int keycode, t_env *env);
+int				key_press(int keycode, t_env *env);
 void			raycasting(t_env *env);
 
 #endif
