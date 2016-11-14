@@ -4,7 +4,7 @@ GCC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-OBJ = obj/wolf3d.o obj/raycasting.o obj/hooks.o
+OBJ = obj/wolf3d.o obj/map.o obj/raycasting.o obj/hooks.o obj/minimap.o obj/color.o obj/state.o
 
 LIBFT = -L./libft/ -lft
 
