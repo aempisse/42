@@ -36,6 +36,6 @@ char	**ft_strsplit(const char *s, char c)
 			s += len;
 		}
 	}
-	ret[j] = '\0';
+	ret[j] = 0;
 	return (ret);
 }

@@ -13,6 +13,11 @@ typedef struct	s_double3
 	double		z;
 }				t_double3;
 
+typedef struct	s_plane
+{
+	t_double3	pos;
+}				t_plane;
+
 typedef struct	s_sphere
 {
 	t_double3	pos;
@@ -26,6 +31,7 @@ typedef struct	s_env
 	// void		*win;
 	// t_image		*img;
 	t_array		*sphere;
+	t_array		*plane;
 	// int			render;
 }				t_env;
 

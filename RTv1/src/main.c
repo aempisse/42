@@ -25,6 +25,7 @@ static t_env	*env_init()
 	// env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "RTv1");
 	// env->img = ft_new_image(env->mlx);
 	env->sphere = ft_array_new();
+	env->plane = ft_array_new();
 	/*
 	**hooks
 	*/
@@ -47,20 +48,21 @@ int				main(int argc, char const **argv)
 		** TEST DU PARSER
 		*/
 		int			i = -1;
-		t_sphere	*tmp;
+		t_plane		*tmp;
 
-		printf("La structure env->sphere contient %d elements.\n"
-			, env->sphere->length);
-		while (++i < env->sphere->length)
+		printf("La structure env->plane contient %d elements.\n"
+			, env->plane->length);
+		while (++i < env->plane->length)
 		{
-			tmp = AG(t_sphere*, env->sphere, i);
-			printf("\nSphere %d\npos.x = %f\npos.y = %f\npos.z = %f\nradius = %f\n"
-				, i, tmp->pos.x, tmp->pos.y, tmp->pos.z, tmp->radius);
+			tmp = AG(t_plane*, env->plane, i);
+			printf("\nPlane %d\npos.x = %f\npos.y = %f\npos.z = %f\n" , i, tmp->pos.x, tmp->pos.y, tmp->pos.z);
 		}
 		/*
 		** TEST DU PARSER
 		*/
 		// mlx_loop(env->mlx);
 	}
+	else
+		ft_error("Error : Wrong number of argument.\n");
 	return (0);
 }
