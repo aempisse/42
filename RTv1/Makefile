@@ -8,11 +8,13 @@ OBJ = obj/main.o obj/parser.o
 
 LIBFT = -L./libft/ -lft
 
+LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
+
 all: obj $(NAME)
 
 $(NAME): $(OBJ)
 	@$(MAKE) -s -C ./libft/
-	@$(GCC) $(CFLAGS) -o $@ $+ $(LIBFT)
+	@$(GCC) $(CFLAGS) -o $@ $+ $(LIBFT) $(LIBMLX)
 	@echo "\|/        "
 	@echo "-o------.  "
 	@echo "/|\     |\ "
