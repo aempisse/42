@@ -36,7 +36,7 @@ void			raycasting_init(t_env *env, int x)
 
 void			raycasting_dda(t_env *env)
 {
-	while (env->map[env->map_pos.x][env->map_pos.y] == 0)
+	while (env->map[env->map_pos.y][env->map_pos.x] == 0)
 	// while (TG(int, AG(t_tab*, env->map, env->map_pos.y), env->map_pos.x) == 0)
 	{
 		if (env->side_dist.x < env->side_dist.y)

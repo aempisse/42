@@ -23,13 +23,13 @@ void			rotate_vect(t_env *env, double rot_speed)
 
 void			translate_vect(t_env *env, double move_speed)
 {
-	if (env->map[(int)(env->pos.x + env->dir.x * move_speed)]
-		[(int)env->pos.y] == 0)
+	if (env->map[(int)env->pos.y]
+		[(int)(env->pos.x + env->dir.x * move_speed)] == 0)
 	// if (TG(int, AG(t_tab*, env->map, (int)env->pos.y),
 	// 	(int)(env->pos.x + env->dir.x * move_speed)) == 0)
 		env->pos.x += env->dir.x * move_speed;
-	if (env->map[(int)env->pos.x]
-		[(int)(env->pos.y + env->dir.y * move_speed)] == 0)
+	if (env->map[(int)(env->pos.y + env->dir.y * move_speed)]
+		[(int)env->pos.x] == 0)
 	// if (TG(int, AG(t_tab*, env->map, (int)(env->pos.y + env->dir.y * move_speed)),
 	// 	(int)(env->pos.x)) == 0)
 		env->pos.y += env->dir.y * move_speed;

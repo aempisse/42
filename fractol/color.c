@@ -85,13 +85,13 @@ t_color			ft_color4(int loop, int max_loop)
 		if ((double)loop < (double)max_loop / 2)
 		{
 			color.b.r = ((double)loop < (double)max_loop / 4) ? 
-			 (0.25 - ratio) * 4 * 0xFF + ratio * 4 * 0x00 :
+			 (0.25 - ratio) * 4 * 0x00 + ratio * 4 * 0x00 :
 			 (0.5 - ratio) * 4 * 0x00 + (ratio - 0.25) * 4 * 0xFF;
 			color.b.g = ((double)loop < (double)max_loop / 4) ? 
-			 (0.25 - ratio) * 4 * 0xFF + ratio * 4 * 0x00 :
+			 (0.25 - ratio) * 4 * 0x00 + ratio * 4 * 0x00 :
 			 (0.5 - ratio) * 4 * 0x00 + (ratio - 0.25) * 4 * 0xFF;
 			color.b.b = ((double)loop < (double)max_loop / 4) ? 
-			 (0.25 - ratio) * 4 * 0xFF + ratio * 4 * 0x8B :
+			 (0.25 - ratio) * 4 * 0x00 + ratio * 4 * 0x8B :
 			 (0.5 - ratio) * 4 * 0x8B + (ratio - 0.25) * 4 * 0xFF;
 		}
 		else

@@ -58,6 +58,7 @@ typedef	struct	s_env
 {
 	void		*mlx;
 	void		*win;
+	void		*win2;
 	t_image		*img;
 	// t_array		*map;
 	int			**map;

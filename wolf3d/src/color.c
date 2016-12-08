@@ -21,7 +21,7 @@ t_color			color0(t_env *env, int y, int draw_start, int draw_end)
 	else if (y < draw_end)
 	{
 		// if (TG(int, AG(t_tab*, env->map, env->map_pos.y), env->map_pos.x) == 5)
-		if (env->map[env->map_pos.x][env->map_pos.y] == 5)
+		if (env->map[env->map_pos.y][env->map_pos.x] == 5)
 			color.u = 0x00FFFFFF;
 		else
 			color.u = 0x00000000;
@@ -48,7 +48,7 @@ t_color			color1(t_env *env, int y, int draw_start, int draw_end)
 		if (env->side == NORTH)
 			color.u = 0x000000FF;
 		// if (TG(int, AG(t_tab*, env->map, env->map_pos.y), env->map_pos.x) == 5)
-		if (env->map[env->map_pos.x][env->map_pos.y] == 5)
+		if (env->map[env->map_pos.y][env->map_pos.x] == 5)
 			color.u = 0x00FFFFFF;
 	}
 	else

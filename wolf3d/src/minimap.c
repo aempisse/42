@@ -31,10 +31,10 @@ void			minimap(t_env *env)
 		while (++pt.x < MAP_WIDTH)
 		{
 			// if (TG(int, tmp, pt.x) == 1)
-			if (env->map[pt.x][pt.y] == 1)
+			if (env->map[pt.y][pt.x] == 1)
 				color.u = 0x00000000;
 			// else if (TG(int, tmp, pt.x) == 5)
-			else if (env->map[pt.x][pt.y] == 5)
+			else if (env->map[pt.y][pt.x] == 5)
 				color.u = 0x00FFFFFF;
 			else
 				color.u = 0x00303030;

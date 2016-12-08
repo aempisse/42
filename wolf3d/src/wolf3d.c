@@ -24,11 +24,12 @@ t_env			*env_init(void)
 	if ((env->mlx = mlx_init()) == NULL)
 		ft_error("Error : mlx_init() failed.\n");
 	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Wolf3d");
+	env->win2 = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Wolf3dbis");
 	env->img = ft_new_image(env->mlx);
 	env->map = (int**)malloc(sizeof(int*) * MAP_HEIGHT);
 	env->pos = (t_vector){8.5, 6.5};
 	env->dir = (t_vector){0, -1};
-	env->plane = (t_vector){-0.66, 0};
+	env->plane = (t_vector){0.66, 0};
 	env->key = (t_key){0, 0, 0, 0};
 	env->state = 0;
 	env->render = 1;
@@ -71,13 +72,13 @@ int				main(int argc, char const **argv)
 		// 	}
 		// 	ft_putchar('\n');
 		// }
-		block = (t_pt){0. -1};
+		block = (t_pt){0, -1};
 		while (++block.y < MAP_HEIGHT)
 		{
 			block.x = -1;
 			while (++block.x < MAP_WIDTH)
 			{
-				ft_putnbr(env->map[block.x][block.y]);
+				ft_putnbr(env->map[block.y][block.x]);
 				ft_putchar(' ');
 			}
 			ft_putchar('\n');
