@@ -9,6 +9,7 @@ OBJ = obj/main.o obj/parser.o
 LIBFT = -L./libft/ -lft
 
 LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
+#LIBMLX = -L./minilibx/ -lmlx -framework OPENGL -framework Appkit
 
 all: obj $(NAME)
 
