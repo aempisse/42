@@ -25,9 +25,7 @@ void			ft_load_file(int fd, t_env *env)
 		{
 			tmp = (t_sphere*)malloc(sizeof(t_sphere));
 			ft_parse_sphere(env, tmp, &line);
-			printf("pos.x = %f\npos.y = %f\npos.z = %f\nradius = %f\n\n"
-				, tmp->pos.x, tmp->pos.y, tmp->pos.z, tmp->radius);
-			ft_tab_add(env->sphere, tmp);
+			ft_array_add(env->sphere, tmp);
 		}
 	}
 }

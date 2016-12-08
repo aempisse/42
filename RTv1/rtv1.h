@@ -25,7 +25,7 @@ typedef struct	s_env
 	// void		*mlx;
 	// void		*win;
 	// t_image		*img;
-	t_tab		*sphere;
+	t_array		*sphere;
 	// int			render;
 }				t_env;
 

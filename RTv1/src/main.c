@@ -24,7 +24,7 @@ static t_env	*env_init()
 	// 	ft_error("Error : mlx_init() failed.\n");
 	// env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "RTv1");
 	// env->img = ft_new_image(env->mlx);
-	env->sphere = ft_tab_new(sizeof(t_sphere*));
+	env->sphere = ft_array_new();
 	/*
 	**hooks
 	*/
@@ -43,6 +43,23 @@ int				main(int argc, char const **argv)
 		env = env_init();
 		ft_load_file(fd, env);
 		close(fd);
+		/*
+		** TEST DU PARSER
+		*/
+		int			i = -1;
+		t_sphere	*tmp;
+
+		printf("La structure env->sphere contient %d elements.\n"
+			, env->sphere->length);
+		while (++i < env->sphere->length)
+		{
+			tmp = AG(t_sphere*, env->sphere, i);
+			printf("\nSphere %d\npos.x = %f\npos.y = %f\npos.z = %f\nradius = %f\n"
+				, i, tmp->pos.x, tmp->pos.y, tmp->pos.z, tmp->radius);
+		}
+		/*
+		** TEST DU PARSER
+		*/
 		// mlx_loop(env->mlx);
 	}
 	return (0);
