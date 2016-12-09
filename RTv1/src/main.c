@@ -2,14 +2,40 @@
 
 int				expose_hook(t_env *env)
 {
-	mlx_put_image_to_window(env->mlx, env->win, env->img->img, 0, 0);
+	draw_gest_scn(env);
+	mlx_put_image_to_window(env->mlx, env->win_scn, env->img->img, 0, 0);
+	return (0);
+}
+
+static int		key_menu_p(int keycode, t_env *env)
+{
+	if (keycode == 53)
+		exit(0);
+	if (keycode == 125 && env->gest->ctm_1 < 4)
+		env->gest->ctm_1++;
+	if (keycode == 126 && env->gest->ctm_1 > 0)
+		env->gest->ctm_1--;
+	if (keycode == 36)
+	{
+		if (env->gest->ctm_1 == 0)
+			env->gest->menu = 1;
+		if (env->gest->ctm_1 == 1)
+			env->gest->menu = 2;
+		if (env->gest->ctm_1 == 2)
+			env->gest->menu = 3;
+		if (env->gest->ctm_1 == 4)
+			env->gest->menu = 5;
+	}
+	ft_putnbr(env->gest->menu);
+	ft_putendl("");
 	return (0);
 }
 
 static int		key_hook(int keycode, t_env *env)
 {
-	if (keycode == 65307)
-		exit(0);
+	if (env->gest->menu == 0)
+		key_menu_p(keycode, env);
+	draw_gest_scn(env);
 	return (0);
 }
 
@@ -35,18 +61,49 @@ static t_env	*env_init()
 		ft_error("Error : malloc() failed.\n");
 	if ((env->mlx = mlx_init()) == NULL)
 		ft_error("Error : mlx_init() failed.\n");
-	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "RTv1");
+	env->win_scn = mlx_new_window(env->mlx, WIDTH, HEIGHT, "RTv1");
+	env->win_gest_scn = mlx_new_window(env->mlx, 300, 500, "Gestion Scene");
 	env->img = ft_new_image(env->mlx);
 	env->sphere = ft_array_new();
 	env->plane = ft_array_new();
-	mlx_expose_hook(env->win, &expose_hook, env);
-	mlx_key_hook(env->win, &key_hook, env);
+	mlx_expose_hook(env->win_scn, &expose_hook, env);
+	mlx_key_hook(env->win_gest_scn, &key_hook, env);
 	return (env);
+}
+
+static int 		nbr_of(t_env *env)
+{
+	int		i;
+	int		nbr_o;
+
+	i = 0;
+	nbr_o = 0;
+	while (i < env->sphere->length)
+		i++;
+	nbr_o = i;
+	i = 0;
+	while (i < env->plane->length)
+		i++;
+	nbr_o = nbr_o + i;
+	return (nbr_o);
+}
+
+static t_gest	*gest_init(t_env *env)
+{
+	t_gest		*gest;
+	if ((gest = (t_gest*)malloc(sizeof(t_gest))) == NULL)
+		ft_error("Error : malloc() failed.\n");
+	gest->ctm_1 = 0;
+	gest->menu = 0;
+	gest->nbr_o = nbr_of(env);
+	gest->nbr_sp = 0; //gest->nbr_sp = env->spotlight->lenght;
+	return (gest);
 }
 
 int				main(int argc, char const **argv)
 {
 	t_env		*env;
+	t_gest		*gest;
 	int			fd;
 
 	if (argc == 2)
@@ -56,6 +113,10 @@ int				main(int argc, char const **argv)
 		env = env_init();
 		ft_load_file(fd, env);
 		close(fd);
+		env->gest = gest_init(env);
+		ft_putstr("nombre obj : ");
+		ft_putnbr(env->gest->nbr_o);
+		ft_putendl("");
 		/*
 		** TEST DU PARSER
 		*/
