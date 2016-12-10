@@ -2,19 +2,20 @@
 # define RTV1_H
 
 # include "libft/libft.h"
-// # include <mlx.h>
+//# include <mlx.h>
 # include "minilibx/mlx.h"
 
 # define WIDTH 640
 # define HEIGHT 360
 
-// j'ai remplacé le nom de la struct s_gest_scn par s_control pour plus de clareté
 typedef struct	s_control
 {
 	int			menu;
-	int			nbr_o;
+	int			nbr_max;
 	int			nbr_sp;
-	int			ctm_1; // ca veut dire quoi ctm_1 ?
+	int			ctm_1;
+	int			i;
+	char		*name_obj;
 }				t_control;
 
 typedef struct	s_double3
@@ -46,10 +47,16 @@ typedef struct	s_env
 	t_array		*plane;
 	t_control	*control;
 	int			render;
+	int			render_scn;
 }				t_env;
 
 void			ft_load_file(int fd, t_env *env);
 void			draw_control(t_env *env);
 int				loop_hook(t_env *env);
+int				key_hook(int keycode, t_env *env);
+void			ft_draw_small_arrow(t_env *env);
+void			draw_square(t_env *env);
+void			ft_draw_left_arrow(t_env *env);
+void			ft_draw_right_arrow(t_env *env);
 
 #endif

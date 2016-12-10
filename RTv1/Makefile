@@ -4,7 +4,7 @@ GCC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-OBJ = obj/main.o obj/parser.o obj/draw_gest_scene.o
+OBJ = obj/main.o obj/parser.o obj/draw_gest_scene.o obj/key.o obj/draw_tools.o
 
 LIBFT = ./libft/libft.a
 
