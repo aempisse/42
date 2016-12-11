@@ -8,8 +8,8 @@ OBJ = obj/main.o obj/parser.o obj/draw_gest_scene.o obj/key.o obj/draw_tools.o
 
 LIBFT = ./libft/libft.a
 
-LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
-#LIBMLX = ./libmlx.a -framework OPENGL -framework Appkit
+#LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
+LIBMLX = ./libmlx.a -framework OPENGL -framework Appkit
 
 all: obj $(NAME)
 

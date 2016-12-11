@@ -2,8 +2,8 @@
 # define RTV1_H
 
 # include "libft/libft.h"
-//# include <mlx.h>
-# include "minilibx/mlx.h"
+# include <mlx.h>
+//# include "minilibx/mlx.h"
 
 # define WIDTH 640
 # define HEIGHT 360
