@@ -11,11 +11,9 @@ static void		draw_main_menu(t_env *env)
 	color = env->control->ctm_1 == 0 ? 0xFFFFFFF : 0xFFF8C00;
 	mlx_string_put(env->mlx, env->win_control, 70, 150, color, "See Object");
 	color = env->control->ctm_1 == 1 ? 0xFFFFFFF : 0xFFF8C00;
-	mlx_string_put(env->mlx, env->win_control, 70, 200, color, "See Spotlight");
+	mlx_string_put(env->mlx, env->win_control, 70, 200, color, "New Object");
 	color = env->control->ctm_1 == 2 ? 0xFFFFFFF : 0xFFF8C00;
-	mlx_string_put(env->mlx, env->win_control, 70, 250, color, "New Object");
-	color = env->control->ctm_1 == 3 ? 0xFFFFFFF : 0xFFF8C00;
-	mlx_string_put(env->mlx, env->win_control, 70, 300, color, "Update Scene");
+	mlx_string_put(env->mlx, env->win_control, 70, 250, color, "Update Scene");
 }
 
 static void		draw_see_obj(t_env *env)
@@ -40,22 +38,24 @@ static void		draw_list_obj(t_env *env)
 	mlx_string_put(env->mlx, env->win_control, 180, 100, 0xFFFFFFF, " / ");
 	mlx_string_put(env->mlx, env->win_control, 80, 150, 0x0000000, "Type : ");
 	mlx_string_put(env->mlx, env->win_control, 150, 150, 0x00000FF, env->control->name_obj);
+	if (env->control->mod == 0)
+		mlx_string_put(env->mlx, env->win_control, 90, 400, 0x7A4500, "'M' to Modify");
+	else
+		mlx_string_put(env->mlx, env->win_control, 60, 400, 0x7A4500, "'M' again to stop.");
 	ft_draw_left_arrow(env);
 	ft_draw_right_arrow(env);
-	//draw_value(env);
+	draw_value(env);
 }
 
 void			draw_control(t_env *env)
 {
 	mlx_clear_window(env->mlx, env->win_control);
-	if (env->control->menu == 0 || env->control->menu == 4)
+	if (env->control->menu == 0 || env->control->menu == 3)
 		draw_main_menu(env);
 	if (env->control->menu == 1)
 		draw_see_obj(env);
 	if (env->control->menu == 10)
 		draw_list_obj(env);
 	if (env->control->menu == 2)
-		ft_putendl("Menu 'See Spotlight'.");
-	if (env->control->menu == 3)
 		ft_putendl("Menu 'New Object'.");
 }
