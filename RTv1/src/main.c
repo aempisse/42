@@ -2,11 +2,17 @@
 
 int				loop_hook(t_env *env)
 {
+	draw_control(env);
 	if (env->render == 1)
 	{
 		draw_control(env);
 		// mlx_put_image_to_window(env->mlx, env->win_scene, env->img->img, 0, 0);
-		env->render = 0;
+		env->render--;
+	}
+	if (env->render_scn == 1)
+	{
+		ft_putendl("Faire le raycasting");
+		env->render_scn--;
 	}
 	return (0);
 }
@@ -53,7 +59,11 @@ static void		*control_init(t_env *env)
 	env->control->ctm_1 = 0;
 	env->control->menu = 0;
 	env->control->nbr_sp = 0; //control->nbr_sp = env->spotlight->lenght;
-	env->control->i = 1;
+	env->control->i = 0;
+	env->control->mod = 0;
+	env->control->num = 0;
+	env->control->neg = 1;
+	env->control->stop_add = 0;
 	return (control);
 }
 

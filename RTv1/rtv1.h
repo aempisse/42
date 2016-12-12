@@ -15,6 +15,10 @@ typedef struct	s_control
 	int			nbr_sp;
 	int			ctm_1;
 	int			i;
+	int			mod;
+	int			neg;
+	int			stop_add;
+	double		num;
 	char		*name_obj;
 }				t_control;
 
@@ -58,5 +62,9 @@ void			ft_draw_small_arrow(t_env *env);
 void			draw_square(t_env *env);
 void			ft_draw_left_arrow(t_env *env);
 void			ft_draw_right_arrow(t_env *env);
+void			draw_value(t_env *env);
+int				key_obj_menu(int keycode, t_env *env);
+int				key_obj_in(int keycode, t_env *env);
+
 
 #endif
