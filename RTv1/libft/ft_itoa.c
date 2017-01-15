@@ -56,3 +56,14 @@ char		*ft_itoa(int n)
 	}
 	return (str);
 }
+
+/*char		*free_itoa(int n)
+{
+	char	*str;
+	char	*tmp;
+
+	tmp = ft_itoa(n);
+	str = tmp;
+	free(tmp);
+	return (str);
+}*/
