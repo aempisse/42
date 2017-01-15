@@ -1,15 +1,8 @@
 #include "../rtv1.h"
 
-int				key_hook(int keycode, t_env *env)
-{
-	if (keycode == KEY_ESC)
-		exit(0);
-	env->render = 1;
-	return (0);
-}
-
 int				loop_hook(t_env *env)
 {
+	draw_control(env);
 	if (env->render == 1)
 	{
 		render(env);
@@ -42,15 +35,33 @@ static t_env	*env_init()
 	if ((env->mlx = mlx_init()) == NULL)
 		ft_error("Error : mlx_init() failed.\n");
 	env->win_scene = mlx_new_window(env->mlx, WIDTH, HEIGHT, "RTv1");
+	env->win_control = mlx_new_window(env->mlx, 300, 500, "control");	
 	env->img = ft_new_image(env->mlx);
 	env->sphere = ft_array_new();
 	env->plane = ft_array_new();
 	env->camera = (t_camera){(t_double3){0, 0, 0}, (t_double3){0, 0, -1}};
 	env->fov = FOV;
 	env->render = 1;
-	mlx_key_hook(env->win_scene, &key_hook, env);
+	mlx_key_hook(env->win_control, &key_hook, env);
 	mlx_loop_hook(env->mlx, &loop_hook, env);
 	return (env);
+}
+
+static void		*control_init(t_env *env)
+{
+	t_control		*control;
+
+	if ((env->control = (t_control*)malloc(sizeof(t_control))) == NULL)
+		ft_error("Error : malloc() failed.\n");
+	env->control->ctm_1 = 0;
+	env->control->menu = 0;
+	env->control->nbr_sp = 0;
+	env->control->i = 0;
+	env->control->mod = 0;
+	env->control->num = 0;
+	env->control->neg = 1;
+	env->control->stop_add = 0;
+	return (control);
 }
 
 int				main(int argc, char const **argv)
@@ -65,6 +76,7 @@ int				main(int argc, char const **argv)
 		env = env_init();
 		ft_load_file(fd, env);
 		close(fd);
+		control_init(env);
 		mlx_loop(env->mlx);
 	}
 	return (0);
