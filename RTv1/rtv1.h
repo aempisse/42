@@ -100,6 +100,7 @@ void			raytracer(t_env *en, int x, int y);
 int				intersect(t_env *env, t_double3 dir, t_sphere *sphere);
 double			dot_product(t_double3 vec1, t_double3 vec2);
 t_double3		normalize(t_double3 vec);
+void			color_pixel_image(t_color color, int pixel_start, t_image *image);
 void			draw_control(t_env *env);
 int				loop_hook(t_env *env);
 int				key_hook(int keycode, t_env *env);
