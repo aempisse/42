@@ -1,5 +1,5 @@
-S position{0, 0, -15} radius{2}
-S position{-5, 12, -30} radius{10}
-S position{13, 4, -5} radius{12}
+S position{80, -10, -150} radius{80}
+S position{25, 40, -120} radius{40}
+S position{-50, -80, -250} radius{150}
 P position{4, 5, 6}
 P position{53, 100, -52}

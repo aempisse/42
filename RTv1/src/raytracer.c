@@ -7,13 +7,22 @@ void			color_pixel_image(t_color color, int pixel_start, t_image *image)
 	*/
 	int			pixel_end;
 
-	pixel_end = pixel_start + img->opp;
+	pixel_end = pixel_start + image->opp;
 	while (pixel_start < pixel_end)
 	{
-		img->data[pixel_start] = color.b.b;
+		image->data[pixel_start] = color.b.b;
 		color.u >>= 8;
 		pixel_start++;
 	}
+}
+
+void			swap(double *t0, double *t1)
+{
+	double tmp;
+
+	tmp = *t0;
+	*t0 = *t1;
+	*t1 = tmp;
 }
 
 t_double3		normalize(t_double3 vec)
@@ -45,7 +54,22 @@ double			dot_product(t_double3 vec1, t_double3 vec2)
 	return (product);
 }
 
-int				intersect(t_env *env, t_double3 dir, t_sphere *sphere)
+void			distance_to_color(t_env *env, int x, int y, double distance)
+{
+	t_color		color;
+
+	if (distance == -1)
+		color.u = 0xFFF4F4F4;
+	else
+	{
+		color.b.r = 0x00;
+		color.b.g = (unsigned char)(((int)distance % 255));
+		color.b.b = (unsigned char)(255 - ((int)distance % 255));
+	}
+	color_pixel_image(color, (WIDTH * y + x) * env->img->opp, env->img);
+}
+
+int				intersect(t_env *env, t_double3 dir, t_sphere *sphere, double *distance)
 {
 	/*
 	** On détermine si il y a une intersection entre dir et sphere passés en argument.
@@ -75,7 +99,7 @@ int				intersect(t_env *env, t_double3 dir, t_sphere *sphere)
 	**				C = (O - C)² - R²
 	** Pour calculer le produit de deux vecteurs, comme D * (O - C) ou D², on fait un produit scalaire.
 	**
-	** On calcule le déterminant du polynôme : Δ = B² - 4 * A * C
+	** On calcule le discriminant du polynôme : Δ = B² - 4 * A * C
 	** 				Δ > 0 : Le polynôme a deux racines
 	**				Δ = 0 : Le polynôme a une racine
 	**				Δ < 0 : Le polynome n'a pas de racines
@@ -87,6 +111,9 @@ int				intersect(t_env *env, t_double3 dir, t_sphere *sphere)
 	double		b;
 	double		c;
 	double		discr;
+	double		t0;
+	double		t1;
+	double		tmp;
 
 	center.x = env->camera.pos.x - sphere->pos.x;
 	center.y = env->camera.pos.y - sphere->pos.y;
@@ -97,6 +124,20 @@ int				intersect(t_env *env, t_double3 dir, t_sphere *sphere)
 	discr = b * b - 4 * a * c;
 	if (discr < 0)
 		return (0);
+	else
+	{
+		t0 = (- b - sqrt(discr)) / (2 * a);
+		t1 = (- b + sqrt(discr)) / (2 * a);
+		if (t0 > t1)
+			swap(&t0, &t1);
+		if (t0 < 0)
+		{
+			t0 = t1;
+			if (t0 < 0)
+				return (0);
+		}
+		*distance = t0;
+	}
 	return (1);
 }
 
@@ -174,25 +215,27 @@ void			raytracer(t_env *env, int x, int y)
 	t_double3	pixel_camera;
 	double		aspect_ratio;
 	double		scale;
-	t_sphere	*tmp;
-	t_color		color;
+	t_sphere	*sphere;
+	double		distance;
+	double		nearest;
 	int			i;
 
 	aspect_ratio = WIDTH / (double)HEIGHT;
-	scale = tan((env->fov * 0.5) * PI / 180.0);
+	scale = tan(((env->fov * 0.5) * PI) / 180.0);
 	pixel_camera.x = (2 * ((x + 0.5) / (double)WIDTH) - 1) * aspect_ratio * scale;
 	pixel_camera.y = (1 - 2 * (y + 0.5) / (double)HEIGHT) * scale;
 	pixel_camera.z = -1;
 	pixel_camera = normalize(pixel_camera);
+	nearest = -1;
 	i = -1;
-	color.u = 0x00000000;
 	while (++i < env->sphere->length)
 	{
-		tmp = AG(t_sphere*, env->sphere, i);
-		if (intersect(env, pixel_camera, tmp) == 1)
-			color.u = 0x00FFFFFF;
+		sphere = AG(t_sphere*, env->sphere, i);
+		if (intersect(env, pixel_camera, sphere, &distance))
+			if (nearest == -1 || nearest > distance)
+				nearest = distance;
 	}
-	color_pixel_image(color, (WIDTH * y + x) * env->img->opp, env->img);
+	distance_to_color(env, x, y, nearest);
 }
 
 void			render(t_env *env)

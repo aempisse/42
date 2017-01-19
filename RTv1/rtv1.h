@@ -2,19 +2,19 @@
 # define RTV1_H
 
 # include "libft/libft.h"
-# include <mlx.h>
-//# include "minilibx/mlx.h"
+// # include <mlx.h>
+# include "minilibx/mlx.h"
 # include <math.h>
 
 # define WIDTH 512
 # define HEIGHT 512
-# define FOV 51.52
+# define FOV 90 //51.52
 
-	/* Key pour Linux 
-//# define KEY_ESC 65307*/
+	 // Key pour Linux 
+# define KEY_ESC 65307
 
-	/*Key pour Mac */
-# define KEY_ESC 53
+	// Key pour Mac 
+// # define KEY_ESC 53
 # define KEY_ENTER 36
 # define KEY_DOWN 125
 # define KEY_UP 126
@@ -94,16 +94,19 @@ typedef struct	s_env
 	int			render;
 }				t_env;
 
+int				loop_hook(t_env *env);
+int				key_hook(int keycode, t_env *env);
+
 void			ft_load_file(int fd, t_env *env);
 void			render(t_env *env);
 void			raytracer(t_env *en, int x, int y);
-int				intersect(t_env *env, t_double3 dir, t_sphere *sphere);
+int				intersect(t_env *env, t_double3 dir, t_sphere *sphere, double *distance);
 double			dot_product(t_double3 vec1, t_double3 vec2);
 t_double3		normalize(t_double3 vec);
+void			distance_to_color(t_env *env, int x, int y, double distance);
 void			color_pixel_image(t_color color, int pixel_start, t_image *image);
+
 void			draw_control(t_env *env);
-int				loop_hook(t_env *env);
-int				key_hook(int keycode, t_env *env);
 void			ft_draw_small_arrow(t_env *env);
 void			draw_square(t_env *env);
 void			ft_draw_left_arrow(t_env *env);
