@@ -25,7 +25,7 @@ static int		key_new_obj(int keycode, t_env *env)
 		env->control->menu = 0;
 		env->control->ctm_1 = 0;
 	}
-	if (keycode == KEY_DOWN && env->control->ctm_1 < 1)
+	if (keycode == KEY_DOWN && env->control->ctm_1 < 2)
 		env->control->ctm_1++;
 	if (keycode == KEY_UP && env->control->ctm_1 > 0)
 		env->control->ctm_1--;

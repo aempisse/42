@@ -2,8 +2,8 @@
 # define RTV1_H
 
 # include "libft/libft.h"
-// # include <mlx.h>
-# include "minilibx/mlx.h"
+ # include <mlx.h>
+//# include "minilibx/mlx.h"
 # include <math.h>
 
 # define WIDTH 512
@@ -11,10 +11,10 @@
 # define FOV 90 //51.52
 
 	 // Key pour Linux 
-# define KEY_ESC 65307
+//# define KEY_ESC 65307
 
 	// Key pour Mac 
-// # define KEY_ESC 53
+# define KEY_ESC 53
 # define KEY_ENTER 36
 # define KEY_DOWN 125
 # define KEY_UP 126
@@ -48,6 +48,12 @@ typedef struct	s_double3
 	double		y;
 	double		z;
 }				t_double3;
+
+typedef struct	s_disk
+{
+	t_double3	pos;
+	double		radius;
+}				t_disk;
 
 typedef struct	s_plane
 {
@@ -88,6 +94,7 @@ typedef struct	s_env
 	t_image		*img;
 	t_array		*sphere;
 	t_array		*plane;
+	t_array		*disk;
 	t_camera	camera;
 	t_control	*control;
 	double		fov;
@@ -117,7 +124,9 @@ int				key_obj_in(int keycode, t_env *env);
 char			*search_type_obj(int c);
 void			draw_plane_value(t_env *env);
 void			draw_sphere_value(t_env *env);
+void			draw_disk_value(t_env *env);
 void			init_new_obj(t_env *env);
 int				key_new_obj_in(int keycode, t_env *env);
+int 			intersect_plane(t_env *env, t_double3 dir, t_plane *plane, double *distance);
 
 #endif

@@ -66,6 +66,8 @@ void			ft_draw_small_arrow(t_env *env)
 		y = 160;
 	if (env->control->ctm_1 == 1)
 		y = 185;
+	if (env->control->ctm_1 == 2)
+		y = 210;
 	while (i < 10)
 	{
 		mlx_pixel_put(env->mlx, env->win_control, 27 + i, y, 0xFFF8C00);

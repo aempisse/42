@@ -8,6 +8,8 @@ char			*search_type_obj(int c)
 		str = "Sphere";
 	if (c == 1)
 		str = "Plane";
+	if (c == 2)
+		str = "Disk";
 	return (str);
 }
 
@@ -25,6 +27,12 @@ static int		chang_obj(int keycode, t_env *env)
 	if (keycode == KEY_LEFT && ft_strcmp(env->control->name_obj, "Plane") == 0 &&
 	 	env->control->i > 0)
 		env->control->i--;
+	if (keycode == KEY_RIGHT && ft_strcmp(env->control->name_obj, "Disk") == 0 &&
+ 		env->control->i < env->disk->length - 1)
+		env->control->i++;
+	if (keycode == KEY_LEFT && ft_strcmp(env->control->name_obj, "Disk") == 0 &&
+	 	env->control->i > 0)
+		env->control->i--;
 	return (0);
 }
 
@@ -37,7 +45,8 @@ static void		incr_ctm(int keycode, t_env *env)
 		if (keycode == KEY_UP && env->control->ctm_1 > 0)
 			env->control->ctm_1--;
 	}
-	if (ft_strcmp(env->control->name_obj, "Sphere") == 0)
+	if (ft_strcmp(env->control->name_obj, "Sphere") == 0 ||
+		ft_strcmp(env->control->name_obj, "Disk") == 0)
 	{
 		if (keycode == KEY_DOWN && env->control->ctm_1 < 3)
 			env->control->ctm_1++;
@@ -64,6 +73,23 @@ static void	add_num_plane(t_env *env)
 		tmp->pos.z = env->control->num;
 }
 
+static void	add_num_disk(t_env *env)
+{
+	t_sphere	*tmp;
+	int			i;
+
+	i = env->control->i;
+	tmp = AG(t_disk*, env->disk, i);
+	if (env->control->ctm_1 == 0)
+		tmp->pos.x = env->control->num;
+	if (env->control->ctm_1 == 1)
+		tmp->pos.y = env->control->num;
+	if (env->control->ctm_1 == 2)
+		tmp->pos.z = env->control->num;
+	if (env->control->ctm_1 == 3)
+		tmp->radius = env->control->num;
+}
+
 static void	add_num_sphere(t_env *env)
 {
 	t_sphere	*tmp;
@@ -87,6 +113,8 @@ static void	add_to_struct(t_env *env)
 		add_num_sphere(env);
 	if (ft_strcmp(env->control->name_obj, "Plane") == 0)
 		add_num_plane(env);
+	if (ft_strcmp(env->control->name_obj, "Disk") == 0)
+		add_num_disk(env);
 }
 
 static void	add_num(t_env *env, double num)
@@ -195,7 +223,7 @@ int				key_obj_menu(int keycode, t_env *env)
 		env->control->menu = 0;
 		env->control->ctm_1 = 0;
 	}
-	if (keycode == KEY_DOWN && env->control->ctm_1 < 1)
+	if (keycode == KEY_DOWN && env->control->ctm_1 < 2)
 		env->control->ctm_1++;
 	if (keycode == KEY_UP && env->control->ctm_1 > 0)
 		env->control->ctm_1--;

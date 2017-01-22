@@ -69,6 +69,24 @@ void			distance_to_color(t_env *env, int x, int y, double distance)
 	color_pixel_image(color, (WIDTH * y + x) * env->img->opp, env->img);
 }
 
+int 			intersect_plane(t_env *env, t_double3 dir, t_plane *plane, double *distance)
+{
+	double 		denom;
+	t_double3	normal_plane;
+	t_double3	center;
+
+	center.x = env->camera.pos.x - plane->pos.x;
+	center.y = env->camera.pos.y - plane->pos.y;
+	center.z = env->camera.pos.z - plane->pos.z;
+	normal_plane = normalize(plane->pos);
+	denom = dot_product(dir, normal_plane);
+	if (denom > 0.00001)
+		*distance = dot_product(center, normal_plane) / denom;
+	else
+		return (0);
+	return (1);
+}
+
 int				intersect(t_env *env, t_double3 dir, t_sphere *sphere, double *distance)
 {
 	/*
@@ -216,11 +234,12 @@ void			raytracer(t_env *env, int x, int y)
 	double		aspect_ratio;
 	double		scale;
 	t_sphere	*sphere;
+	t_plane		*plane;
 	double		distance;
 	double		nearest;
 	int			i;
 
-	aspect_ratio = WIDTH / (double)HEIGHT;
+	aspect_ratio = (double)WIDTH / (double)HEIGHT;
 	scale = tan(((env->fov * 0.5) * PI) / 180.0);
 	pixel_camera.x = (2 * ((x + 0.5) / (double)WIDTH) - 1) * aspect_ratio * scale;
 	pixel_camera.y = (1 - 2 * (y + 0.5) / (double)HEIGHT) * scale;
@@ -232,6 +251,14 @@ void			raytracer(t_env *env, int x, int y)
 	{
 		sphere = AG(t_sphere*, env->sphere, i);
 		if (intersect(env, pixel_camera, sphere, &distance))
+			if (nearest == -1 || nearest > distance)
+				nearest = distance;
+	}
+	i = -1;
+	while (++i < env->plane->length)
+	{
+		plane = AG(t_plane*, env->plane, i);
+		if (intersect_plane(env, pixel_camera, plane, &distance))
 			if (nearest == -1 || nearest > distance)
 				nearest = distance;
 	}
