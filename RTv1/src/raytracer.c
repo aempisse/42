@@ -69,6 +69,40 @@ void			distance_to_color(t_env *env, int x, int y, double distance)
 	color_pixel_image(color, (WIDTH * y + x) * env->img->opp, env->img);
 }
 
+static t_plane		*init_disk_plane(t_env *env, t_plane *plane, t_disk *disk)
+{
+	plane = (t_plane*)malloc(sizeof(t_plane));
+	plane->pos.x = disk->pos.x;
+	plane->pos.y = disk->pos.y;
+	plane->pos.z = disk->pos.z;
+	plane->normal.x = disk->normal.x;
+	plane->normal.y = disk->normal.y;
+	plane->normal.z = disk->normal.z;
+	return (plane);
+}
+
+int				intersect_disk(t_env *env, t_double3 dir, t_disk *disk, double *distance)
+{
+	t_double3	inter_p;
+	t_double3	vec;
+	t_plane		*plane;
+
+	plane = init_disk_plane(env, plane, disk);
+	if (intersect_plane(env, dir, plane, distance))
+	{
+		inter_p.x = env->camera.pos.x + dir.x * *distance;
+		inter_p.y = env->camera.pos.y + dir.y * *distance;
+		inter_p.z = env->camera.pos.z + dir.z * *distance;
+		vec.x = inter_p.x - disk->pos.x;
+		vec.y = inter_p.y - disk->pos.y;
+		vec.z = inter_p.z - disk->pos.z;
+		*distance = dot_product(vec, vec);
+		if (*distance <= disk->radius * disk->radius)
+			return (1);
+	}
+	return (0);
+}
+
 int 			intersect_plane(t_env *env, t_double3 dir, t_plane *plane, double *distance)
 {
 	double 		denom;
@@ -78,7 +112,7 @@ int 			intersect_plane(t_env *env, t_double3 dir, t_plane *plane, double *distan
 	center.x = env->camera.pos.x - plane->pos.x;
 	center.y = env->camera.pos.y - plane->pos.y;
 	center.z = env->camera.pos.z - plane->pos.z;
-	normal_plane = normalize(plane->pos);
+	normal_plane = normalize(plane->normal);
 	denom = dot_product(dir, normal_plane);
 	if (denom > 0.00001)
 		*distance = dot_product(center, normal_plane) / denom;
@@ -235,6 +269,7 @@ void			raytracer(t_env *env, int x, int y)
 	double		scale;
 	t_sphere	*sphere;
 	t_plane		*plane;
+	t_disk		*disk;
 	double		distance;
 	double		nearest;
 	int			i;
@@ -259,6 +294,14 @@ void			raytracer(t_env *env, int x, int y)
 	{
 		plane = AG(t_plane*, env->plane, i);
 		if (intersect_plane(env, pixel_camera, plane, &distance))
+			if (nearest == -1 || nearest > distance)
+				nearest = distance;
+	}
+	i = -1;
+	while (++i < env->disk->length)
+	{
+		disk = AG(t_disk*, env->disk, i);
+		if (intersect_disk(env, pixel_camera, disk, &distance))
 			if (nearest == -1 || nearest > distance)
 				nearest = distance;
 	}
