@@ -5,6 +5,7 @@ int				loop_hook(t_env *env)
 	draw_control(env);
 	if (env->render == 1)
 	{
+		mlx_clear_window(env->mlx, env->win_scene);
 		render(env);
 		mlx_put_image_to_window(env->mlx, env->win_scene, env->img->img, 0, 0);
 		env->render = 0;
@@ -76,7 +77,7 @@ int				main(int argc, char const **argv)
 			ft_error("Error : File not found.\n");
 		env = env_init();
 		ft_load_file(fd, env);
-		close(fd);
+		close(fd);		
 		control_init(env);
 		mlx_loop(env->mlx);
 	}

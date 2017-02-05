@@ -13,6 +13,12 @@ static void		ft_parse_disk(t_env *env, t_buff *line)
 	ft_parse_not(line, "-0123456789");
 	disk->pos.z = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
+	disk->normal.x = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	disk->normal.y = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	disk->normal.z = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
 	disk->radius = ft_parse_double(line);
 	ft_array_add(env->disk, disk);
 }
@@ -29,6 +35,13 @@ static void		ft_parse_plane(t_env *env, t_buff *line)
 	plane->pos.y = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
 	plane->pos.z = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	plane->normal.x = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	plane->normal.y = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	plane->normal.z = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
 	ft_array_add(env->plane, plane);
 }
 

@@ -5,6 +5,7 @@
  # include <mlx.h>
 //# include "minilibx/mlx.h"
 # include <math.h>
+# include <stdio.h>
 
 # define WIDTH 512
 # define HEIGHT 512
@@ -52,12 +53,14 @@ typedef struct	s_double3
 typedef struct	s_disk
 {
 	t_double3	pos;
+	t_double3	normal;
 	double		radius;
 }				t_disk;
 
 typedef struct	s_plane
 {
 	t_double3	pos;
+	t_double3	normal;
 }				t_plane;
 
 typedef struct	s_sphere
@@ -119,14 +122,20 @@ void			draw_square(t_env *env);
 void			ft_draw_left_arrow(t_env *env);
 void			ft_draw_right_arrow(t_env *env);
 void			draw_value(t_env *env);
-int				key_obj_menu(int keycode, t_env *env);
+void			draw_new_obj_menu(t_env *env);
+void			draw_new_obj_add(t_env *env);
 int				key_obj_in(int keycode, t_env *env);
 char			*search_type_obj(int c);
+void			key_add(int keycode, t_env *env);
+void			add_num_sphere(t_env *env);
+void			add_num_plane(t_env *env);
+void			add_num_disk(t_env *env);
 void			draw_plane_value(t_env *env);
 void			draw_sphere_value(t_env *env);
 void			draw_disk_value(t_env *env);
 void			init_new_obj(t_env *env);
 int				key_new_obj_in(int keycode, t_env *env);
+int				intersect_disk(t_env *env, t_double3 dir, t_disk *disk, double *distance);
 int 			intersect_plane(t_env *env, t_double3 dir, t_plane *plane, double *distance);
 
 #endif

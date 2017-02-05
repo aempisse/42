@@ -15,12 +15,15 @@ static void	init_new_obj_sphere(t_env *env)
 
 static void	init_new_obj_disk(t_env *env)
 {
-	t_sphere	*tmp;
+	t_disk		*tmp;
 
 	tmp = (t_disk*)malloc(sizeof(t_disk));
 	tmp->pos.x = 0;
 	tmp->pos.y = 0;
 	tmp->pos.z = 0;
+	tmp->normal.x = 0;
+	tmp->normal.y = 0;
+	tmp->normal.z = 0;
 	tmp->radius = 0;
 	ft_array_add(env->disk, tmp);
 	env->control->i = env->disk->length - 1;
@@ -34,6 +37,9 @@ static void	init_new_obj_plane(t_env *env)
 	tmp->pos.x = 0;
 	tmp->pos.y = 0;
 	tmp->pos.z = 0;
+	tmp->normal.x = 0;
+	tmp->normal.y = 0;
+	tmp->normal.z = 0;
 	ft_array_add(env->plane, tmp);
 	env->control->i = env->plane->length - 1;
 }
