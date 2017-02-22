@@ -2,20 +2,21 @@
 # define RTV1_H
 
 # include "libft/libft.h"
- # include <mlx.h>
-//# include "minilibx/mlx.h"
+// # include <mlx.h>
+# include "minilibx/mlx.h"
 # include <math.h>
 # include <stdio.h>
 
-# define WIDTH 512
-# define HEIGHT 512
-# define FOV 90 //51.52
+# define WIDTH 1280
+# define HEIGHT 960
+# define FOV 30
+# define DEPTH 5
 
 	 // Key pour Linux 
-//# define KEY_ESC 65307
+# define KEY_ESC 65307
 
 	// Key pour Mac 
-# define KEY_ESC 53
+// # define KEY_ESC 53
 # define KEY_ENTER 36
 # define KEY_DOWN 125
 # define KEY_UP 126
@@ -67,6 +68,10 @@ typedef struct	s_sphere
 {
 	t_double3	pos;
 	double		radius;
+	t_double3	color;
+	double		reflectivity;
+	double		transparency;
+	t_double3	emission;
 }				t_sphere;
 
 typedef struct	s_camera
@@ -109,12 +114,17 @@ int				key_hook(int keycode, t_env *env);
 
 void			ft_load_file(int fd, t_env *env);
 void			render(t_env *env);
-void			raytracer(t_env *en, int x, int y);
+t_double3		raytracer(t_double3 ray_origin, t_double3 ray_dir, t_array *spheres, int depth);
 int				intersect(t_env *env, t_double3 dir, t_sphere *sphere, double *distance);
+
+void			color_pixel_image(t_color color, int pixel_start, t_image *image);
+void			swap(double *t0, double *t1);
 double			dot_product(t_double3 vec1, t_double3 vec2);
 t_double3		normalize(t_double3 vec);
-void			distance_to_color(t_env *env, int x, int y, double distance);
-void			color_pixel_image(t_color color, int pixel_start, t_image *image);
+t_double3		find_point(t_double3 origin, t_double3 dir, double scalar);
+t_double3		vec_minus_vec(t_double3 vec1, t_double3 vec2);
+double 			fresnel_effect(double a, double b, double mix);
+double			max_double(double a, double b);
 
 void			draw_control(t_env *env);
 void			ft_draw_small_arrow(t_env *env);
