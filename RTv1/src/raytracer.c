@@ -37,6 +37,21 @@ int				intersect_sphere(t_double3 origin, t_double3 dir, t_sphere *sphere, doubl
 
 t_double3	raytracer(t_double3 ray_origin, t_double3 ray_dir, t_array *spheres, int depth)
 {
+
+/*
+**	La nouvelle fonction de tracage. Elle prend en paramètre un rayon, défini par
+**	son origine et sa direction. On calcule si ce rayon traverse une sphère.
+**	Si c'est le cas on calcule le point d'intersection, la normale au point d'intersection,
+**	et grâce à ces informations on calcule la couleur. Cette nuance dépend des propriétés
+**	de la sphère (transparence, reflection, diffusion, etc...). Si la sphère réfléchie
+**	la lumière, la nuance de couleur dépend aussi des sphères autour donc on trace
+**	un nouveau rayon qui dépend de la normale du point d'intersection.
+**	Si la sphère est transparente on trace un rayon qui traverse la sphère.
+**	La variable depth en paramètre sert à limiter la profondeur de la récursion,
+**	si on ne la limitait pas on pourrait avoir des rayons qui se renvoient à l'infini.
+**	La fonction retourn une vecteur dont les coefficients décrivent une couleur.
+*/
+
 	t_sphere	*tmp;
 	t_sphere	*tmp2;
 	t_sphere	*sphere;
