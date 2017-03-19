@@ -2,8 +2,8 @@
 # define RTV1_H
 
 # include "libft/libft.h"
-// # include <mlx.h>
-# include "minilibx/mlx.h"
+# include <mlx.h>
+//# include "minilibx/mlx.h"
 # include <math.h>
 # include <stdio.h>
 
@@ -13,10 +13,10 @@
 # define DEPTH 5
 
 	 // Key pour Linux 
-# define KEY_ESC 65307
+//# define KEY_ESC 65307
 
 	// Key pour Mac 
-// # define KEY_ESC 53
+# define KEY_ESC 53
 # define KEY_ENTER 36
 # define KEY_DOWN 125
 # define KEY_UP 126
@@ -32,8 +32,8 @@
 # define KEY_7 26
 # define KEY_8 28
 # define KEY_9 25
-# define KEY_NEG 24
-# define KEY_M 41
+# define KEY_NEG 27
+# define KEY_M 46
 
 
 # define PI 3.14159265
@@ -62,6 +62,9 @@ typedef struct	s_plane
 {
 	t_double3	pos;
 	t_double3	normal;
+	t_double3	color;
+	double		reflectivity;
+	double		transparency;
 }				t_plane;
 
 typedef struct	s_sphere

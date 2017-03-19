@@ -21,29 +21,6 @@ void		add_num_plane(t_env *env)
 		tmp->normal.z = env->control->num;
 }
 
-void		add_num_disk(t_env *env)
-{
-	t_disk		*tmp;
-	int			i;
-
-	i = env->control->i;
-	tmp = AG(t_disk*, env->disk, i);
-	if (env->control->ctm_1 == 0)
-		tmp->pos.x = env->control->num;
-	if (env->control->ctm_1 == 1)
-		tmp->pos.y = env->control->num;
-	if (env->control->ctm_1 == 2)
-		tmp->pos.z = env->control->num;
-	if (env->control->ctm_1 == 3)
-		tmp->normal.x = env->control->num;
-	if (env->control->ctm_1 == 4)
-		tmp->normal.y = env->control->num;
-	if (env->control->ctm_1 == 5)
-		tmp->normal.z = env->control->num;
-	if (env->control->ctm_1 == 6)
-		tmp->radius = env->control->num;
-}
-
 void		add_num_sphere(t_env *env)
 {
 	t_sphere	*tmp;

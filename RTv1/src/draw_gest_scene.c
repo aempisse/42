@@ -6,7 +6,7 @@ static void		draw_main_menu(t_env *env)
 
 	mlx_string_put(env->mlx, env->win_control, 42, 25, 0xFFFFFFF, "Number of Object  : ");
 	mlx_string_put(env->mlx, env->win_control, 250, 25, 0xFFF8C00, ft_itoa(env->sphere->length +
-		env->plane->length + env->disk->length));
+		env->plane->length));
 	mlx_string_put(env->mlx, env->win_control, 30, 50, 0xFFFFFFF, "Number of Spotlight : ");
 	mlx_string_put(env->mlx, env->win_control, 250, 50, 0xFFF8C00, ft_itoa(env->control->nbr_sp));
 	color = env->control->ctm_1 == 0 ? 0xFFFFFFF : 0xFFF8C00;
@@ -27,9 +27,7 @@ static void		draw_see_obj(t_env *env)
 	mlx_string_put(env->mlx, env->win_control, 35, 175, 0xFFFFFFF, " Plane : ");
 	mlx_string_put(env->mlx, env->win_control, 145, 175, 0xFFFFFFF, ft_itoa(env->plane->length));
 	mlx_string_put(env->mlx, env->win_control, 155, 175, 0xFFFFFFF, " element(s).");
-	mlx_string_put(env->mlx, env->win_control, 35, 200, 0xFFFFFFF, " Disk : ");
-	mlx_string_put(env->mlx, env->win_control, 145, 200, 0xFFFFFFF, ft_itoa(env->disk->length));
-	mlx_string_put(env->mlx, env->win_control, 155, 200, 0xFFFFFFF, " element(s).");
+
 	ft_draw_small_arrow(env);
 }
 

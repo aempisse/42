@@ -8,8 +8,6 @@ char			*search_type_obj(int c)
 		str = "Sphere";
 	if (c == 1)
 		str = "Plane";
-	if (c == 2)
-		str = "Disk";
 	return (str);
 }
 
@@ -19,8 +17,6 @@ static void	add_to_struct(t_env *env)
 		add_num_sphere(env);
 	if (ft_strcmp(env->control->name_obj, "Plane") == 0)
 		add_num_plane(env);
-	if (ft_strcmp(env->control->name_obj, "Disk") == 0)
-		add_num_disk(env);
 }
 
 static void	add_num(t_env *env, double num)

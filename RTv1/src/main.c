@@ -40,7 +40,6 @@ static t_env	*env_init()
 	env->img = ft_new_image(env->mlx);
 	env->sphere = ft_array_new();
 	env->plane = ft_array_new();
-	env->disk = ft_array_new();
 	env->camera = (t_camera){(t_double3){0, 0, 0}, (t_double3){0, 0, -1}};
 	env->fov = FOV;
 	env->render = 1;
