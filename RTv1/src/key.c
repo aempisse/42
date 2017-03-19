@@ -9,8 +9,6 @@ static int		check_length(t_env *env)
 		ret = env->sphere->length == 0 ? 0 : 1;
 	if (env->control->ctm_1 == 1)
 		ret = env->plane->length == 0 ? 0 : 1;
-	if (env->control->ctm_1 == 2)
-		ret = env->disk->length == 0 ? 0 : 1;
 	return (ret);
 }
 
@@ -87,5 +85,7 @@ int				key_hook(int keycode, t_env *env)
 		key_obj_in(keycode, env);
 	else if (env->control->menu == 20)
 		key_new_obj_in(keycode, env);
+	ft_putnbr(keycode);
+	ft_putendl("");
 	return (0);
 }

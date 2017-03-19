@@ -14,12 +14,6 @@ static int		chang_obj(int keycode, t_env *env)
 	if (keycode == KEY_LEFT && ft_strcmp(env->control->name_obj, "Plane") == 0 &&
 	 	env->control->i > 0)
 		env->control->i--;
-	if (keycode == KEY_RIGHT && ft_strcmp(env->control->name_obj, "Disk") == 0 &&
- 		env->control->i < env->disk->length - 1)
-		env->control->i++;
-	if (keycode == KEY_LEFT && ft_strcmp(env->control->name_obj, "Disk") == 0 &&
-	 	env->control->i > 0)
-		env->control->i--;
 	return (0);
 }
 
@@ -35,13 +29,6 @@ static void		incr_ctm(int keycode, t_env *env)
 	if (ft_strcmp(env->control->name_obj, "Sphere") == 0)
 	{
 		if (keycode == KEY_DOWN && env->control->ctm_1 < 3)
-			env->control->ctm_1++;
-		if (keycode == KEY_UP && env->control->ctm_1 > 0)
-			env->control->ctm_1--;
-	}
-	if (ft_strcmp(env->control->name_obj, "Disk") == 0)
-	{
-		if (keycode == KEY_DOWN && env->control->ctm_1 < 6)
 			env->control->ctm_1++;
 		if (keycode == KEY_UP && env->control->ctm_1 > 0)
 			env->control->ctm_1--;
