@@ -55,6 +55,16 @@ t_double3		find_point(t_double3 origin, t_double3 dir, double scalar)
 	return (point);
 }
 
+t_double3		scale_vec(t_double3 vec, double scalar)
+{
+	t_double3	new_vec;
+
+	new_vec.x = vec.x * scalar;
+	new_vec.y = vec.y * scalar;
+	new_vec.z = vec.z * scalar;
+	return (new_vec);
+}
+
 t_double3		vec_minus_vec(t_double3 vec1, t_double3 vec2)
 {
 	t_double3	result;
@@ -65,12 +75,22 @@ t_double3		vec_minus_vec(t_double3 vec1, t_double3 vec2)
 	return (result);
 }
 
-double 			fresnel_effect(double a, double b, double mix)
+t_double3		vec_plus_vec(t_double3 vec1, t_double3 vec2)
 {
-	return (b * mix + a * (1 - mix));
-} 
+	t_double3	result;
+
+	result.x = vec1.x + vec2.x;
+	result.y = vec1.y + vec2.y;
+	result.z = vec1.z + vec2.z;
+	return (result);
+}
 
 double			max_double(double a, double b)
 {
 	return (a > b ? a : b);
+}
+
+double			min_double(double a, double b)
+{
+	return (a < b) ? a : b;
 }

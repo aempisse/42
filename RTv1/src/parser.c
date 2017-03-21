@@ -19,17 +19,10 @@ static void		ft_parse_plane(t_env *env, t_buff *line)
 	ft_parse_not(line, "-0123456789");
 	plane->normal.z = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	plane->color.x = ft_parse_double(line);
+	plane->ior = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	plane->color.y = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->color.z = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->reflectivity = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->transparency = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	ft_array_add(env->plane, plane);
+	plane->material = ft_parse_int(line);
+	ft_array_add(env->objects->planes, plane);
 }
 
 static void		ft_parse_sphere(t_env *env, t_buff *line)
@@ -53,16 +46,31 @@ static void		ft_parse_sphere(t_env *env, t_buff *line)
 	ft_parse_not(line, "-0123456789");
 	sphere->color.z = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	sphere->reflectivity = ft_parse_double(line);
+	sphere->ior = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	sphere->transparency = ft_parse_double(line);
+	sphere->material = ft_parse_int(line);
+	ft_array_add(env->objects->spheres, sphere);
+}
+
+static void		ft_parse_light(t_env *env, t_buff *line)
+{
+	t_light		*light;
+	double		tmp;
+
+	light = (t_light*)malloc(sizeof(t_light));
 	ft_parse_not(line, "-0123456789");
-	sphere->emission.x = ft_parse_double(line);
+	light->pos.x = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	sphere->emission.y = ft_parse_double(line);
+	light->pos.y = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	sphere->emission.z = ft_parse_double(line);	
-	ft_array_add(env->sphere, sphere);
+	light->pos.z = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	light->color.x = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	light->color.y = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	light->color.z = ft_parse_double(line);
+	ft_array_add(env->objects->lights, light);
 }
 
 void			ft_load_file(int fd, t_env *env)
@@ -75,5 +83,7 @@ void			ft_load_file(int fd, t_env *env)
 			ft_parse_sphere(env, &line);
 		// if (line.data[0] == 'P')
 		// 	ft_parse_plane(env, &line);
+		if (line.data[0] == 'L')
+			ft_parse_light(env, &line);
 	}
 }

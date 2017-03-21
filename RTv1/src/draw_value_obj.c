@@ -27,7 +27,7 @@ void		draw_plane_value(t_env *env)
 	char		*tmp_c;
 	int			color;
 
-	tmp = AG(t_plane*, env->plane, env->control->i);
+	tmp = AG(t_plane*, env->objects->planes, env->control->i);
 	if (env->control->mod == 1)
 		tmp_c = env->control->ctm_1 == 0 ?
 		ft_itoa(env->control->num) : ft_itoa(tmp->pos.x);
@@ -52,7 +52,7 @@ void		draw_sphere_value(t_env *env)
 	char		*tmp_c;
 	int			color;
 
-	tmp = AG(t_sphere*, env->sphere, env->control->i);
+	tmp = AG(t_sphere*, env->objects->spheres, env->control->i);
 	if (env->control->mod == 1)
 		tmp_c = env->control->ctm_1 == 0 ?
 		ft_itoa(env->control->num) : ft_itoa(tmp->pos.x);

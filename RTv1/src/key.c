@@ -6,9 +6,9 @@ static int		check_length(t_env *env)
 
 	ret = 0;
 	if (env->control->ctm_1 == 0)
-		ret = env->sphere->length == 0 ? 0 : 1;
+		ret = env->objects->spheres->length == 0 ? 0 : 1;
 	if (env->control->ctm_1 == 1)
-		ret = env->plane->length == 0 ? 0 : 1;
+		ret = env->objects->planes->length == 0 ? 0 : 1;
 	return (ret);
 }
 

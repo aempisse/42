@@ -3,13 +3,13 @@
 static int		chang_obj(int keycode, t_env *env)
 {
 	if (keycode == KEY_RIGHT && ft_strcmp(env->control->name_obj, "Sphere") == 0 &&
-	 	env->control->i < env->sphere->length - 1)
+	 	env->control->i < env->objects->spheres->length - 1)
 		env->control->i++;
 	if (keycode == KEY_LEFT && ft_strcmp(env->control->name_obj, "Sphere") == 0 &&
 		env->control->i > 0)
 		env->control->i--;
 	if (keycode == KEY_RIGHT && ft_strcmp(env->control->name_obj, "Plane") == 0 &&
- 		env->control->i < env->plane->length - 1)
+ 		env->control->i < env->objects->planes->length - 1)
 		env->control->i++;
 	if (keycode == KEY_LEFT && ft_strcmp(env->control->name_obj, "Plane") == 0 &&
 	 	env->control->i > 0)

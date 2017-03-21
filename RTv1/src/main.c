@@ -38,10 +38,12 @@ static t_env	*env_init()
 	env->win_scene = mlx_new_window(env->mlx, WIDTH, HEIGHT, "RTv1");
 	env->win_control = mlx_new_window(env->mlx, 300, 500, "control");	
 	env->img = ft_new_image(env->mlx);
-	env->sphere = ft_array_new();
-	env->plane = ft_array_new();
-	env->camera = (t_camera){(t_double3){0, 0, 0}, (t_double3){0, 0, -1}};
-	env->fov = FOV;
+	if ((env->objects = (t_objects*)malloc(sizeof(t_objects))) == NULL)
+		ft_error("Error : malloc() failed.\n");
+	env->objects->spheres = ft_array_new();
+	env->objects->planes = ft_array_new();
+	env->objects->lights = ft_array_new();
+	env->camera = (t_vector){(t_double3){0, 0, 0}, (t_double3){0, 0, -1}};
 	env->render = 1;
 	mlx_key_hook(env->win_control, &key_hook, env);
 	mlx_loop_hook(env->mlx, &loop_hook, env);

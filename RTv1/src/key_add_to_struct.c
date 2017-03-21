@@ -6,7 +6,7 @@ void		add_num_plane(t_env *env)
 	int			i;
 
 	i = env->control->i;
-	tmp = AG(t_plane*, env->plane, i);
+	tmp = AG(t_plane*, env->objects->planes, i);
 	if (env->control->ctm_1 == 0)
 		tmp->pos.x = env->control->num;
 	if (env->control->ctm_1 == 1)
@@ -27,7 +27,7 @@ void		add_num_sphere(t_env *env)
 	int			i;
 
 	i = env->control->i;
-	tmp = AG(t_sphere*, env->sphere, i);
+	tmp = AG(t_sphere*, env->objects->spheres, i);
 	if (env->control->ctm_1 == 0)
 		tmp->pos.x = env->control->num;
 	if (env->control->ctm_1 == 1)

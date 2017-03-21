@@ -9,8 +9,8 @@ static void	init_new_obj_sphere(t_env *env)
 	tmp->pos.y = 0;
 	tmp->pos.z = 0;
 	tmp->radius = 0;
-	ft_array_add(env->sphere, tmp);
-	env->control->i = env->sphere->length - 1;
+	ft_array_add(env->objects->spheres, tmp);
+	env->control->i = env->objects->spheres->length - 1;
 }
 
 static void	init_new_obj_plane(t_env *env)
@@ -24,8 +24,8 @@ static void	init_new_obj_plane(t_env *env)
 	tmp->normal.x = 0;
 	tmp->normal.y = 0;
 	tmp->normal.z = 0;
-	ft_array_add(env->plane, tmp);
-	env->control->i = env->plane->length - 1;
+	ft_array_add(env->objects->planes, tmp);
+	env->control->i = env->objects->planes->length - 1;
 }
 
 void		init_new_obj(t_env *env)
