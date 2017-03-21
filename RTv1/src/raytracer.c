@@ -9,7 +9,6 @@ int				intersect_sphere(t_double3 origin, t_double3 dir, t_sphere *sphere, doubl
 	double		discr;
 	double		t0;
 	double		t1;
-	double		tmp;
 
 	center = vec_minus_vec(origin, sphere->pos);
 	a = dot_product(dir, dir);
