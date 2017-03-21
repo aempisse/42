@@ -67,6 +67,26 @@ typedef struct	s_plane
 	double		transparency;
 }				t_plane;
 
+typedef struct	s_cone
+{
+	t_double3	normal;
+	t_double3	pos;
+	double		alph;
+	t_double3	color;
+	double		reflectivity;
+	double		transparency;
+}				t_sphere;
+
+typedef struct	s_cylinder
+{
+	t_double3	normal;
+	t_double3	pos;
+	double		radius;
+	t_double3	color;
+	double		reflectivity;
+	double		transparency;
+}				t_sphere;
+
 typedef struct	s_sphere
 {
 	t_double3	pos;
@@ -74,7 +94,6 @@ typedef struct	s_sphere
 	t_double3	color;
 	double		reflectivity;
 	double		transparency;
-	t_double3	emission;
 }				t_sphere;
 
 typedef struct	s_camera

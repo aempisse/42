@@ -28,7 +28,6 @@ static void		ft_parse_plane(t_env *env, t_buff *line)
 	plane->reflectivity = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
 	plane->transparency = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
 	ft_array_add(env->plane, plane);
 }
 

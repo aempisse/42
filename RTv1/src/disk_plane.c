@@ -52,3 +52,40 @@ int				intersect_cylinder(t_double3 origin, t_double3 dir, t_cylinder *cylinder,
 	}
 	return (1);
 }
+
+int 			intersect_cone(t_double3 origin, t_double3 dir, t_cylinder *cone, double *distance)
+{
+	t_double3		pos;
+	double 			a;
+	double 			b;
+	double 			c;
+	double 			discr;
+	double 			t0;
+	double 			t1;
+	double 			cosa;
+
+	pos = vec_minus_vec(origin, cone->pos);
+	/* Avec alpha, l'angle du cone.
+	a = sqrt(cos alpha) sqrt(dir - (dir * cone->normal) * cone->normal) - sqrt(sin alpha) sqrt(cone->normal, dir)
+	b = 2 * sqrt(cos alpha) (dir - (dir * cone->normal) * cone->normal * pos - (pos * cone->normal) * cone->normal) - 2 sqrt(sin alpha)(dir * cone->normal)(pos * cone->normal)
+	c = sqrt(cos alpha) sqrt(pos - (pos * cone->normal) cone->normal) - sqrt(sin alpha(pos * cone->normal))
+	*/
+	discr = b * b - 4 * a * c;
+	if (discr < 0)
+		return (0);
+	else
+	{
+		t0 = (- b - sqrt(discr)) / (2 * a);
+		t1 = (- b + sqrt(discr)) / (2 * a);
+		if (t0 > t1)
+			swap(&t0, &t1);
+		if (t0 < 0)
+		{
+			t0 = t1;
+			if (t0 < 0)
+				return (0);
+		}
+		*distance = t0;
+	}
+	return (1);
+}
