@@ -7,7 +7,7 @@ static int 			intersect_plane(t_double3 origin, t_double3 dir, t_plane *plane, d
 	plane->normal = normalize(plane->normal);
 	denom = dot_product(dir, plane->normal);
 	if (denom > 0.00001)
-		*distance = dot_product(vec_minus_vec(origin.pos, plane->pos)
+		*distance = dot_product(vec_minus_vec(origin, plane->pos)
 		, plane->normal) / denom;
 	else
 		return (0);
@@ -39,7 +39,7 @@ int					get_nearest_plane(t_vector ray, t_array *planes, t_surface *surface)
 		tmp = AG(t_plane*, planes, i);
 		if (intersect_plane(ray.pos, ray.dir, tmp, &distance))
 		{
-			if (distance > 0 && (surface->distance == -1 || surface->distance > distance))
+			if (surface->distance == -1 || surface->distance > distance)
 			{
 				new = 1;
 				nearest = tmp;

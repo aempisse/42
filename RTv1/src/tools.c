@@ -87,10 +87,10 @@ t_double3		vec_plus_vec(t_double3 vec1, t_double3 vec2)
 
 double			max_double(double a, double b)
 {
-	return (a > b ? a : b);
+	return ((a > b) ? a : b);
 }
 
 double			min_double(double a, double b)
 {
-	return (a < b) ? a : b;
+	return ((a < b) ? a : b);
 }

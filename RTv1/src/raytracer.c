@@ -1,82 +1,13 @@
 #include "../rtv1.h"
 
-int					intersect(t_vector ray, t_objects *objects, t_surface *surface)
+t_surface			*intersect(t_vector ray, t_objects *objects)
 {
-	int				intersection;
+	t_surface		*surface;
 
-	if ((surface = (t_surface*)malloc(sizeof(t_surface))) == NULL)
-		ft_error("Error : malloc() failed.\n");
-	surface->distance = -1;
-	intersection = get_nearest_sphere(ray, objects->spheres, surface);
-	intersection = get_nearest_plane(ray, objects->planes, surface);
-	return (intersection);
-}
-
-t_double3			reflect(t_double3 incidence, t_double3 normal)
-{
-	t_double3		reflect;
-
-	reflect.x = incidence.x - 2 * dot_product(incidence, normal) * normal.x;
-	reflect.y = incidence.y - 2 * dot_product(incidence, normal) * normal.y;
-	reflect.z = incidence.z - 2 * dot_product(incidence, normal) * normal.z;
-	return (reflect);
-}
-
-t_double3			refract(t_double3 incidence, t_double3 normal, double ior)
-{
-	t_double3		refract;
-	double			cosi;
-	double			etai;
-	double			etat;
-	double			eta;
-	double			k;
-
-	cosi = max_double(-1.0, min_double(1.0, dot_product(incidence, normal)));
-	etai = 1;
-	etat = ior;
-	if (cosi < 0)
-		cosi = -cosi;
-	else
-	{
-		swap(&etai, &etat);
-		normal = vec_minus_vec((t_double3){0, 0, 0}, normal);
-	}
-	eta = etai / etat;
-	k = 1 - eta * eta * (1 - cosi * cosi);
-	refract = k < 0 ? (t_double3){0, 0, 0} : (t_double3){
-	eta * incidence.x + (eta * cosi - sqrt(k)) * normal.x,
-	eta * incidence.y + (eta * cosi - sqrt(k)) * normal.y,
-	eta * incidence.z + (eta * cosi - sqrt(k)) * normal.z};
-	return (refract);
-}
-
-t_double3			fresnel(t_double3 incidence, t_double3 normal, double ior, double *kr)
-{
-	double			cosi;
-	double			etai;
-	double			etat;
-	double			sint;
-	double			k;
-	double			cost;
-	double			rs;
-	double			rp;
-
-	cosi = max_double(-1.0, min_double(1.0, dot_product(incidence, normal)));
-	etai = 1;
-	etat = ior;
-	if (cosi > 0)
-		swap(&etai, &etat);
-	sint = etai / etat * sqrt(max_double(0.0, 1 - cosi * cosi));
-	if (sint >= 1)
-		*kr = 1;
-	else
-	{
-		cost = sqrt(max_double(0.0, 1 - sint * sint));
-		cosi = cosi > 0 ? cosi : -cosi;
-		rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
-		rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
-		*kr = (rs * rs + rp * rp) / 2.0;
-	}
+	surface = NULL;
+	get_nearest_sphere(ray, objects->spheres, &surface);
+	// get_nearest_plane(ray, objects->planes, surface);
+	return (surface);
 }
 
 t_double3			raytracer(t_vector ray, t_objects *objects, int depth)
@@ -90,40 +21,81 @@ t_double3			raytracer(t_vector ray, t_objects *objects, int depth)
 	double			kr;
 	t_double3		light_amount;
 	t_double3		specular_color;
+	t_vector		light;
+	int				test;
 
-	if (depth > DEPTH_MAX || !intersect(ray, objects, surface))
-		return ((t_double3){1, 1, 1});
-	if (surface->material == REFLECTION_AND_REFRACTION)
-	{
-		reflection.dir = normalize(reflect(ray.dir, surface->n_hit));
-		reflection.pos = (dot_product(reflection.dir, surface->n_hit) < 0) ?
-			vec_minus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS)) :
-			vec_plus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS));
-		refraction.dir = normalize(refract(ray.dir, surface->n_hit, surface->ior));
-		refraction.pos = (dot_product(refraction.dir, surface->n_hit) < 0) ?
-			vec_minus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS)) :
-			vec_plus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS));
-		reflection_color = raytracer(reflection, objects, depth + 1);
-		refraction_color = raytracer(refraction, objects, depth + 1);
-		fresnel(ray.dir, surface->n_hit, surface->ior, &kr);
-		color_hit = vec_plus_vec(scale_vec(reflection_color, kr), scale_vec(refraction_color, 1 - kr));
-	}
-	else if (surface->material == REFLECTION)
-	{
-		fresnel(ray.dir, surface->n_hit, surface->ior, &kr);
-		reflection.dir = reflect(ray.dir, surface->n_hit);
-		reflection.pos = (dot_product(reflection.dir, surface->n_hit) < 0) ?
-			vec_minus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS)) :
-			vec_plus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS));
-		color_hit = raytracer(reflection, objects, depth + 1);
-	}
+	if (depth > DEPTH_MAX)
+		return ((t_double3){0.1, 0.1, 0.1});
+	surface = intersect(ray, objects);
+	if (surface == NULL)
+		return ((t_double3){0.1, 0.1, 0.1});
 	else
 	{
-		/*
-		** Phong illumination model
-		*/
-	}
+		if (surface->material == REFLECTION_AND_REFRACTION)
+		{
+			reflection.dir = normalize(reflect(ray.dir, surface->n_hit));
+			reflection.pos = (dot_product(reflection.dir, surface->n_hit) < 0) ?
+				vec_minus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS)) :
+				vec_plus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS));
+			refraction.dir = normalize(refract(ray.dir, surface->n_hit, surface->ior));
+			refraction.pos = (dot_product(refraction.dir, surface->n_hit) < 0) ?
+				vec_minus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS)) :
+				vec_plus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS));
+			reflection_color = raytracer(reflection, objects, depth + 1);
+			refraction_color = raytracer(refraction, objects, depth + 1);
+			fresnel(ray.dir, surface->n_hit, surface->ior, &kr);
+			color_hit = vec_plus_vec(scale_vec(reflection_color, kr), scale_vec(refraction_color, 1 - kr));
+		}
+		else if (surface->material == REFLECTION)
+		{
+			fresnel(ray.dir, surface->n_hit, surface->ior, &kr);
+			reflection.dir = reflect(ray.dir, surface->n_hit);
+			reflection.pos = (dot_product(reflection.dir, surface->n_hit) < 0) ?
+				vec_plus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS)) :
+				vec_minus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS));
+			color_hit = raytracer(reflection, objects, depth + 1);
+		}
+		else
+		{
+			t_light		*tmp;
+			int			i;
+			double		distance_squared;
+			double		light_dot_norm;
+			t_surface	*shadow_object;
+			int			in_shadow;
+
+			light_amount = (t_double3){0, 0, 0};
+			specular_color = (t_double3){0, 0, 0};
+			light.pos = (dot_product(ray.dir, surface->n_hit) < 0) ?
+				vec_plus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS)) :
+				vec_minus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS));
+			i = -1;
+			while (++i < objects->lights->length)
+			{
+				tmp = AG(t_light*, objects->lights, i);
+				light.dir = vec_minus_vec(tmp->pos, surface->p_hit);
+				distance_squared = dot_product(light.dir, light.dir);
+				light.dir = normalize(light.dir);
+				light_dot_norm = max_double(0.0, dot_product(light.dir, surface->n_hit));
+				if ((shadow_object = intersect(light, objects)) == NULL)
+					in_shadow = 0;
+				else
+				{
+					in_shadow = ((shadow_object->distance * shadow_object->distance) < distance_squared) ? 1 : 0;
+					free(shadow_object);
+				}
+				light_amount = vec_plus_vec(light_amount, scale_vec(scale_vec(tmp->color, (1 - in_shadow)), light_dot_norm));
+				reflection.dir = reflect(scale_vec(light.dir, -1), surface->n_hit);
+				specular_color = vec_plus_vec(specular_color, scale_vec(tmp->color, pow(max_double(0, -dot_product(reflection.dir, ray.dir)), 25)));
+			}
+			color_hit = vec_plus_vec(scale_vec(light_amount, 0.8), scale_vec(specular_color, 0.2));
+			// printf("light_amount : %.1f, %.1f, %.1f\n", light_amount.x, light_amount.y, light_amount.z);
+			// printf("specular_col : %.1f, %.1f, %.1f\n", specular_color.x, specular_color.y, specular_color.z);
+			// printf("color_hit    : %.1f, %.1f, %.1f\n", color_hit.x, color_hit.y, color_hit.z);
+		}
+	free(surface);
 	return (color_hit);
+	}
 }
 
 void			render(t_env *env)

@@ -2,9 +2,9 @@ NAME = rtv1
 
 GCC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -O0
 
-OBJ = obj/main.o obj/parser.o obj/raytracer.o obj/tools.o obj/sphere.o obj/plane.o obj/draw_gest_scene.o obj/key.o obj/draw_tools.o obj/draw_value.o obj/key_see_obj.o obj/init_new_obj.o obj/key_add_num.o obj/key_add_to_struct.o obj/draw_value_obj.o obj/draw_new_obj.o
+OBJ = obj/main.o obj/parser.o obj/raytracer.o obj/tools.o obj/sphere.o obj/plane.o obj/path.o
 
 LIBFT = ./libft/libft.a
 
