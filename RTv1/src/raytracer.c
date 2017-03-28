@@ -5,8 +5,13 @@ t_surface			*intersect(t_vector ray, t_objects *objects)
 	t_surface		*surface;
 
 	surface = NULL;
+	get_nearest_plane(ray, objects->planes, &surface);
+	if (surface)
+		printf("distance plan : %f\n", surface->distance);
 	get_nearest_sphere(ray, objects->spheres, &surface);
-	// get_nearest_plane(ray, objects->planes, surface);
+	if (surface)
+		printf("distance sphere : %f\n", surface->distance);
+	//get_nearest_cylinder(ray, objects->cylinder, &surface);
 	return (surface);
 }
 
@@ -121,7 +126,7 @@ void			render(t_env *env)
 			pixel_camera.z = -1;
 			pixel_camera = normalize(pixel_camera);
 			color = raytracer((t_vector){env->camera.pos, pixel_camera}, env->objects, 0);
-			rgb_color.b.a = 0xFF;
+			rgb_color.b.a = 0x00;
 			rgb_color.b.r = 255 * max_double(0, min_double(1, color.x));
 			rgb_color.b.g = 255 * max_double(0, min_double(1, color.y));
 			rgb_color.b.b = 255 * max_double(0, min_double(1, color.z));

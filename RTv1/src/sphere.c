@@ -57,7 +57,7 @@ void				get_nearest_sphere(t_vector ray, t_array *spheres, t_surface **surface)
 	double			distance;
 	int				i;
 
-	distance = 1000000000;
+	distance = 0;
 	i = -1;
 	while (++i < spheres->length)
 	{

@@ -37,6 +37,16 @@ t_double3		normalize(t_double3 vec)
 	return (normalized);
 }
 
+t_double3 		vec_scale_vec(t_double3 vec1, t_double3 vec2)
+{
+	t_double3 	result;
+
+	result.x = vec1.x * vec2.x;
+	result.y = vec1.y * vec2.y;
+	result.z = vec1.z * vec2.z;
+	return (result);
+}
+
 double			dot_product(t_double3 vec1, t_double3 vec2)
 {
 	double		product;
