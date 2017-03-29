@@ -3,14 +3,19 @@
 static int 			intersect_plane(t_double3 origin, t_double3 dir, t_plane *plane, double *distance)
 {
 	double			denom;
+	double			t;
 
-	plane->normal = normalize(plane->normal);
 	denom = dot_product(dir, plane->normal);
-	if (denom > 0.00001)
-		*distance = dot_product(vec_minus_vec(origin, plane->pos)
-		, plane->normal) / denom;
-	else
+	t = -1;
+	if (denom < 0.000001)
 		return (0);
+	else
+	{
+		t = dot_product(vec_minus_vec(origin, plane->pos), plane->normal) / denom;
+		if (t < 0)
+			return (0);
+		*distance = t;
+	}
 	return (1);
 }
 
@@ -27,6 +32,7 @@ static void			get_surface_plane(t_vector ray, t_plane *plane, t_surface **surfac
 		(*surface)->n_hit = normalize(plane->normal);
 	else
 		(*surface)->n_hit = normalize(scale_vec(plane->normal, -1));
+	// (*surface)->n_hit = normalize(plane->normal);
 	(*surface)->color = plane->color;
 	(*surface)->ior = plane->ior;
 	(*surface)->material = plane->material;
@@ -39,7 +45,7 @@ void					get_nearest_plane(t_vector ray, t_array *planes, t_surface **surface)
 	double			distance;
 	int				i;
 
-	distance = 1000000000;
+	distance = 0;
 	i = -1;
 	while (++i < planes->length)
 	{

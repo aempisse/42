@@ -73,7 +73,4 @@ void				get_nearest_sphere(t_vector ray, t_array *spheres, t_surface **surface)
 			}
 		}
 	}
-	// if (surface == NULL)
-	// 	return (0);
-	// return (1);
 }

@@ -5,12 +5,8 @@ t_surface			*intersect(t_vector ray, t_objects *objects)
 	t_surface		*surface;
 
 	surface = NULL;
-	get_nearest_plane(ray, objects->planes, &surface);
-	if (surface)
-		printf("distance plan : %f\n", surface->distance);
 	get_nearest_sphere(ray, objects->spheres, &surface);
-	if (surface)
-		printf("distance sphere : %f\n", surface->distance);
+	get_nearest_plane(ray, objects->planes, &surface);
 	//get_nearest_cylinder(ray, objects->cylinder, &surface);
 	return (surface);
 }
@@ -94,9 +90,6 @@ t_double3			raytracer(t_vector ray, t_objects *objects, int depth)
 				specular_color = vec_plus_vec(specular_color, scale_vec(tmp->color, pow(max_double(0, -dot_product(reflection.dir, ray.dir)), 25)));
 			}
 			color_hit = vec_plus_vec(scale_vec(light_amount, 0.8), scale_vec(specular_color, 0.2));
-			// printf("light_amount : %.1f, %.1f, %.1f\n", light_amount.x, light_amount.y, light_amount.z);
-			// printf("specular_col : %.1f, %.1f, %.1f\n", specular_color.x, specular_color.y, specular_color.z);
-			// printf("color_hit    : %.1f, %.1f, %.1f\n", color_hit.x, color_hit.y, color_hit.z);
 		}
 	free(surface);
 	return (color_hit);
