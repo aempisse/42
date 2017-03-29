@@ -38,7 +38,7 @@ t_double3			refract(t_double3 incidence, t_double3 normal, double ior)
 	return (refract);
 }
 
-t_double3			fresnel(t_double3 incidence, t_double3 normal, double ior, double *kr)
+void				fresnel(t_double3 incidence, t_double3 normal, double ior, double *kr)
 {
 	double			cosi;
 	double			etai;
