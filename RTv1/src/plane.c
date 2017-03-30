@@ -16,6 +16,7 @@ static int 			intersect_plane(t_double3 origin, t_double3 dir, t_plane *plane, d
 			return (0);
 		*distance = t;
 	}
+	// ft_putendl("test");
 	return (1);
 }
 
