@@ -26,10 +26,10 @@ t_double3			raytracer(t_vector ray, t_objects *objects, int depth)
 	int				test;
 
 	if (depth > DEPTH_MAX)
-		return ((t_double3){0.1, 0.1, 0.1});
+		return ((t_double3){0.1, 0.1, 0.3});
 	surface = intersect(ray, objects);
 	if (surface == NULL)
-		return ((t_double3){0.1, 0.1, 0.1});
+		return ((t_double3){0.1, 0.1, 0.3});
 	else
 	{
 		if (surface->material == REFLECTION_AND_REFRACTION)
@@ -45,7 +45,8 @@ t_double3			raytracer(t_vector ray, t_objects *objects, int depth)
 			reflection_color = raytracer(reflection, objects, depth + 1);
 			refraction_color = raytracer(refraction, objects, depth + 1);
 			fresnel(ray.dir, surface->n_hit, surface->ior, &kr);
-			color_hit = vec_plus_vec(scale_vec(reflection_color, kr), scale_vec(refraction_color, 1 - kr));
+			color_hit = vec_plus_vec(scale_vec(reflection_color, kr),
+				vec_scale_vec(scale_vec(refraction_color, 1 - kr), surface->color));
 		}
 		else if (surface->material == REFLECTION)
 		{
@@ -89,7 +90,7 @@ t_double3			raytracer(t_vector ray, t_objects *objects, int depth)
 				reflection.dir = reflect(scale_vec(light.dir, -1), surface->n_hit);
 				specular_color = vec_plus_vec(specular_color, scale_vec(tmp->color, pow(max_double(0, -dot_product(reflection.dir, ray.dir)), 25)));
 			}
-			color_hit = vec_plus_vec(scale_vec(light_amount, 0.8), scale_vec(specular_color, 0.2));
+			color_hit = vec_plus_vec(vec_scale_vec(scale_vec(light_amount, 0.8), surface->color), scale_vec(specular_color, 0.2));
 		}
 	free(surface);
 	return (color_hit);
@@ -124,7 +125,7 @@ void			render(t_env *env)
 			rgb_color.b.g = 255 * max_double(0, min_double(1, color.y));
 			rgb_color.b.b = 255 * max_double(0, min_double(1, color.z));
 			color_pixel_image(rgb_color, (WIDTH * y + x) * env->img->opp, env->img);
-			mlx_pixel_put(env->mlx, env->win_scene, x, y, 0x00191919);
+			mlx_pixel_put(env->mlx, env->win_scene, x, y, 0xFFFFFFFF);
 		}
 	}
 }

@@ -29,11 +29,7 @@ static void			get_surface_plane(t_vector ray, t_plane *plane, t_surface **surfac
 	}
 	(*surface)->distance = distance;
 	(*surface)->p_hit = find_point(ray.pos, ray.dir, distance);
-	if (dot_product(plane->normal, ray.dir) > 0)
-		(*surface)->n_hit = normalize(plane->normal);
-	else
-		(*surface)->n_hit = normalize(scale_vec(plane->normal, -1));
-	// (*surface)->n_hit = normalize(plane->normal);
+	(*surface)->n_hit = normalize(plane->normal);
 	(*surface)->color = plane->color;
 	(*surface)->ior = plane->ior;
 	(*surface)->material = plane->material;
