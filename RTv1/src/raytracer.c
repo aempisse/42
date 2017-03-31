@@ -5,8 +5,8 @@ t_surface			*intersect(t_vector ray, t_objects *objects)
 	t_surface		*surface;
 
 	surface = NULL;
-	get_nearest_sphere(ray, objects->spheres, &surface);
 	get_nearest_plane(ray, objects->planes, &surface);
+	get_nearest_sphere(ray, objects->spheres, &surface);
 	//get_nearest_cylinder(ray, objects->cylinder, &surface);
 	return (surface);
 }

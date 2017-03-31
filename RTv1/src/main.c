@@ -66,7 +66,7 @@ int				main(int argc, char const **argv)
 			ft_error("Error : File not found.\n");
 		env = env_init();
 		ft_load_file(fd, env);
-		close(fd);		
+		close(fd);
 		mlx_loop(env->mlx);
 	}
 	return (0);

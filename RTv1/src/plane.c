@@ -7,11 +7,11 @@ static int 			intersect_plane(t_double3 origin, t_double3 dir, t_plane *plane, d
 
 	denom = dot_product(dir, plane->normal);
 	t = -1;
-	if (denom < 0.000001)
+	if (abs_double(denom) < 0.000001)
 		return (0);
 	else
 	{
-		t = dot_product(vec_minus_vec(origin, plane->pos), plane->normal) / denom;
+		t = dot_product(vec_minus_vec(plane->pos, origin), plane->normal) / denom;
 		if (t < 0)
 			return (0);
 		*distance = t;

@@ -104,3 +104,8 @@ double			min_double(double a, double b)
 {
 	return ((a < b) ? a : b);
 }
+
+double			abs_double(double n)
+{
+	return ((n > 0) ? n : -n);
+}

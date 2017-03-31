@@ -2,8 +2,8 @@
 # define RTV1_H
 
 # include "libft/libft.h"
-# include <mlx.h>
-// # include "minilibx/mlx.h"
+// # include <mlx.h>
+# include "minilibx/mlx.h"
 # include <math.h>
 # include <stdio.h>
 
@@ -13,10 +13,10 @@
 # define DEPTH_MAX 5
 
 	 // Key pour Linux 
-// # define KEY_ESC 65307
+# define KEY_ESC 65307
 
 	// Key pour Mac 
-# define KEY_ESC 53
+// # define KEY_ESC 53
 
 # define PI 3.14159265
 
@@ -133,5 +133,6 @@ t_double3		scale_vec(t_double3 vec, double scalar);
 t_double3 		vec_scale_vec(t_double3 vec1, t_double3 vec2);
 double			max_double(double a, double b);
 double			min_double(double a, double b);
+double			abs_double(double n);
 
 #endif
