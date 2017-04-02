@@ -64,6 +64,16 @@ typedef struct	s_plane
 	int			material;
 }				t_plane;
 
+typedef struct	s_cone
+{
+	t_double3	pos;
+	t_double3	normal;
+	t_double3	color;
+	double		ior;
+	double 		aperture;
+	int			material;
+}				t_cone;
+
 typedef struct	s_cylinder
 {
 	t_double3	pos;
@@ -88,6 +98,7 @@ typedef struct	s_objects
 	t_array		*spheres;
 	t_array		*planes;
 	t_array		*cylinder;
+	t_array		*cone;
 	t_array		*lights;
 }				t_objects;
 
@@ -104,11 +115,34 @@ typedef struct	s_env
 	t_image		*img;
 	t_objects	*objects;
 	t_vector	camera;
+	int 		i_sphere;
+	int 		i_plane;
+	int 		i_cylinder;
+	int 		i_cone;
+	int 		i_light;
 	int			render;
 }				t_env;
 
 int				loop_hook(t_env *env);
 int				key_hook(int keycode, t_env *env);
+
+void			pick_values(t_buff line, t_double3 *values, int nbr);
+void			check_pars_nbr_value(t_buff line, int nbr);
+
+void			add_sphere_value(t_env *env, t_double3 *values, int i);
+void			add_plane_value(t_env *env, t_double3 *values, int i);
+void			add_cylinder_value(t_env *env, t_double3 *values, int i);
+void			add_cone_value(t_env *env, t_double3 *values, int i);
+void			add_light_value(t_env *env, t_double3 *values, int i);
+
+void			check_files(int fd, t_env *env);
+void			check_sphere_obj(t_env *env, t_buff line, int i);
+void			check_cylinder_obj(t_env *env, t_buff line, int i);
+void			check_cone_obj(t_env *env, t_buff line, int i);
+void			check_light_obj(t_env *env, t_buff line, int i);
+void			check_plane_obj(t_env *env, t_buff line, int i);
+
+void			init_object(t_env *env, char *obj);
 
 void			ft_load_file(int fd, t_env *env);
 void			render(t_env *env);

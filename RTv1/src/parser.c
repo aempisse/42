@@ -3,7 +3,6 @@
 static void		ft_parse_plane(t_env *env, t_buff *line)
 {
 	t_plane		*plane;
-	double		tmp;
 
 	plane = (t_plane*)malloc(sizeof(t_plane));
 	ft_parse_not(line, "-0123456789");
@@ -34,7 +33,6 @@ static void		ft_parse_plane(t_env *env, t_buff *line)
 // static void		ft_parse_cone(t_env *env, t_buff *line)
 // {
 // 	t_cone		*cone;
-// 	double		tmp;
 
 // 	cone = (t_cone*)malloc(sizeof(t_cone));
 // 	ft_parse_not(line, "-0123456789");
@@ -67,7 +65,6 @@ static void		ft_parse_plane(t_env *env, t_buff *line)
 static void		ft_parse_cylinder(t_env *env, t_buff *line)
 {
 	t_cylinder	*cylinder;
-	double		tmp;
 
 	cylinder = (t_cylinder*)malloc(sizeof(t_cylinder));
 	ft_parse_not(line, "-0123456789");
@@ -101,7 +98,6 @@ static void		ft_parse_cylinder(t_env *env, t_buff *line)
 static void		ft_parse_sphere(t_env *env, t_buff *line)
 {
 	t_sphere	*sphere;
-	double		tmp;
 
 	sphere = (t_sphere*)malloc(sizeof(t_sphere));
 	ft_parse_not(line, "-0123456789");
@@ -128,7 +124,6 @@ static void		ft_parse_sphere(t_env *env, t_buff *line)
 static void		ft_parse_light(t_env *env, t_buff *line)
 {
 	t_light		*light;
-	double		tmp;
 
 	light = (t_light*)malloc(sizeof(t_light));
 	ft_parse_not(line, "-0123456789");

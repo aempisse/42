@@ -6,11 +6,7 @@ t_surface			*intersect(t_vector ray, t_objects *objects)
 
 	surface = NULL;
 	get_nearest_plane(ray, objects->planes, &surface);
-	if (surface)
-		printf("distance plan : %f\n", surface->distance);
 	get_nearest_sphere(ray, objects->spheres, &surface);
-	if (surface)
-		printf("distance sphere : %f\n", surface->distance);
 	//get_nearest_cylinder(ray, objects->cylinder, &surface);
 	return (surface);
 }
