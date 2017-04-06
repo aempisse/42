@@ -80,22 +80,7 @@ static void		init_sphere_obj(t_env *env)
 	ft_array_add(env->objects->spheres, sphere);
 }
 
-static void		init_light_obj(t_env *env)
-{
-	t_light	*light;
-
-	light = (t_light*)malloc(sizeof(t_light));
-	light->pos.x = 0;
-	light->pos.y = 0;
-	light->pos.z = 0;
-	light->color.x = 0;
-	light->color.y = 0;
-	light->color.z = 0;
-	env->i_light++;
-	ft_array_add(env->objects->lights, light);
-}
-
-void		init_object(t_env *env, char *obj)
+void			init_object(t_env *env, char *obj)
 {
 	if (ft_strcmp(obj, "Sphere") == 0)
 		init_sphere_obj(env);
@@ -104,7 +89,7 @@ void		init_object(t_env *env, char *obj)
 	else if (ft_strcmp(obj, "Cylinder") == 0)
 		init_cylinder_obj(env);
 	else if (ft_strcmp(obj, "Cone") == 0)
-	 	init_cone_obj(env);
+		init_cone_obj(env);
 	else if (ft_strcmp(obj, "Light") == 0)
 		init_light_obj(env);
 }

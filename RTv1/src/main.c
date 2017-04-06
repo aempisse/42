@@ -92,6 +92,12 @@ int				main(int argc, char const **argv)
 {
 	t_env		*env;
 	int			fd;
+	t_sphere	*tmp;
+	t_cylinder	*tmp_cy;
+	t_plane		*tmp_p;
+	t_cone		*tmp_c;
+	t_light		*tmp_l;
+	int 		i;
 
 	if (argc != 2)
 		ft_error("Error : Wrong numbers of Arguments.\n");
@@ -101,8 +107,14 @@ int				main(int argc, char const **argv)
 		ft_error("Error : File not found.\n");
 	env = env_init();
 	check_files(fd, env);
-	//ft_load_file(fd, env);
+	i = 0;
+	while (i < env->objects->spheres->length)
+	{
+		tmp = AG(t_sphere*, env->objects->spheres, i);
+		i++;
+		printf("pos->x = %f\npos->y %f\npos->z = %f\n", tmp->pos.x ,tmp->pos.y, tmp->pos.z);
+	}
 	close(fd);		
-	//mlx_loop(env->mlx);
+	mlx_loop(env->mlx);
 	return (0);
 }

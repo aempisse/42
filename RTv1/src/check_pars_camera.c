@@ -1,6 +1,6 @@
 #include "../rtv1.h"
 
-void		check_light_obj(t_env *env, t_buff line, int i)
+void		check_camera_obj(t_env *env, t_buff line, int i)
 {
 	t_double3	values;
 
@@ -9,19 +9,17 @@ void		check_light_obj(t_env *env, t_buff line, int i)
 		if (ft_strstr(line.data, "Pos") != NULL)
 		{
 			check_pars_nbr_value(line, 3);
-			values = pick_values(line, 3);
-			add_light_value(env, &values, i);
+			env->camera.pos = pick_values(line, 3);
 		}
 		else
 			ft_error("Error : Wrong Value Name.\n");
 	}
 	else if (i == 1)
 	{
-		if (ft_strstr(line.data, "Color") != NULL)
+		if (ft_strstr(line.data, "Dir") != NULL)
 		{
 			check_pars_nbr_value(line, 3);
-			values = pick_values(line, 3);
-			add_light_value(env, &values, i);
+			env->camera.dir = pick_values(line, 3);
 		}
 		else
 			ft_error("Error : Wrong Value Name.\n");

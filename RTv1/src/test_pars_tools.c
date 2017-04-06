@@ -10,18 +10,24 @@ static int	search_next_nbr(t_buff line, int i)
 	return (i);
 }
 
-void	pick_values(t_buff line, t_double3 *values, int nbr)
+t_double3	pick_values(t_buff line, int nbr)
 {
+	t_double3	values;
+	
+	values.x = 0;
+	values.y = 0;
+	values.z = 0;
 	ft_parse_not(&line, "{");
 	line.i++;
-	values->x = ft_parse_double(&line);
+	values.x = ft_parse_double(&line);
 	if (nbr == 3)
 	{
 		ft_parse_not(&line, "-0123456789");
-		values->y = ft_parse_double(&line);
+		values.y = ft_parse_double(&line);
 		ft_parse_not(&line, "-0123456789");
-		values->z = ft_parse_double(&line);
+		values.z = ft_parse_double(&line);
 	}
+	return (values);
 }
 
 void		check_pars_nbr_value(t_buff line, int nbr)
@@ -40,16 +46,16 @@ void		check_pars_nbr_value(t_buff line, int nbr)
 		{
 			while (ft_isdigit(line.data[i]) == 1)
 				i++;
-			if (line.data[i] == '.')
-				i++;
+			if (line.data[i] != '.' && line.data[i] != '}')
+				ft_error("Error : Problem in Bracket.");
 			else
-				ft_putendl("Warning : Dot Problem.");
+				i++;
 			while (ft_isdigit(line.data[i]) == 1)
 				i++;
 			if (ft_isspace(line.data[i]) == 1 || line.data[i] == '}')
 				nbr--;
 			else
-				ft_error("Error : Bracket Problem.\n");
+				ft_error("Error : Problem in Bracket.\n");
 		}
 		i++;
 	}

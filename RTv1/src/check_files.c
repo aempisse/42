@@ -14,13 +14,15 @@ static void		check_object_name(t_env *env, t_buff line, t_buff *object)
 			object->data = "Cone";
 		else if (ft_strcmp(line.data, "Light") == 0)
 			object->data = "Light";
+		else if (ft_strcmp(line.data, "Camera") == 0)
+			object->data = "Camera";
 		else
 			ft_error("Error : Wrong object name.\n");
 		init_object(env, object->data);
 		object->i = 1;
 	}
 	else
-	  	ft_error("Error : No Object Name/Bad space.\n");
+		ft_error("Error : No Object Name/Bad space.\n");
 }
 
 static void		incr_nbr_line(t_buff *object)
@@ -35,9 +37,12 @@ static void		incr_nbr_line(t_buff *object)
 		object->length = 6;
 	if (ft_strcmp(object->data, "Light") == 0)
 		object->length = 2;
+	if (ft_strcmp(object->data, "Camera") == 0)
+		object->length = 2;
 }
 
-static void		choose_pars_obj_test(t_env *env, t_buff line, t_buff *object, int i)
+static void		choose_pars_obj_test(t_env *env, t_buff line,
+					t_buff *object, int i)
 {
 	if (ft_strcmp(object->data, "Sphere") == 0)
 		check_sphere_obj(env, line, i);
@@ -46,12 +51,14 @@ static void		choose_pars_obj_test(t_env *env, t_buff line, t_buff *object, int i
 	else if (ft_strcmp(object->data, "Cylinder") == 0)
 		check_cylinder_obj(env, line, i);
 	else if (ft_strcmp(object->data, "Cone") == 0)
-	 	check_cone_obj(env, line, i);
+		check_cone_obj(env, line, i);
 	else if (ft_strcmp(object->data, "Light") == 0)
 		check_light_obj(env, line, i);
+	else if (ft_strcmp(object->data, "Camera") == 0)
+		check_camera_obj(env, line, i);
 }
 
-static int		check_object_line_value(t_env *env, int fd, t_buff line,
+static int		check_object_line_value(t_env *env, t_buff line,
 										t_buff *object, int j)
 {
 	incr_nbr_line(object);
@@ -65,7 +72,7 @@ static int		check_object_line_value(t_env *env, int fd, t_buff line,
 	return (j);
 }
 
-void		check_files(int fd, t_env *env)
+void			check_files(int fd, t_env *env)
 {
 	t_buff		line;
 	t_buff		*object;
@@ -80,7 +87,9 @@ void		check_files(int fd, t_env *env)
 		if (object->i == 0)
 			check_object_name(env, line, object);
 		else if (object->i == 1)
-			j = check_object_line_value(env, fd, line, object, j);
+			j = check_object_line_value(env, line, object, j);
 	}
+	if (j < object->length && j != 0)
+		ft_error("Error : Wrong Number of Line.\n");
 	free(object);
 }

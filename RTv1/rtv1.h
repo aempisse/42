@@ -126,7 +126,7 @@ typedef struct	s_env
 int				loop_hook(t_env *env);
 int				key_hook(int keycode, t_env *env);
 
-void			pick_values(t_buff line, t_double3 *values, int nbr);
+t_double3		pick_values(t_buff line, int nbr);
 void			check_pars_nbr_value(t_buff line, int nbr);
 
 void			add_sphere_value(t_env *env, t_double3 *values, int i);
@@ -140,8 +140,10 @@ void			check_sphere_obj(t_env *env, t_buff line, int i);
 void			check_cylinder_obj(t_env *env, t_buff line, int i);
 void			check_cone_obj(t_env *env, t_buff line, int i);
 void			check_light_obj(t_env *env, t_buff line, int i);
+void			check_camera_obj(t_env *env, t_buff line, int i);
 void			check_plane_obj(t_env *env, t_buff line, int i);
 
+void			init_light_obj(t_env *env);
 void			init_object(t_env *env, char *obj);
 
 void			ft_load_file(int fd, t_env *env);
