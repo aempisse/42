@@ -42,6 +42,7 @@ static void			get_surface_sphere(t_vector ray, t_sphere *sphere, t_surface **sur
 		if ((*surface = (t_surface*)malloc(sizeof(t_surface))) == NULL)
 			ft_error("Error : malloc() failed.\n");
 	}
+	(*surface)->object = (void*)sphere;
 	(*surface)->distance = distance;
 	(*surface)->p_hit = find_point(ray.pos, ray.dir, distance);
 	(*surface)->n_hit = normalize(vec_minus_vec((*surface)->p_hit, sphere->pos));
@@ -50,10 +51,9 @@ static void			get_surface_sphere(t_vector ray, t_sphere *sphere, t_surface **sur
 	(*surface)->material = sphere->material;
 }
 
-void				get_nearest_sphere(t_vector ray, t_array *spheres, t_surface **surface)
+void				get_nearest_sphere(t_vector ray, t_array *spheres, t_surface **surface, void *to_ignore)
 {
 	t_sphere		*tmp;
-	t_sphere		*nearest;
 	double			distance;
 	int				i;
 
@@ -62,7 +62,7 @@ void				get_nearest_sphere(t_vector ray, t_array *spheres, t_surface **surface)
 	while (++i < spheres->length)
 	{
 		tmp = AG(t_sphere*, spheres, i);
-		if (intersect_sphere(ray.pos, ray.dir, tmp, &distance))
+		if ((void*)tmp != to_ignore && intersect_sphere(ray.pos, ray.dir, tmp, &distance))
 		{
 			if (*surface == NULL)
 				get_surface_sphere(ray, tmp, surface, distance);

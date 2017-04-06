@@ -29,8 +29,9 @@ t_double3		normalize(t_double3 vec)
 	double		norm;
 
 	if ((square = sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z)) == 0)
-		return ((t_double3){0, 0, 0});
-	norm = 1 / square;
+		// return ((t_double3){0, 0, 0});
+		ft_error("normal error");
+	norm = 1.0 / square;
 	normalized.x = vec.x * norm;
 	normalized.y = vec.y * norm;
 	normalized.z = vec.z * norm;

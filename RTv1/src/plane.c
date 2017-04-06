@@ -27,6 +27,7 @@ static void			get_surface_plane(t_vector ray, t_plane *plane, t_surface **surfac
 		if ((*surface = (t_surface*)malloc(sizeof(t_surface))) == NULL)
 			ft_error("Error : malloc() failed.\n");
 	}
+	(*surface)->object = (void*)plane;
 	(*surface)->distance = distance;
 	(*surface)->p_hit = find_point(ray.pos, ray.dir, distance);
 	(*surface)->n_hit = normalize(plane->normal);
@@ -35,7 +36,7 @@ static void			get_surface_plane(t_vector ray, t_plane *plane, t_surface **surfac
 	(*surface)->material = plane->material;
 }
 
-void					get_nearest_plane(t_vector ray, t_array *planes, t_surface **surface)
+void					get_nearest_plane(t_vector ray, t_array *planes, t_surface **surface, void *to_ignore)
 {
 	t_plane			*tmp;
 	t_plane			*nearest;
@@ -47,7 +48,7 @@ void					get_nearest_plane(t_vector ray, t_array *planes, t_surface **surface)
 	while (++i < planes->length)
 	{
 		tmp = AG(t_plane*, planes, i);
-		if (intersect_plane(ray.pos, ray.dir, tmp, &distance))
+		if ((void*)tmp != to_ignore && intersect_plane(ray.pos, ray.dir, tmp, &distance))
 		{
 			if (*surface == NULL)
 				get_surface_plane(ray, tmp, surface, distance);

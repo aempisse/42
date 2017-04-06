@@ -47,8 +47,10 @@ static t_env	*env_init()
 		ft_error("Error : malloc() failed.\n");
 	env->objects->spheres = ft_array_new();
 	env->objects->planes = ft_array_new();
+	env->objects->cylinders = ft_array_new();
+	env->objects->cones = ft_array_new();
 	env->objects->lights = ft_array_new();
-	env->camera = (t_vector){(t_double3){0, 0, 0}, (t_double3){0, 0, -1}};
+	env->camera = (t_vector){(t_double3){0, 0, 0}, (t_double3){0, 0, 0}};
 	env->render = 1;
 	mlx_key_hook(env->win_scene, &key_hook, env);
 	mlx_loop_hook(env->mlx, &loop_hook, env);
@@ -67,6 +69,20 @@ int				main(int argc, char const **argv)
 		env = env_init();
 		ft_load_file(fd, env);
 		close(fd);
+
+		// int 		i = -1;
+		// t_cone	*tmp;
+		// while (++i < env->objects->cones->length)
+		// {
+		// 	tmp = AG(t_cone*, env->objects->cones, i);
+		// 	printf("pos : %.0f %.0f %.0f\n", tmp->pos.x, tmp->pos.y, tmp->pos.z);
+		// 	printf("nor : %.0f %.0f %.0f\n", tmp->normal.x, tmp->normal.y, tmp->normal.z);
+		// 	printf("ape : %.0f\n", tmp->aperture);
+		// 	printf("col : %.0f %.0f %.0f\n", tmp->color.x, tmp->color.y, tmp->color.z);
+		// 	printf("ior : %.0f\n", tmp->ior);
+		// 	printf("mat : %d\n", tmp->material);
+		// }
+
 		mlx_loop(env->mlx);
 	}
 	return (0);

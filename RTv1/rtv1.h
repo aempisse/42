@@ -24,7 +24,7 @@
 # define REFLECTION 1
 # define REFLECTION_AND_REFRACTION 2
 
-# define BIAS 0.0001
+# define BIAS 0.00001
 
 typedef struct	s_double2
 {
@@ -39,21 +39,20 @@ typedef struct	s_double3
 	double		z;
 }				t_double3;
 
-typedef struct	s_surface
+typedef struct	s_vector
 {
-	double		distance;
-	t_double3	p_hit;
-	t_double3	n_hit;
+	t_double3	pos;
+	t_double3	dir;
+}				t_vector;
+
+typedef struct	s_sphere
+{
+	t_double3	pos;
+	double		radius;
 	t_double3	color;
 	double		ior;
 	int			material;
-}				t_surface;
-
-typedef struct	s_light
-{
-	t_double3	pos;
-	t_double3	color;
-}				t_light;
+}				t_sphere;
 
 typedef struct	s_plane
 {
@@ -67,35 +66,48 @@ typedef struct	s_plane
 typedef struct	s_cylinder
 {
 	t_double3	pos;
-	t_double3	normal;
+	t_double3	dir;
+	double 		radius;
 	t_double3	color;
 	double		ior;
-	double 		radius;
 	int			material;
 }				t_cylinder;
 
-typedef struct	s_sphere
+typedef struct	s_cone
 {
 	t_double3	pos;
-	double		radius;
+	t_double3	dir;
+	double 		aperture;
 	t_double3	color;
 	double		ior;
 	int			material;
-}				t_sphere;
+}				t_cone;
+
+typedef struct	s_light
+{
+	t_double3	pos;
+	t_double3	color;
+}				t_light;
 
 typedef struct	s_objects
 {
 	t_array		*spheres;
 	t_array		*planes;
-	t_array		*cylinder;
+	t_array		*cylinders;
+	t_array		*cones;
 	t_array		*lights;
 }				t_objects;
 
-typedef struct	s_vector
+typedef struct	s_surface
 {
-	t_double3	pos;
-	t_double3	dir;
-}				t_vector;
+	void		*object;
+	double		distance;
+	t_double3	p_hit;
+	t_double3	n_hit;
+	t_double3	color;
+	double		ior;
+	int			material;
+}				t_surface;
 
 typedef struct	s_env
 {
@@ -112,15 +124,16 @@ int				key_hook(int keycode, t_env *env);
 
 void			ft_load_file(int fd, t_env *env);
 void			render(t_env *env);
-t_double3		raytracer(t_vector ray, t_objects *objects, int depth);
+t_double3		raytracer(t_vector ray, t_objects *objects, void *to_ignore, int depth);
 t_double3		reflect(t_double3 incidence, t_double3 normal);
 t_double3		refract(t_double3 incidence, t_double3 normal, double ior);
 void			fresnel(t_double3 incidence, t_double3 normal, double ior, double *kr);
 
-t_surface		*intersect(t_vector ray, t_objects *objects);
-void			get_nearest_sphere(t_vector ray, t_array *spheres, t_surface **surface);
-void			get_nearest_plane(t_vector ray, t_array *planes, t_surface **surface);
-void			get_nearest_cylinder(t_vector ray, t_array *cylinder, t_surface **surface);
+t_surface		*intersect(t_vector ray, t_objects *objects, void *to_ignore);
+void			get_nearest_sphere(t_vector ray, t_array *spheres, t_surface **surface, void *to_ignore);
+void			get_nearest_plane(t_vector ray, t_array *planes, t_surface **surface, void *to_ignore);
+void			get_nearest_cylinder(t_vector ray, t_array *cylinder, t_surface **surface, void *to_ignore);
+void			get_nearest_cone(t_vector ray, t_array *cones, t_surface **surface, void *to_ignore);
 
 void			color_pixel_image(t_color color, int pixel_start, t_image *image);
 void			swap(double *t0, double *t1);
@@ -134,5 +147,9 @@ t_double3 		vec_scale_vec(t_double3 vec1, t_double3 vec2);
 double			max_double(double a, double b);
 double			min_double(double a, double b);
 double			abs_double(double n);
+
+t_double3		rotation_x(t_double3 point, double angle);
+t_double3		rotation_y(t_double3 point, double angle);
+t_double3		rotation_z(t_double3 point, double angle);
 
 #endif
