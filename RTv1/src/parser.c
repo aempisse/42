@@ -3,159 +3,80 @@
 static void		ft_parse_camera(t_env *env, t_buff *line)
 {
 	ft_parse_not(line, "-0123456789");
-	env->camera.pos.x = ft_parse_double(line);
+	env->camera.position.x = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	env->camera.pos.y = ft_parse_double(line);
+	env->camera.position.y = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	env->camera.pos.z = ft_parse_double(line);
+	env->camera.position.z = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	env->camera.dir.x = ft_parse_double(line);
+	env->camera.direction.x = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	env->camera.dir.y = ft_parse_double(line);
+	env->camera.direction.y = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	env->camera.dir.z = ft_parse_double(line);
+	env->camera.direction.z = ft_parse_double(line);
 }
 
-static void		ft_parse_sphere(t_env *env, t_buff *line)
+static void		ft_parse_object(t_object **objects, t_buff *line, int object_type)
 {
-	t_sphere	*sphere;
+	t_object	*object;
 
-	sphere = (t_sphere*)malloc(sizeof(t_sphere));
+	object = object_new();
+	object->type = object_type;
 	ft_parse_not(line, "-0123456789");
-	sphere->pos.x = ft_parse_double(line);
+	object->position.x = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	sphere->pos.y = ft_parse_double(line);
+	object->position.y = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	sphere->pos.z = ft_parse_double(line);
+	object->position.z = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	sphere->radius = ft_parse_double(line);
+	object->rotation.x = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	sphere->color.x = ft_parse_double(line);
+	object->rotation.y = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	sphere->color.y = ft_parse_double(line);
+	object->rotation.z = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	sphere->color.z = ft_parse_double(line);
+	object->radius = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	sphere->ior = ft_parse_double(line);
+	object->color.x = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	sphere->material = ft_parse_int(line);
-	ft_array_add(env->objects->spheres, sphere);
+	object->color.y = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	object->color.z = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	object->reflexion = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	object->transparency = ft_parse_int(line);
+	ft_parse_not(line, "-0123456789");
+	object->gloss = ft_parse_int(line);
+	ft_parse_not(line, "-0123456789");
+	object->refraction = ft_parse_int(line);
+	object_add(objects, object);
 }
 
-static void		ft_parse_plane(t_env *env, t_buff *line)
-{
-	t_plane		*plane;
-
-	plane = (t_plane*)malloc(sizeof(t_plane));
-	ft_parse_not(line, "-0123456789");
-	plane->pos.x = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->pos.y = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->pos.z = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->normal.x = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->normal.y = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->normal.z = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->color.x = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->color.y = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->color.z = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->ior = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	plane->material = ft_parse_int(line);
-	ft_array_add(env->objects->planes, plane);
-}
-
-static void		ft_parse_cylinder(t_env *env, t_buff *line)
-{
-	t_cylinder	*cylinder;
-
-	cylinder = (t_cylinder*)malloc(sizeof(t_cylinder));
-	ft_parse_not(line, "-0123456789");
-	cylinder->pos.x = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cylinder->pos.y = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cylinder->pos.z = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cylinder->dir.x = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cylinder->dir.y = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cylinder->dir.z = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cylinder->radius = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cylinder->color.x = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cylinder->color.y = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cylinder->color.z = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cylinder->ior = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cylinder->material = ft_parse_int(line);
-	ft_array_add(env->objects->cylinders, cylinder);
-}
-
-static void		ft_parse_cone(t_env *env, t_buff *line)
-{
-	t_cone		*cone;
-
-	cone = (t_cone*)malloc(sizeof(t_cone));
-	ft_parse_not(line, "-0123456789");
-	cone->pos.x = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cone->pos.y = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cone->pos.z = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cone->dir.x = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cone->dir.y = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cone->dir.z = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cone->aperture = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cone->color.x = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cone->color.y = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cone->color.z = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cone->ior = ft_parse_double(line);
-	ft_parse_not(line, "-0123456789");
-	cone->material = ft_parse_int(line);
-	ft_array_add(env->objects->cones, cone);
-}
-
-static void		ft_parse_light(t_env *env, t_buff *line)
+static void		ft_parse_light(t_light **lights, t_buff *line)
 {
 	t_light		*light;
 
-	light = (t_light*)malloc(sizeof(t_light));
+	light = light_new();
 	ft_parse_not(line, "-0123456789");
-	light->pos.x = ft_parse_double(line);
+	light->position.x = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	light->pos.y = ft_parse_double(line);
+	light->position.y = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	light->pos.z = ft_parse_double(line);
+	light->position.z = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	light->direction.x = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	light->direction.y = ft_parse_double(line);
+	ft_parse_not(line, "-0123456789");
+	light->direction.z = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
 	light->color.x = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
 	light->color.y = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
 	light->color.z = ft_parse_double(line);
-	// ft_parse_not(line, "-0123456789");
-	// light->intensity = ft_parse_double(line);
-	ft_array_add(env->objects->lights, light);
+	light_add(lights, light);
 }
 
 void			ft_load_file(int fd, t_env *env)
@@ -167,14 +88,14 @@ void			ft_load_file(int fd, t_env *env)
 		if (line.data[0] == 'X')
 			ft_parse_camera(env, &line);
 		if (line.data[0] == 'S')
-			ft_parse_sphere(env, &line);
+			ft_parse_object(env->objects, &line, SPHERE);
 		if (line.data[0] == 'P')
-		 	ft_parse_plane(env, &line);
+			ft_parse_object(env->objects, &line, PLANE);
 		if (line.data[0] == 'C')
-			ft_parse_cylinder(env, &line);
+			ft_parse_object(env->objects, &line, CYLINDER);
 		if (line.data[0] == 'O')
-			ft_parse_cone(env, &line);
+			ft_parse_object(env->objects, &line, CONE);
 		if (line.data[0] == 'L')
-			ft_parse_light(env, &line);
+			ft_parse_light(env->lights, &line);
 	}
 }
