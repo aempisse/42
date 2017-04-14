@@ -33,7 +33,7 @@ t_object		*object_new(void)
 	object->transparency = 0;
 	object->gloss = 0;
 	object->refraction = 0;
-	object->*next = NULL;
+	object->next = NULL;
 	return (object);
 }
 
@@ -41,4 +41,34 @@ void			object_add(t_object **first, t_object *new)
 {
 	new->next = *first;
 	*first = new;
+}
+
+void			print_object(t_object **first)
+{
+	t_object	*tmp;
+	int			i;
+
+	tmp = *first;
+	i = 0;
+	while (tmp)
+	{
+		printf("OBJECT %d :\t", i++);
+		if (tmp->type == SPHERE)
+			printf("SPHERE\n");
+		if (tmp->type == PLANE)
+			printf("PLANE\n");
+		if (tmp->type == CYLINDER)
+			printf("CYLINDER\n");
+		if (tmp->type == CONE)
+			printf("CONE\n");
+		printf("\tPOSITION :\t(%.2f, %.2f, %.2f)\n", tmp->position.x, tmp->position.y, tmp->position.z);
+		printf("\tROTATION :\t(%.2f, %.2f, %.2f)\n", tmp->rotation.x, tmp->rotation.y, tmp->rotation.z);
+		printf("\tRADIUS :\t%.2f\n", tmp->radius);
+		printf("\tCOLOR :\t\t(%.2f, %.2f, %.2f)\n", tmp->color.x, tmp->color.y, tmp->color.z);
+		printf("\tREFLEXION :\t%.2f\n", tmp->reflexion);
+		printf("\tTRANSPARENCY :\t%.2f\n", tmp->transparency);
+		printf("\tGLOSS :\t\t%.2f\n", tmp->gloss);
+		printf("\tREFRACTION :\t%.2f\n\n", tmp->refraction);
+		tmp = tmp->next;	
+	}
 }

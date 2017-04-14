@@ -102,6 +102,7 @@ t_light			*light_new(void);
 void			light_add(t_light **first, t_light *new);
 t_object		*object_new(void);
 void			object_add(t_object **first, t_object *new);
+void			print_object(t_object **first);
 
 // void			render(t_env *env);
 // t_double3		raytracer(t_vector ray, t_objects *objects, void *to_ignore, int depth);

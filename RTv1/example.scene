@@ -8,6 +8,20 @@ S	{0.0, 0.0, -20}		{0, 0, 0}	2		{0.9, 0.9, 0.9}	1.3		0		0		0
 S	{3.0, -2.0, -15}	{0, 0, 0}	1.5		{0.2, 0.7, 0.2}	1.3		0		0		0
 S	{-3.0, 2.0, -15}	{0, 0, 0}	1.5		{0.0, 0.2, 0.4}	1.3		0		0		0
 
+//	PLANE
+// 	position			rotation	radius	color			reflect	transp	gloss	refract
+P	{0.0, 0.0, -20}		{0, 0, 0}	2		{0.9, 0.9, 0.9}	1.3		0		0		0
+P	{3.0, -2.0, -15}	{0, 0, 0}	1.5		{0.2, 0.7, 0.2}	1.3		0		0		0
+P	{-3.0, 2.0, -15}	{0, 0, 0}	1.5		{0.0, 0.2, 0.4}	1.3		0		0		0
+
+//	CYLINDER
+// 	position			rotation	radius	color			reflect	transp	gloss	refract
+C	{0.0, 0.0, -20}		{0, 0, 0}	2		{0.9, 0.9, 0.9}	1.3		0		0		0
+
+//	CONE
+// 	position			rotation	radius	color			reflect	transp	gloss	refract
+O	{0.0, 0.0, -20}		{0, 0, 0}	2		{0.9, 0.9, 0.9}	1.3		0		0		0
+
 //	LIGHT
 //	position		direction			color
 L	{30, 50, -12}	{1, 0.2, 0.2}		{0, 0, 0}

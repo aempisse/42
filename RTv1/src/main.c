@@ -11,8 +11,8 @@ int				loop_hook(t_env *env)
 {
 	if (env->render == 1)
 	{
-		// render(env);
-		// mlx_put_image_to_window(env->mlx, env->win_scene, env->img->img, 0, 0);
+		render(env);
+		mlx_put_image_to_window(env->mlx, env->win_scene, env->img->img, 0, 0);
 		env->render = 0;
 	}
 	return (0);
@@ -36,6 +36,8 @@ static t_image	*ft_new_image(void *mlx)
 static t_env	*env_init()
 {
 	t_env		*env;
+	t_object	**init_object;
+	t_light		**init_light;
 	
 	if ((env = (t_env*)malloc(sizeof(t_env))) == NULL)
 		ft_error("Error : malloc() failed.\n");
@@ -43,9 +45,13 @@ static t_env	*env_init()
 		ft_error("Error : mlx_init() failed.\n");
 	env->win_scene = mlx_new_window(env->mlx, WIDTH, HEIGHT, "RTv1");
 	env->img = ft_new_image(env->mlx);
-	// env->objects = (*t_object){NULL};
-	// env->lights = (*t_light){NULL};
 	env->camera = (t_vector){(t_double3){0, 0, 0}, (t_double3){0, 0, 0}};
+	init_object = (t_object**)malloc(sizeof(t_object*));
+	*init_object = NULL;
+	env->objects = init_object;
+	init_light = (t_light**)malloc(sizeof(t_light*));
+	*init_light = NULL;
+	env->lights = init_light;
 	env->render = 1;
 	mlx_key_hook(env->win_scene, &key_hook, env);
 	mlx_loop_hook(env->mlx, &loop_hook, env);
@@ -64,20 +70,7 @@ int				main(int argc, char const **argv)
 		env = env_init();
 		ft_load_file(fd, env);
 		close(fd);
-
-		// int 		i = -1;
-		// t_cone	*tmp;
-		// while (++i < env->objects->cones->length)
-		// {
-		// 	tmp = AG(t_cone*, env->objects->cones, i);
-		// 	printf("pos : %.0f %.0f %.0f\n", tmp->pos.x, tmp->pos.y, tmp->pos.z);
-		// 	printf("nor : %.0f %.0f %.0f\n", tmp->normal.x, tmp->normal.y, tmp->normal.z);
-		// 	printf("ape : %.0f\n", tmp->aperture);
-		// 	printf("col : %.0f %.0f %.0f\n", tmp->color.x, tmp->color.y, tmp->color.z);
-		// 	printf("ior : %.0f\n", tmp->ior);
-		// 	printf("mat : %d\n", tmp->material);
-		// }
-
+		print_object(env->objects);
 		mlx_loop(env->mlx);
 	}
 	return (0);
