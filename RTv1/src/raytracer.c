@@ -151,7 +151,6 @@ void			render(t_env *env)
 	double		aspect_ratio;
 	double		scale;
 	t_double3	color;
-	t_color		rgb_color;
 
 	aspect_ratio = (double)WIDTH / (double)HEIGHT;
 	scale = tan((FOV * 0.5 * PI) / 180.0);
@@ -165,16 +164,9 @@ void			render(t_env *env)
 			pixel_camera.y = (1 - 2 * (y + 0.5) / (double)HEIGHT) * scale;
 			pixel_camera.z = -1;
 			pixel_camera = normalize(pixel_camera);
-			pixel_camera = rotation_x(pixel_camera, env->camera.dir.x);
-			pixel_camera = rotation_y(pixel_camera, env->camera.dir.y);
-			pixel_camera = rotation_z(pixel_camera, env->camera.dir.z);
+			pixel_camera = rotation(pixel_camera, env->camera.direction);
 			color = raytracer((t_vector){env->camera.pos, pixel_camera}, env->objects, NULL, 0);
-			rgb_color.b.a = 0x00;
-			rgb_color.b.r = 255 * max_double(0, min_double(1, color.x));
-			rgb_color.b.g = 255 * max_double(0, min_double(1, color.y));
-			rgb_color.b.b = 255 * max_double(0, min_double(1, color.z));
-			color_pixel_image(rgb_color, (WIDTH * y + x) * env->img->opp, env->img);
-			mlx_pixel_put(env->mlx, env->win_scene, x, y, 0xFFFFFFFF);
+			color_standard(env, color);
 		}
 	}
 }

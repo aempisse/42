@@ -104,13 +104,17 @@ t_object		*object_new(void);
 void			object_add(t_object **first, t_object *new);
 void			print_object(t_object **first);
 
-// void			render(t_env *env);
-// t_double3		raytracer(t_vector ray, t_objects *objects, void *to_ignore, int depth);
+void			render(t_env *env);
+t_double3		rotation(t_double3 point, t_double3 angles);
+t_double3		raytracer(t_vector ray, t_objects *objects, void *to_ignore, int depth);
+t_surface		*intersect(t_vector ray, t_objects *objects, void *to_ignore);
+void			color_standard(t_env *env, t_double3 color);
+
+
 // t_double3		reflect(t_double3 incidence, t_double3 normal);
 // t_double3		refract(t_double3 incidence, t_double3 normal, double ior);
 // void			fresnel(t_double3 incidence, t_double3 normal, double ior, double *kr);
 
-// t_surface		*intersect(t_vector ray, t_objects *objects, void *to_ignore);
 // void			get_nearest_sphere(t_vector ray, t_array *spheres, t_surface **surface, void *to_ignore);
 // void			get_nearest_plane(t_vector ray, t_array *planes, t_surface **surface, void *to_ignore);
 // void			get_nearest_cylinder(t_vector ray, t_array *cylinder, t_surface **surface, void *to_ignore);
@@ -128,9 +132,5 @@ void			print_object(t_object **first);
 // double			max_double(double a, double b);
 // double			min_double(double a, double b);
 // double			abs_double(double n);
-
-// t_double3		rotation_x(t_double3 point, double angle);
-// t_double3		rotation_y(t_double3 point, double angle);
-// t_double3		rotation_z(t_double3 point, double angle);
 
 #endif

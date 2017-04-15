@@ -4,8 +4,8 @@ GCC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -g -O0
 
-OBJ = obj/main.o obj/parser.o obj/object.o
-#obj/raytracer.o obj/tools.o obj/path.o obj/matrix.o
+OBJ = obj/main.o obj/parser.o obj/object.o obj/rotation.o obj/raytracer.o
+#obj/tools.o obj/path.o 
 #OBJ += obj/sphere.o obj/plane.o obj/cylinder.o obj/cone.o
 
 LIBFT = ./libft/libft.a
