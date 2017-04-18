@@ -11,9 +11,9 @@ void				get_surface_normal(t_surface *surface)
 	if (surface->object->type == CYLINDER)
 		surface->normal = rotation((t_double3){surface->point.x, surface->point.y, 0},
 			surface->object->rotation);
-	if (surface->object->type == CYLINDER)
-		surface->normal = rotation((t_double3){surface->point.x, surface->point.y,
-			surface->point.z * (- surface->object->radius)}, surface->object->rotation);
+	// if (surface->object->type == CONE)
+	// 	surface->normal = rotation((t_double3){surface->point.x, surface->point.y,
+	// 		surface->point.z * (- surface->object->radius)}, surface->object->rotation);
 	normalize(surface->normal);
 }
 
@@ -32,8 +32,8 @@ t_surface			*intersect(t_vector ray, t_scene *scene, void *to_ignore)
 			get_nearest_plane(ray, tmp, &surface);
 		if (tmp->type == CYLINDER)
 			get_nearest_cylinder(ray, tmp, &surface);
-		if (tmp->type == CONE)
-			get_nearest_cone(ray, tmp, &surface);
+		// if (tmp->type == CONE)
+		// 	get_nearest_cone(ray, tmp, &surface);
 		tmp = tmp->next;
 	}
 	if (surface != NULL)
