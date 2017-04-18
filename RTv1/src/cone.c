@@ -8,10 +8,10 @@ static int				intersect_cone(t_vector ray, t_object *cone, double *distance)
 	double			b;
 	double			c;
 
+	ray = transform_ray(ray, cone);
 	angle = cone->radius * (M_PI / 180);
 	tan_squared = tan(angle) * tan(angle);
-
-	a = ray.direction.x * ray.direction.x + ray.direction.y * ray.direction.y - ray.direction.z * ray.direction.z
+	a = ray.direction.x * ray.direction.x + ray.direction.y * ray.direction.y - (ray.direction.z * ray.direction.z)
 		* tan_squared;
 	b = 2 * (ray.position.x * ray.direction.x + ray.position.y * ray.direction.y - ray.direction.x * cone->position.x
 		- ray.direction.y * cone->position.y + (ray.direction.z * (cone->position.z - ray.position.z)))

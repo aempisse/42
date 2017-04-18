@@ -1,21 +1,21 @@
 #include "../rtv1.h"
 
-// void				get_surface_normal(t_surface *surface)
-// {
-// 	t_double3		normal;
+void				get_surface_normal(t_surface *surface)
+{
+	t_double3		normal;
 
-// 	if (surface->object->type == SPHERE)
-// 		surface->normal = v_minus_v(surface->point, surface->object->position);
-// 	if (surface->object->type == PLANE)
-// 		surface->normal = rotation((t_double3){0, 0, -1}, surface->object->rotation);
-// 	if (surface->object->type == CYLINDER)
-// 		surface->normal = rotation((t_double3){surface->point.x, surface->point.y, 0},
-// 			surface->object->rotation);
-// 	if (surface->object->type == CONE)
-// 		surface->normal = rotation((t_double3){surface->point.x, surface->point.y,
-// 			surface->point.z * (- surface->object->radius)}, surface->object->rotation);
-// 	normalize(surface->normal);
-// }
+	if (surface->object->type == SPHERE)
+		surface->normal = v_minus_v(surface->point, surface->object->position);
+	if (surface->object->type == PLANE)
+		surface->normal = rotation((t_double3){0, 0, 1}, surface->object->rotation, REGULAR_MATRIX);
+	if (surface->object->type == CYLINDER)
+		surface->normal = rotation((t_double3){surface->point.x, surface->point.y, 0},
+			surface->object->rotation, REGULAR_MATRIX);
+	if (surface->object->type == CONE)
+		surface->normal = rotation((t_double3){surface->point.x, surface->point.y,
+			surface->point.z * (-surface->object->radius)}, surface->object->rotation, REGULAR_MATRIX);
+	normalize(surface->normal);
+}
 
 t_surface			*intersect(t_vector ray, t_scene *scene, void *to_ignore)
 {
@@ -32,14 +32,14 @@ t_surface			*intersect(t_vector ray, t_scene *scene, void *to_ignore)
 			get_nearest_plane(ray, tmp, &surface);
 		if (tmp->type == CYLINDER)
 			get_nearest_cylinder(ray, tmp, &surface);
-		// if (tmp->type == CONE)
-		// 	get_nearest_cone(ray, tmp, &surface);
+		if (tmp->type == CONE)
+			get_nearest_cone(ray, tmp, &surface);
 		tmp = tmp->next;
 	}
 	if (surface != NULL)
 	{
 		surface->point = find_point(ray.position, ray.direction, surface->distance);
-		// get_surface_normal(surface);
+		get_surface_normal(surface);
 	}
 	return (surface);
 }
@@ -110,6 +110,7 @@ t_double3			raytracer(t_vector ray, t_scene *scene, void *to_ignore, int depth)
 	else
 	{
 		color_hit = surface->object->color;
+		
 		// if (surface->material == REFLECTION_AND_REFRACTION)
 		// {
 		// 	reflection.dir = normalize(reflect(ray.dir, surface->n_hit));
