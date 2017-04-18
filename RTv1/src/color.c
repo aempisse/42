@@ -13,7 +13,7 @@ static void			color_pixel_image(t_color color, int pixel_start, t_image *image)
 	}
 }
 
-void			color_standard(t_env *env, t_double3 color)
+void			color_standard(t_env *env, t_double3 color, int x, int y)
 {
 	t_color		rgb_color;
 

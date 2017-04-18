@@ -1,22 +1,22 @@
 #include "../rtv1.h"
 
-static void		ft_parse_camera(t_env *env, t_buff *line)
+static void		ft_parse_camera(t_scene *scene, t_buff *line)
 {
 	ft_parse_not(line, "-0123456789");
-	env->camera.position.x = ft_parse_double(line);
+	scene->camera.position.x = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	env->camera.position.y = ft_parse_double(line);
+	scene->camera.position.y = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	env->camera.position.z = ft_parse_double(line);
+	scene->camera.position.z = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	env->camera.direction.x = ft_parse_double(line);
+	scene->camera.direction.x = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	env->camera.direction.y = ft_parse_double(line);
+	scene->camera.direction.y = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	env->camera.direction.z = ft_parse_double(line);
+	scene->camera.direction.z = ft_parse_double(line);
 }
 
-static void		ft_parse_object(t_object **objects, t_buff *line, int object_type)
+static void		ft_parse_object(t_scene *scene, t_buff *line, int object_type)
 {
 	t_object	*object;
 
@@ -50,10 +50,10 @@ static void		ft_parse_object(t_object **objects, t_buff *line, int object_type)
 	object->gloss = ft_parse_int(line);
 	ft_parse_not(line, "-0123456789");
 	object->refraction = ft_parse_int(line);
-	object_add(objects, object);
+	object_add(&(scene->objects), object);
 }
 
-static void		ft_parse_light(t_light **lights, t_buff *line)
+static void		ft_parse_light(t_scene *scene, t_buff *line)
 {
 	t_light		*light;
 
@@ -76,26 +76,26 @@ static void		ft_parse_light(t_light **lights, t_buff *line)
 	light->color.y = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
 	light->color.z = ft_parse_double(line);
-	light_add(lights, light);
+	light_add(&(scene->lights), light);
 }
 
-void			ft_load_file(int fd, t_env *env)
+void			ft_load_file(int fd, t_scene *scene)
 {
 	t_buff		line;
 
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (line.data[0] == 'X')
-			ft_parse_camera(env, &line);
+			ft_parse_camera(scene, &line);
 		if (line.data[0] == 'S')
-			ft_parse_object(env->objects, &line, SPHERE);
+			ft_parse_object(scene, &line, SPHERE);
 		if (line.data[0] == 'P')
-			ft_parse_object(env->objects, &line, PLANE);
+			ft_parse_object(scene, &line, PLANE);
 		if (line.data[0] == 'C')
-			ft_parse_object(env->objects, &line, CYLINDER);
+			ft_parse_object(scene, &line, CYLINDER);
 		if (line.data[0] == 'O')
-			ft_parse_object(env->objects, &line, CONE);
+			ft_parse_object(scene, &line, CONE);
 		if (line.data[0] == 'L')
-			ft_parse_light(env->lights, &line);
+			ft_parse_light(scene, &line);
 	}
 }

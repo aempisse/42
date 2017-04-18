@@ -1,62 +1,36 @@
 #include "../rtv1.h"
 
-static int 			intersect_plane(t_double3 origin, t_double3 dir, t_plane *plane, double *distance)
+static int			intersect_plane(t_vector ray, t_object *plane, double *distance)
 {
-	double			denom;
 	double			t;
 
-	denom = dot_product(dir, plane->normal);
-	t = -1;
-	if (abs_double(denom) < 0.000001)
+	ray = transform_ray(ray, plane);
+	if (abs_double(ray.direction.z) < 0.00001)
 		return (0);
-	else
-	{
-		t = dot_product(vec_minus_vec(plane->pos, origin), plane->normal) / denom;
-		if (t < 0)
-			return (0);
-		*distance = t;
-	}
-	// ft_putendl("test");
+	if ((t = - ray.position.z / ray.direction.z) < 0)
+		return (0);
+	*distance = t;
 	return (1);
 }
 
-static void			get_surface_plane(t_vector ray, t_plane *plane, t_surface **surface, double distance)
+void				get_nearest_plane(t_vector ray, t_object *plane, t_surface **surface)
 {
-	if (*surface == NULL)
-	{
-		if ((*surface = (t_surface*)malloc(sizeof(t_surface))) == NULL)
-			ft_error("Error : malloc() failed.\n");
-	}
-	(*surface)->object = (void*)plane;
-	(*surface)->distance = distance;
-	(*surface)->p_hit = find_point(ray.pos, ray.dir, distance);
-	(*surface)->n_hit = normalize(plane->normal);
-	(*surface)->color = plane->color;
-	(*surface)->ior = plane->ior;
-	(*surface)->material = plane->material;
-}
-
-void					get_nearest_plane(t_vector ray, t_array *planes, t_surface **surface, void *to_ignore)
-{
-	t_plane			*tmp;
-	t_plane			*nearest;
 	double			distance;
-	int				i;
 
 	distance = 0;
-	i = -1;
-	while (++i < planes->length)
+	if (intersect_plane(ray, plane, &distance))
 	{
-		tmp = AG(t_plane*, planes, i);
-		if ((void*)tmp != to_ignore && intersect_plane(ray.pos, ray.dir, tmp, &distance))
+		if (*surface == NULL)
 		{
-			if (*surface == NULL)
-				get_surface_plane(ray, tmp, surface, distance);
-			else
-			{
-				if ((*surface)->distance > distance)
-					get_surface_plane(ray, tmp, surface, distance);
-			}
+			if ((*surface = (t_surface*)malloc(sizeof(t_surface))) == NULL)
+				ft_error("Error : malloc() failed.\n");
+			(*surface)->object = plane;
+			(*surface)->distance = distance;
+		}
+		else if ((*surface)->distance > distance)
+		{
+			(*surface)->object = plane;
+			(*surface)->distance = distance;
 		}
 	}
 }

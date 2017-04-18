@@ -36,8 +36,6 @@ static t_image	*ft_new_image(void *mlx)
 static t_env	*env_init()
 {
 	t_env		*env;
-	t_object	**init_object;
-	t_light		**init_light;
 	
 	if ((env = (t_env*)malloc(sizeof(t_env))) == NULL)
 		ft_error("Error : malloc() failed.\n");
@@ -45,13 +43,10 @@ static t_env	*env_init()
 		ft_error("Error : mlx_init() failed.\n");
 	env->win_scene = mlx_new_window(env->mlx, WIDTH, HEIGHT, "RTv1");
 	env->img = ft_new_image(env->mlx);
-	env->camera = (t_vector){(t_double3){0, 0, 0}, (t_double3){0, 0, 0}};
-	init_object = (t_object**)malloc(sizeof(t_object*));
-	*init_object = NULL;
-	env->objects = init_object;
-	init_light = (t_light**)malloc(sizeof(t_light*));
-	*init_light = NULL;
-	env->lights = init_light;
+	env->scene = (t_scene*)malloc(sizeof(t_scene));
+	env->scene->camera = (t_vector){(t_double3){0, 0, 0}, (t_double3){0, 0, 0}};
+	env->scene->objects = NULL;
+	env->scene->lights = NULL;
 	env->render = 1;
 	mlx_key_hook(env->win_scene, &key_hook, env);
 	mlx_loop_hook(env->mlx, &loop_hook, env);
@@ -68,9 +63,9 @@ int				main(int argc, char const **argv)
 		if ((fd = open(argv[1], O_RDONLY)) < 0)
 			ft_error("Error : File not found.\n");
 		env = env_init();
-		ft_load_file(fd, env);
+		ft_load_file(fd, env->scene);
 		close(fd);
-		print_object(env->objects);
+		print_object(env->scene->objects);
 		mlx_loop(env->mlx);
 	}
 	return (0);

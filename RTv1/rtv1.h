@@ -7,29 +7,25 @@
 # include <math.h>
 # include <stdio.h>
 
-# define WIDTH 1200
-# define HEIGHT 800
-# define FOV 30
-# define DEPTH_MAX 5
+# define WIDTH		1200
+# define HEIGHT		800
+# define FOV		30
+# define DEPTH_MAX	5
 
 	 // Key pour Linux 
-# define KEY_ESC 65307
+# define KEY_ESC	65307
 
 	// Key pour Mac 
-// # define KEY_ESC 53
+// # define KEY_ESC	53
 
-# define PI 3.14159265
+# define PI			3.14159265
 
-# define SPHERE 1
-# define PLANE 2
-# define CYLINDER 3
-# define CONE 4
+# define SPHERE		1
+# define PLANE		2
+# define CYLINDER	3
+# define CONE		4
 
-# define DIFFUSE_GLOSSY 0
-# define REFLECTION 1
-# define REFLECTION_AND_REFRACTION 2
-
-# define BIAS 0.00001
+# define BIAS		0.00001
 
 typedef struct		s_double2
 {
@@ -74,63 +70,67 @@ typedef struct		s_object
 
 typedef struct		s_surface
 {
-	void			*object;
+	t_object		*object;
 	double			distance;
-	t_double3		p_hit;
-	t_double3		n_hit;
-	t_double3		color;
-	double			ior;
-	int				material;
+	t_double3		point;
+	t_double3		normal;
 }					t_surface;
+
+typedef struct		s_scene
+{
+	t_object		*objects;
+	t_light			*lights;
+	t_vector		camera;
+}					t_scene;
 
 typedef struct		s_env
 {
 	void			*mlx;
 	void			*win_scene;
 	t_image			*img;
-	t_object		**objects;
-	t_light			**lights;
-	t_vector		camera;
+	t_scene			*scene;
 	int				render;
 }					t_env;
 
-int				loop_hook(t_env *env);
-int				key_hook(int keycode, t_env *env);
-void			ft_load_file(int fd, t_env *env);
+int					loop_hook(t_env *env);
+int					key_hook(int keycode, t_env *env);
+void				ft_load_file(int fd, t_scene *scene);
 
-t_light			*light_new(void);
-void			light_add(t_light **first, t_light *new);
-t_object		*object_new(void);
-void			object_add(t_object **first, t_object *new);
-void			print_object(t_object **first);
+t_light				*light_new(void);
+void				light_add(t_light **first, t_light *new);
+t_object			*object_new(void);
+void				object_add(t_object **first, t_object *new);
+void				print_object(t_object *first);
 
-void			render(t_env *env);
-t_double3		rotation(t_double3 point, t_double3 angles);
-t_double3		raytracer(t_vector ray, t_objects *objects, void *to_ignore, int depth);
-t_surface		*intersect(t_vector ray, t_objects *objects, void *to_ignore);
-void			color_standard(t_env *env, t_double3 color);
+void				render(t_env *env);
+t_double3			rotation(t_double3 point, t_double3 angles);
+t_double3			raytracer(t_vector ray, t_scene *scene, void *to_ignore, int depth);
+t_surface			*intersect(t_vector ray, t_scene *scene, void *to_ignore);
+
+void				color_standard(t_env *env, t_double3 color, int x, int y);
 
 
 // t_double3		reflect(t_double3 incidence, t_double3 normal);
 // t_double3		refract(t_double3 incidence, t_double3 normal, double ior);
 // void			fresnel(t_double3 incidence, t_double3 normal, double ior, double *kr);
 
-// void			get_nearest_sphere(t_vector ray, t_array *spheres, t_surface **surface, void *to_ignore);
-// void			get_nearest_plane(t_vector ray, t_array *planes, t_surface **surface, void *to_ignore);
-// void			get_nearest_cylinder(t_vector ray, t_array *cylinder, t_surface **surface, void *to_ignore);
-// void			get_nearest_cone(t_vector ray, t_array *cones, t_surface **surface, void *to_ignore);
+void				get_nearest_sphere(t_vector ray, t_object *sphere, t_surface **surface);
+void				get_nearest_plane(t_vector ray, t_object *plane, t_surface **surface);
+void				get_nearest_cylinder(t_vector ray, t_object *cylinder, t_surface **surface);
+void				get_nearest_cone(t_vector ray, t_object *cone, t_surface **surface);
 
-// void			color_pixel_image(t_color color, int pixel_start, t_image *image);
-// void			swap(double *t0, double *t1);
-// double			dot_product(t_double3 vec1, t_double3 vec2);
-// t_double3		normalize(t_double3 vec);
-// t_double3		find_point(t_double3 origin, t_double3 dir, double scalar);
-// t_double3		vec_minus_vec(t_double3 vec1, t_double3 vec2);
-// t_double3		vec_plus_vec(t_double3 vec1, t_double3 vec2);
-// t_double3		scale_vec(t_double3 vec, double scalar);
-// t_double3 		vec_scale_vec(t_double3 vec1, t_double3 vec2);
-// double			max_double(double a, double b);
-// double			min_double(double a, double b);
-// double			abs_double(double n);
+t_vector			transform_ray(t_vector ray, t_object *object);
+int					solve_quadratic(double a, double b, double c, double *distance);
+void				swap(double *t0, double *t1);
+double				dot_product(t_double3 vec1, t_double3 vec2);
+t_double3			normalize(t_double3 vec);
+t_double3			find_point(t_double3 origin, t_double3 dir, double scalar);
+t_double3			scale_v(t_double3 vec, double scalar);
+t_double3 			v_scale_v(t_double3 vec1, t_double3 vec2);
+t_double3			v_minus_v(t_double3 vec1, t_double3 vec2);
+t_double3			v_plus_v(t_double3 vec1, t_double3 vec2);
+double				max_double(double a, double b);
+double				min_double(double a, double b);
+double				abs_double(double n);
 
 #endif

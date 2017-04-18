@@ -1,10 +1,10 @@
 #include "../rtv1.h"
 
-static t_double3		rotation_x(t_double3 point, double angle)
+static t_double3	rotation_x(t_double3 point, double angle)
 {
 	t_double3	new_point;
 
-	if (angle == 0)
+	if (abs_double(angle) < 0.00001)
 		return (point);
 	angle = angle * (PI / 180.0);
 	new_point.x = point.x;
@@ -13,11 +13,11 @@ static t_double3		rotation_x(t_double3 point, double angle)
 	return (new_point);
 }
 
-static t_double3		rotation_y(t_double3 point, double angle)
+static t_double3	rotation_y(t_double3 point, double angle)
 {
 	t_double3	new_point;
 
-	if (angle == 0)
+	if (abs_double(angle) < 0.00001)
 		return (point);
 	angle = angle * (PI / 180.0);
 	new_point.x = point.x * cos(angle) + point.z * sin(angle);
@@ -26,11 +26,11 @@ static t_double3		rotation_y(t_double3 point, double angle)
 	return (new_point);
 }
 
-static t_double3		rotation_z(t_double3 point, double angle)
+static t_double3	rotation_z(t_double3 point, double angle)
 {
 	t_double3	new_point;
 
-	if (angle == 0)
+	if (abs_double(angle) < 0.00001)
 		return (point);
 	angle = angle * (PI / 180.0);
 	new_point.x = point.x * cos(angle) - point.y * sin(angle);
@@ -39,7 +39,7 @@ static t_double3		rotation_z(t_double3 point, double angle)
 	return (new_point);
 }
 
-t_double3		rotation(t_double3 point, t_double3 angles)
+t_double3			rotation(t_double3 point, t_double3 angles)
 {
 	point = rotation_x(point, angles.x);
 	point = rotation_y(point, angles.y);

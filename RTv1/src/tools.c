@@ -1,5 +1,39 @@
 #include "../rtv1.h"
 
+t_vector			transform_ray(t_vector ray, t_object *object)
+{
+	t_vector		new_ray;
+
+	new_ray.position = v_minus_v(ray.position, object->position);
+	// new_ray.position = rotation(ray.position, scale_v(object->rotation, -1));
+	// printf("new_ray.position : (%.2f, %.2f, %.2f)\n", new_ray.position.x, new_ray.position.y, new_ray.position.z);
+	new_ray.direction = rotation(ray.direction, scale_v(object->rotation, -1));
+	return (new_ray);
+}
+
+int				solve_quadratic(double a, double b, double c, double *distance)
+{
+	double		delta;
+	double		t0;
+	double		t1;
+
+	delta = b * b - 4 * a * c;
+	if (delta < 0)
+		return (0);
+	t0 = (- b - sqrt(delta)) / (2 * a);
+	t1 = (- b + sqrt(delta)) / (2 * a);
+	if (t0 > t1)
+		swap(&t0, &t1);
+	if (t0 < 0)
+	{
+		t0 = t1;
+		if (t0 < 0)
+			return (0);
+	}
+	*distance = t0;
+	return (1);
+}
+
 void			swap(double *t0, double *t1)
 {
 	double tmp;
@@ -25,13 +59,43 @@ t_double3		normalize(t_double3 vec)
 	return (normalized);
 }
 
-t_double3 		vec_scale_vec(t_double3 vec1, t_double3 vec2)
+t_double3		scale_v(t_double3 vec, double scalar)
+{
+	t_double3	new_vec;
+
+	new_vec.x = vec.x * scalar;
+	new_vec.y = vec.y * scalar;
+	new_vec.z = vec.z * scalar;
+	return (new_vec);
+}
+
+t_double3 		v_scale_v(t_double3 vec1, t_double3 vec2)
 {
 	t_double3 	result;
 
 	result.x = vec1.x * vec2.x;
 	result.y = vec1.y * vec2.y;
 	result.z = vec1.z * vec2.z;
+	return (result);
+}
+
+t_double3		v_minus_v(t_double3 vec1, t_double3 vec2)
+{
+	t_double3	result;
+
+	result.x = vec1.x - vec2.x;
+	result.y = vec1.y - vec2.y;
+	result.z = vec1.z - vec2.z;
+	return (result);
+}
+
+t_double3		v_plus_v(t_double3 vec1, t_double3 vec2)
+{
+	t_double3	result;
+
+	result.x = vec1.x + vec2.x;
+	result.y = vec1.y + vec2.y;
+	result.z = vec1.z + vec2.z;
 	return (result);
 }
 
@@ -51,36 +115,6 @@ t_double3		find_point(t_double3 origin, t_double3 dir, double scalar)
 	point.y = origin.y + dir.y * scalar;
 	point.z = origin.z + dir.z * scalar;
 	return (point);
-}
-
-t_double3		scale_vec(t_double3 vec, double scalar)
-{
-	t_double3	new_vec;
-
-	new_vec.x = vec.x * scalar;
-	new_vec.y = vec.y * scalar;
-	new_vec.z = vec.z * scalar;
-	return (new_vec);
-}
-
-t_double3		vec_minus_vec(t_double3 vec1, t_double3 vec2)
-{
-	t_double3	result;
-
-	result.x = vec1.x - vec2.x;
-	result.y = vec1.y - vec2.y;
-	result.z = vec1.z - vec2.z;
-	return (result);
-}
-
-t_double3		vec_plus_vec(t_double3 vec1, t_double3 vec2)
-{
-	t_double3	result;
-
-	result.x = vec1.x + vec2.x;
-	result.y = vec1.y + vec2.y;
-	result.z = vec1.z + vec2.z;
-	return (result);
 }
 
 double			max_double(double a, double b)

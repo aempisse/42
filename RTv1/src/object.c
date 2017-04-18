@@ -1,4 +1,5 @@
 #include "../rtv1.h"
+// #include <float.h>
 
 t_light			*light_new(void)
 {
@@ -43,12 +44,12 @@ void			object_add(t_object **first, t_object *new)
 	*first = new;
 }
 
-void			print_object(t_object **first)
+void			print_object(t_object *first)
 {
 	t_object	*tmp;
 	int			i;
 
-	tmp = *first;
+	tmp = first;
 	i = 0;
 	while (tmp)
 	{
@@ -71,4 +72,5 @@ void			print_object(t_object **first)
 		printf("\tREFRACTION :\t%.2f\n\n", tmp->refraction);
 		tmp = tmp->next;	
 	}
+	// printf("DOUBLE LIMIT : %f\n", DBL_MAX);
 }
