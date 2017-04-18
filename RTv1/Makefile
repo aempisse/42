@@ -10,8 +10,8 @@ OBJ += obj/sphere.o obj/plane.o obj/cylinder.o obj/cone.o
 
 LIBFT = ./libft/libft.a
 
-LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
-#LIBMLX = ./libmlx.a -framework OPENGL -framework Appkit
+#LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
+LIBMLX = ./libmlx.a -framework OPENGL -framework Appkit
 
 all: obj $(NAME)
 

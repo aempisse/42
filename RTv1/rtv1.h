@@ -2,8 +2,8 @@
 # define RTV1_H
 
 # include "libft/libft.h"
-// # include <mlx.h>
-# include "minilibx/mlx.h"
+# include <mlx.h>
+// # include "minilibx/mlx.h"
 # include <math.h>
 # include <stdio.h>
 
@@ -13,10 +13,10 @@
 # define DEPTH_MAX	5
 
 	 // Key pour Linux 
-# define KEY_ESC	65307
+// # define KEY_ESC	65307
 
 	// Key pour Mac 
-// # define KEY_ESC	53
+# define KEY_ESC	53
 
 # define PI			3.14159265
 
@@ -24,6 +24,9 @@
 # define PLANE		2
 # define CYLINDER	3
 # define CONE		4
+
+# define REGULAR_MATRIX	1
+# define INVERSE_MATRIX -1
 
 # define BIAS		0.00001
 
@@ -103,7 +106,7 @@ void				object_add(t_object **first, t_object *new);
 void				print_object(t_object *first);
 
 void				render(t_env *env);
-t_double3			rotation(t_double3 point, t_double3 angles);
+t_double3			rotation(t_double3 point, t_double3 angles, int inverse);
 t_double3			raytracer(t_vector ray, t_scene *scene, void *to_ignore, int depth);
 t_surface			*intersect(t_vector ray, t_scene *scene, void *to_ignore);
 

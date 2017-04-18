@@ -1,21 +1,21 @@
 #include "../rtv1.h"
 
-void				get_surface_normal(t_surface *surface)
-{
-	t_double3		normal;
+// void				get_surface_normal(t_surface *surface)
+// {
+// 	t_double3		normal;
 
-	if (surface->object->type == SPHERE)
-		surface->normal = v_minus_v(surface->point, surface->object->position);
-	if (surface->object->type == PLANE)
-		surface->normal = rotation((t_double3){0, 0, -1}, surface->object->rotation);
-	if (surface->object->type == CYLINDER)
-		surface->normal = rotation((t_double3){surface->point.x, surface->point.y, 0},
-			surface->object->rotation);
-	// if (surface->object->type == CONE)
-	// 	surface->normal = rotation((t_double3){surface->point.x, surface->point.y,
-	// 		surface->point.z * (- surface->object->radius)}, surface->object->rotation);
-	normalize(surface->normal);
-}
+// 	if (surface->object->type == SPHERE)
+// 		surface->normal = v_minus_v(surface->point, surface->object->position);
+// 	if (surface->object->type == PLANE)
+// 		surface->normal = rotation((t_double3){0, 0, -1}, surface->object->rotation);
+// 	if (surface->object->type == CYLINDER)
+// 		surface->normal = rotation((t_double3){surface->point.x, surface->point.y, 0},
+// 			surface->object->rotation);
+// 	if (surface->object->type == CONE)
+// 		surface->normal = rotation((t_double3){surface->point.x, surface->point.y,
+// 			surface->point.z * (- surface->object->radius)}, surface->object->rotation);
+// 	normalize(surface->normal);
+// }
 
 t_surface			*intersect(t_vector ray, t_scene *scene, void *to_ignore)
 {
@@ -39,7 +39,7 @@ t_surface			*intersect(t_vector ray, t_scene *scene, void *to_ignore)
 	if (surface != NULL)
 	{
 		surface->point = find_point(ray.position, ray.direction, surface->distance);
-		get_surface_normal(surface);
+		// get_surface_normal(surface);
 	}
 	return (surface);
 }
@@ -196,7 +196,7 @@ void			render(t_env *env)
 			pixel_camera.y = (1 - 2 * (y + 0.5) / (double)HEIGHT) * scale;
 			pixel_camera.z = -1;
 			pixel_camera = normalize(pixel_camera);
-			pixel_camera = rotation(pixel_camera, env->scene->camera.direction);
+			// pixel_camera = rotation(pixel_camera, env->scene->camera.direction, REGULAR_MATRIX);
 			color = raytracer((t_vector){env->scene->camera.position, pixel_camera}, env->scene, NULL, 0);
 			color_standard(env, color, x, y);
 		}

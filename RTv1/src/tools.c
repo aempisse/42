@@ -5,9 +5,9 @@ t_vector			transform_ray(t_vector ray, t_object *object)
 	t_vector		new_ray;
 
 	new_ray.position = v_minus_v(ray.position, object->position);
-	// new_ray.position = rotation(ray.position, scale_v(object->rotation, -1));
+	new_ray.position = rotation(new_ray.position, object->rotation, INVERSE_MATRIX);
 	// printf("new_ray.position : (%.2f, %.2f, %.2f)\n", new_ray.position.x, new_ray.position.y, new_ray.position.z);
-	new_ray.direction = rotation(ray.direction, scale_v(object->rotation, -1));
+	new_ray.direction = rotation(ray.direction, object->rotation, INVERSE_MATRIX);
 	return (new_ray);
 }
 
