@@ -2,8 +2,8 @@
 # define RTV1_H
 
 # include "libft/libft.h"
-# include <mlx.h>
-// # include "minilibx/mlx.h"
+// # include <mlx.h>
+# include "minilibx/mlx.h"
 # include <math.h>
 # include <stdio.h>
 
@@ -13,10 +13,10 @@
 # define DEPTH_MAX	5
 
 	 // Key pour Linux 
-// # define KEY_ESC	65307
+# define KEY_ESC	65307
 
 	// Key pour Mac 
-# define KEY_ESC	53
+// # define KEY_ESC	53
 
 # define PI			3.14159265
 
@@ -107,8 +107,8 @@ void				print_object(t_object *first);
 
 void				render(t_env *env);
 t_double3			rotation(t_double3 point, t_double3 angles, int inverse);
-t_double3			raytracer(t_vector ray, t_scene *scene, void *to_ignore, int depth);
-t_surface			*intersect(t_vector ray, t_scene *scene, void *to_ignore);
+t_double3			raytracer(t_vector ray, t_scene *scene, t_object *to_ignore, int depth);
+t_surface			*intersect(t_vector ray, t_scene *scene, t_object *to_ignore);
 
 void				color_standard(t_env *env, t_double3 color, int x, int y);
 
@@ -125,9 +125,10 @@ void				get_nearest_cone(t_vector ray, t_object *cone, t_surface **surface);
 t_vector			transform_ray(t_vector ray, t_object *object);
 int					solve_quadratic(double a, double b, double c, double *distance);
 void				swap(double *t0, double *t1);
+t_double3			find_point(t_double3 origin, t_double3 dir, double scalar);
 double				dot_product(t_double3 vec1, t_double3 vec2);
 t_double3			normalize(t_double3 vec);
-t_double3			find_point(t_double3 origin, t_double3 dir, double scalar);
+double				length_v(t_double3 vec);
 t_double3			scale_v(t_double3 vec, double scalar);
 t_double3 			v_scale_v(t_double3 vec1, t_double3 vec2);
 t_double3			v_minus_v(t_double3 vec1, t_double3 vec2);

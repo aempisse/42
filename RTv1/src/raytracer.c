@@ -7,7 +7,7 @@ void				get_surface_normal(t_surface *surface)
 	if (surface->object->type == SPHERE)
 		surface->normal = v_minus_v(surface->point, surface->object->position);
 	if (surface->object->type == PLANE)
-		surface->normal = rotation((t_double3){0, 0, 1}, surface->object->rotation, REGULAR_MATRIX);
+		surface->normal = rotation((t_double3){0, 0, -1}, surface->object->rotation, REGULAR_MATRIX);
 	if (surface->object->type == CYLINDER)
 		surface->normal = rotation((t_double3){surface->point.x, surface->point.y, 0},
 			surface->object->rotation, REGULAR_MATRIX);
@@ -17,7 +17,7 @@ void				get_surface_normal(t_surface *surface)
 	normalize(surface->normal);
 }
 
-t_surface			*intersect(t_vector ray, t_scene *scene, void *to_ignore)
+t_surface			*intersect(t_vector ray, t_scene *scene, t_object *to_ignore)
 {
 	t_surface		*surface;
 	t_object		*tmp;
@@ -26,14 +26,17 @@ t_surface			*intersect(t_vector ray, t_scene *scene, void *to_ignore)
 	tmp = scene->objects;
 	while (tmp)
 	{
-		if (tmp->type == SPHERE)
-			get_nearest_sphere(ray, tmp, &surface);
-		if (tmp->type == PLANE)
-			get_nearest_plane(ray, tmp, &surface);
-		if (tmp->type == CYLINDER)
-			get_nearest_cylinder(ray, tmp, &surface);
-		if (tmp->type == CONE)
-			get_nearest_cone(ray, tmp, &surface);
+		if (tmp != to_ignore)
+		{
+			if (tmp->type == SPHERE)
+				get_nearest_sphere(ray, tmp, &surface);
+			if (tmp->type == PLANE)
+				get_nearest_plane(ray, tmp, &surface);
+			if (tmp->type == CYLINDER)
+				get_nearest_cylinder(ray, tmp, &surface);
+			if (tmp->type == CONE)
+				get_nearest_cone(ray, tmp, &surface);
+		}
 		tmp = tmp->next;
 	}
 	if (surface != NULL)
@@ -44,63 +47,15 @@ t_surface			*intersect(t_vector ray, t_scene *scene, void *to_ignore)
 	return (surface);
 }
 
-// int					is_exposed_to_light(t_surface *surface, t_light *light, t_objects *objects)
-// {
-// 	t_vector		*light_ray;
-// 	double			distance_to_light;
-// 	t_surface		*tmp;
-
-// 	light_ray->pos = surface->p_hit;
-// 	light_ray->dir = vec_minus_vec(light->pos, surface->p_hit);
-// 	distance_to_light = sqrt(light_ray->dir.x * light_ray->dir.x +
-// 		light_ray->dir.y * light_ray->dir.y + light_ray->dir.z * light_ray->dir.z);
-// 	light_ray->dir = normalize(light_ray->dir);
-// 	tmp = intersect(light_ray, objects, surface->object);
-// 	if (tmp == NULL)
-// 		return (1);
-// 	else if (tmp->distance <= distance_to_light)
-// 		return (0);
-// 	return (1);
-// }
-
-// t_double3			phong_illumitation_model(t_vector ray, t_surface surface, t_objects *objects)
-// {
-// 	t_double3		color_hit;
-// 	int				i;
-// 	t_light			*light;
-// 	t_double3		light_dir;
-// 	double			lambert;
-
-// 	color_hit = (t_double3){0, 0, 0};
-// 	i = -1;
-// 	while (++i < objects->lights->length)
-// 	{
-// 		light = AG(t_light*, objects->lights, i);
-// 		if (is_exposed_to_light(surface, light, objects));
-// 		{
-// 			light_dir = normalize(vec_minus_vec(light->pos, surface->p_hit));
-// 			if (lambert = dot_product(surface->normal, light_dir) > 0)
-// 			{
-// 				color_hit = 
-// 			}
-// 		}
-// 	}
-// }
-
-
-t_double3			raytracer(t_vector ray, t_scene *scene, void *to_ignore, int depth)
+t_double3			raytracer(t_vector ray, t_scene *scene, t_object *to_ignore, int depth)
 {
 	t_surface		*surface;
 	t_double3		color_hit;
-	// t_vector		reflection;
-	// t_double3		reflection_color;
-	// t_vector		refraction;
-	// t_double3		refraction_color;
-	// double			kr;
-	// t_double3		light_amount;
-	// t_double3		specular_color;
-	// t_vector		light;
-	// int				test;
+	t_light			*light;
+	t_vector		light_ray;
+	t_surface		*light_intersect;
+	int				light_nb;
+	double			dot_light;
 
 	if (depth > DEPTH_MAX)
 		return ((t_double3){0.1, 0.1, 0.1});
@@ -109,70 +64,29 @@ t_double3			raytracer(t_vector ray, t_scene *scene, void *to_ignore, int depth)
 		return ((t_double3){0.1, 0.1, 0.1});
 	else
 	{
-		color_hit = surface->object->color;
-		
-		// if (surface->material == REFLECTION_AND_REFRACTION)
-		// {
-		// 	reflection.dir = normalize(reflect(ray.dir, surface->n_hit));
-		// 	reflection.pos = (dot_product(reflection.dir, surface->n_hit) < 0) ?
-		// 		vec_minus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS)) :
-		// 		vec_plus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS));
-		// 	refraction.dir = normalize(refract(ray.dir, surface->n_hit, surface->ior));
-		// 	refraction.pos = (dot_product(refraction.dir, surface->n_hit) < 0) ?
-		// 		vec_plus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS)) :
-		// 		vec_minus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS));
-		// 	reflection_color = raytracer(reflection, objects, to_ignore, depth + 1);
-		// 	refraction_color = raytracer(refraction, objects, to_ignore, depth + 1);
-		// 	fresnel(ray.dir, surface->n_hit, surface->ior, &kr);
-		// 	color_hit = vec_plus_vec(scale_vec(reflection_color, kr),
-		// 		vec_scale_vec(scale_vec(refraction_color, 1 - kr), surface->color));
-		// }
-		// else if (surface->material == REFLECTION)
-		// {
-		// 	// fresnel(ray.dir, surface->n_hit, surface->ior, &kr);
-		// 	reflection.dir = reflect(ray.dir, surface->n_hit);
-		// 	reflection.pos = (dot_product(reflection.dir, surface->n_hit) < 0) ?
-		// 		vec_minus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS)) :
-		// 		vec_plus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS));
-		// 	color_hit = raytracer(reflection, objects, to_ignore, depth + 1);
-		// }
-		// else
-		// {
-			// t_light		*tmp;
-			// int			i;
-			// double		distance_squared;
-			// double		light_dot_norm;
-			// t_surface	*shadow_object;
-			// int			in_shadow;
-
-			// light_amount = (t_double3){0, 0, 0};
-			// specular_color = (t_double3){0, 0, 0};
-			// light.pos = (dot_product(ray.dir, surface->n_hit) < 0) ?
-			// 	vec_plus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS)) :
-			// 	vec_minus_vec(surface->p_hit, scale_vec(surface->n_hit, BIAS));
-			// i = -1;
-			// while (++i < objects->lights->length)
-			// {
-			// 	tmp = AG(t_light*, objects->lights, i);
-			// 	light.dir = vec_minus_vec(tmp->pos, surface->p_hit);
-			// 	distance_squared = dot_product(light.dir, light.dir);
-			// 	light.dir = normalize(light.dir);
-			// 	light_dot_norm = max_double(0.0, dot_product(light.dir, surface->n_hit));
-			// 	if ((shadow_object = intersect(light, objects, to_ignore)) == NULL)
-			// 		in_shadow = 0;
-			// 	else
-			// 	{
-			// 		in_shadow = ((shadow_object->distance * shadow_object->distance) < distance_squared) ? 1 : 0;
-			// 		free(shadow_object);
-			// 	}
-			// 	light_amount = vec_plus_vec(light_amount, scale_vec(scale_vec(tmp->color, (1 - in_shadow)), light_dot_norm));
-			// 	reflection.dir = reflect(scale_vec(light.dir, -1), surface->n_hit);
-			// 	specular_color = vec_plus_vec(specular_color, scale_vec(tmp->color, pow(max_double(0, -dot_product(reflection.dir, ray.dir)), 25)));
-			// }
-			// color_hit = vec_plus_vec(vec_scale_vec(scale_vec(light_amount, 0.8), surface->color), scale_vec(specular_color, 0.2));
-		// }
-	free(surface);
-	return (color_hit);
+		// color_hit = surface->object->color;
+		color_hit = (t_double3){0, 0, 0};
+		light = scene->lights;
+		light_nb = 0;
+		while (light)
+		{
+			light_ray.position = surface->point;
+			light_ray.direction = normalize(v_minus_v(light->position, surface->point));
+			dot_light = dot_product(light_ray.direction, surface->normal);
+			if (surface->object->type == PLANE)
+				dot_light = abs_double(dot_light);
+			light_intersect = intersect(light_ray, scene, surface->object);
+			if (light_intersect != NULL && (length_v(v_minus_v(light->position, surface->point)) <
+					light_intersect->distance))
+			{
+				color_hit = v_plus_v(color_hit, scale_v(surface->object->color, dot_light));
+			}
+			light_nb++;
+			light = light->next;
+		}
+		color_hit = scale_v(color_hit, (1 / (double)light_nb));
+		free(surface);
+		return (color_hit);
 	}
 }
 

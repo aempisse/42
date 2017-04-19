@@ -46,17 +46,23 @@ void			swap(double *t0, double *t1)
 t_double3		normalize(t_double3 vec)
 {
 	t_double3	normalized;
-	double		square;
 	double		norm;
 
-	if ((square = sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z)) == 0)
-		// return ((t_double3){0, 0, 0});
-		ft_error("normal error");
-	norm = 1.0 / square;
+	norm = 1.0 / length_v(vec);
 	normalized.x = vec.x * norm;
 	normalized.y = vec.y * norm;
 	normalized.z = vec.z * norm;
 	return (normalized);
+}
+
+double			length_v(t_double3 vec)
+{
+	double		square;
+
+	if ((square = sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z)) == 0)
+		// return ((t_double3){0, 0, 0});
+		ft_error("normal error");
+	return (square);
 }
 
 t_double3		scale_v(t_double3 vec, double scalar)
