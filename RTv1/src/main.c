@@ -66,6 +66,7 @@ int				main(int argc, char const **argv)
 		ft_load_file(fd, env->scene);
 		close(fd);
 		print_object(env->scene->objects);
+		print_light(env->scene->lights);
 		mlx_loop(env->mlx);
 	}
 	return (0);

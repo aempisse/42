@@ -9,11 +9,12 @@ void				get_surface_normal(t_surface *surface)
 	if (surface->object->type == PLANE)
 		surface->normal = rotation((t_double3){0, 0, -1}, surface->object->rotation, REGULAR_MATRIX);
 	if (surface->object->type == CYLINDER)
-		surface->normal = rotation((t_double3){surface->point.x, surface->point.y, 0},
+		surface->normal = rotation((t_double3){surface->simple.x, surface->simple.y, 0},
 			surface->object->rotation, REGULAR_MATRIX);
 	if (surface->object->type == CONE)
-		surface->normal = rotation((t_double3){surface->point.x, surface->point.y,
-			surface->point.z * (-surface->object->radius)}, surface->object->rotation, REGULAR_MATRIX);
+		surface->normal = rotation((t_double3){surface->simple.x, surface->simple.y,
+			-1 * surface->simple.z * surface->object->radius * (M_PI / 180.0)},
+			surface->object->rotation, REGULAR_MATRIX);
 	normalize(surface->normal);
 }
 
@@ -54,6 +55,7 @@ t_double3			raytracer(t_vector ray, t_scene *scene, t_object *to_ignore, int dep
 	t_light			*light;
 	t_vector		light_ray;
 	t_surface		*light_intersect;
+	t_double3		light_distance;
 	int				light_nb;
 	double			dot_light;
 
@@ -71,20 +73,25 @@ t_double3			raytracer(t_vector ray, t_scene *scene, t_object *to_ignore, int dep
 		while (light)
 		{
 			light_ray.position = surface->point;
-			light_ray.direction = normalize(v_minus_v(light->position, surface->point));
+			light_distance = v_minus_v(light->position, surface->point);
+			light_ray.direction = normalize(light_distance);
 			dot_light = dot_product(light_ray.direction, surface->normal);
 			if (surface->object->type == PLANE)
 				dot_light = abs_double(dot_light);
+			dot_light = max_double(0, dot_light);
 			light_intersect = intersect(light_ray, scene, surface->object);
-			if (light_intersect != NULL && (length_v(v_minus_v(light->position, surface->point)) <
+			if (light_intersect != NULL && (length_v(light_distance) <
 					light_intersect->distance))
 			{
-				color_hit = v_plus_v(color_hit, scale_v(surface->object->color, dot_light));
+				color_hit = v_plus_v(color_hit, v_plus_v(
+					scale_v(scale_v(surface->object->color, dot_light), 1 - surface->object->gloss),
+					scale_v(scale_v(light->color, dot_light), surface->object->gloss)));
 			}
 			light_nb++;
 			light = light->next;
 		}
-		color_hit = scale_v(color_hit, (1 / (double)light_nb));
+		if (light_nb != 0)
+			color_hit = scale_v(color_hit, (1.0 / (double)light_nb));
 		free(surface);
 		return (color_hit);
 	}
@@ -111,7 +118,7 @@ void			render(t_env *env)
 			pixel_camera.y = (1 - 2 * (y + 0.5) / (double)HEIGHT) * scale;
 			pixel_camera.z = -1;
 			pixel_camera = normalize(pixel_camera);
-			// pixel_camera = rotation(pixel_camera, env->scene->camera.direction, REGULAR_MATRIX);
+			pixel_camera = rotation(pixel_camera, env->scene->camera.direction, REGULAR_MATRIX);
 			color = raytracer((t_vector){env->scene->camera.position, pixel_camera}, env->scene, NULL, 0);
 			color_standard(env, color, x, y);
 		}

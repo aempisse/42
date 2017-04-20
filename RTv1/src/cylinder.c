@@ -6,13 +6,11 @@ static int				intersect_cylinder(t_vector ray, t_object *cylinder, double *dista
 	double			b;
 	double			c;
 
-	ray = transform_ray(ray, cylinder);
 	a = ray.direction.x * ray.direction.x + ray.direction.y * ray.direction.y;
-	b = 2 * (ray.position.x * ray.direction.x + ray.position.y * ray.direction.y
-		- ray.direction.x * cylinder->position.x - ray.direction.y * cylinder->position.y);
-	c = ray.position.x * ray.position.x + ray.position.y * ray.position.y + cylinder->position.x *
-		cylinder->position.x + cylinder->position.y * cylinder->position.y - cylinder->radius * cylinder->radius - 2 *
-		(ray.position.x * cylinder->position.x + ray.position.y * cylinder->position.y);
+	b = 2 * (ray.position.x * ray.direction.x + ray.position.y *
+		ray.direction.y);
+	c = ray.position.x * ray.position.x + ray.position.y * ray.position.y -
+		cylinder->radius * cylinder->radius;
 	if (solve_quadratic(a, b, c, distance))
 		return (1);
 	return (0);
@@ -22,7 +20,7 @@ void				get_nearest_cylinder(t_vector ray, t_object *cylinder, t_surface **surfa
 {
 	double			distance;
 
-	distance = 0;
+	ray = transform_ray(ray, cylinder);
 	if (intersect_cylinder(ray, cylinder, &distance))
 	{
 		if (*surface == NULL)
@@ -31,11 +29,13 @@ void				get_nearest_cylinder(t_vector ray, t_object *cylinder, t_surface **surfa
 				ft_error("Error : malloc() failed.\n");
 			(*surface)->object = cylinder;
 			(*surface)->distance = distance;
+			(*surface)->simple = find_point(ray.position, ray.direction, distance);
 		}
 		else if ((*surface)->distance > distance)
 		{
 			(*surface)->object = cylinder;
 			(*surface)->distance = distance;
+			(*surface)->simple = find_point(ray.position, ray.direction, distance);
 		}
 	}
 }

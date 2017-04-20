@@ -8,7 +8,7 @@
 # include <stdio.h>
 
 # define WIDTH		1200
-# define HEIGHT		800
+# define HEIGHT		900
 # define FOV		30
 # define DEPTH_MAX	5
 
@@ -27,8 +27,6 @@
 
 # define REGULAR_MATRIX	1
 # define INVERSE_MATRIX -1
-
-# define BIAS		0.00001
 
 typedef struct		s_double2
 {
@@ -77,6 +75,7 @@ typedef struct		s_surface
 	double			distance;
 	t_double3		point;
 	t_double3		normal;
+	t_double3		simple;
 }					t_surface;
 
 typedef struct		s_scene
@@ -101,6 +100,7 @@ void				ft_load_file(int fd, t_scene *scene);
 
 t_light				*light_new(void);
 void				light_add(t_light **first, t_light *new);
+void				print_light(t_light *first);
 t_object			*object_new(void);
 void				object_add(t_object **first, t_object *new);
 void				print_object(t_object *first);

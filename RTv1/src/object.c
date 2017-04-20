@@ -19,6 +19,22 @@ void			light_add(t_light **first, t_light *new)
 	*first = new;
 }
 
+void			print_light(t_light *first)
+{
+	t_light		*tmp;
+	int			i;
+
+	tmp = first;
+	i = 0;
+	while (tmp)
+	{
+		printf("LIGHT %d\n", i++);
+		printf("\tPOSITION :\t(%.2f, %.2f, %.2f)\n", tmp->position.x, tmp->position.y, tmp->position.z);
+		printf("\tCOLOR :\t(%.2f, %.2f, %.2f)\n", tmp->color.x, tmp->color.y, tmp->color.z);
+		tmp = tmp->next;	
+	}
+}
+
 t_object		*object_new(void)
 {
 	t_object	*object;

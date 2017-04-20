@@ -6,7 +6,6 @@ t_vector			transform_ray(t_vector ray, t_object *object)
 
 	new_ray.position = v_minus_v(ray.position, object->position);
 	new_ray.position = rotation(new_ray.position, object->rotation, INVERSE_MATRIX);
-	// printf("new_ray.position : (%.2f, %.2f, %.2f)\n", new_ray.position.x, new_ray.position.y, new_ray.position.z);
 	new_ray.direction = rotation(ray.direction, object->rotation, INVERSE_MATRIX);
 	return (new_ray);
 }
@@ -135,5 +134,5 @@ double			min_double(double a, double b)
 
 double			abs_double(double n)
 {
-	return ((n > 0) ? n : -n);
+	return ((n > 0.0) ? n : -n);
 }

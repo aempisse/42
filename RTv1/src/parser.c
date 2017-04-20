@@ -45,11 +45,11 @@ static void		ft_parse_object(t_scene *scene, t_buff *line, int object_type)
 	ft_parse_not(line, "-0123456789");
 	object->reflexion = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	object->transparency = ft_parse_int(line);
+	object->transparency = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	object->gloss = ft_parse_int(line);
+	object->gloss = ft_parse_double(line);
 	ft_parse_not(line, "-0123456789");
-	object->refraction = ft_parse_int(line);
+	object->refraction = ft_parse_double(line);
 	object_add(&(scene->objects), object);
 }
 

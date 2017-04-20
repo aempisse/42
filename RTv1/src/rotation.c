@@ -41,12 +41,17 @@ static t_double3	rotation_z(t_double3 point, double angle, int inverse)
 
 t_double3			rotation(t_double3 point, t_double3 angles, int inverse)
 {
-	// printf("BEFORE ROTATION :\t(%f, %f, %f)\n", point.x, point.y, point.z);
-	point = rotation_x(point, angles.x, inverse);
-	// printf("ROTATION X :\t\t(%f, %f, %f)\n", point.x, point.y, point.z);
-	point = rotation_y(point, angles.y, inverse);
-	// printf("ROTATION Y :\t\t(%f, %f, %f)\n", point.x, point.y, point.z);
-	point = rotation_z(point, angles.z, inverse);
-	// printf("ROTATION Z :\t\t(%f, %f, %f)\n\n", point.x, point.y, point.z);
+	if (inverse == INVERSE_MATRIX)
+	{
+		point = rotation_x(point, angles.x, inverse);
+		point = rotation_y(point, angles.y, inverse);
+		point = rotation_z(point, angles.z, inverse);
+	}
+	else
+	{
+		point = rotation_z(point, angles.z, inverse);
+		point = rotation_y(point, angles.y, inverse);
+		point = rotation_x(point, angles.x, inverse);
+	}
 	return (point);
 }
