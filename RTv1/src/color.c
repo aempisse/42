@@ -1,6 +1,7 @@
 #include "../rtv1.h"
 
-static void			color_pixel_image(t_color color, int pixel_start, t_image *image)
+static void		color_pixel_image(t_color color, int pixel_start,
+	t_image *image)
 {
 	int			pixel_end;
 

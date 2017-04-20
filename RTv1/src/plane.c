@@ -1,19 +1,21 @@
 #include "../rtv1.h"
 
-static int			intersect_plane(t_vector ray, t_object *plane, double *distance)
+static int			intersect_plane(t_vector ray, t_object *plane,
+	double *distance)
 {
 	double			t;
 
 	ray = transform_ray(ray, plane);
-	if (abs_double(ray.direction.z) < 0.00001)
+	if (abs_double(ray.dir.z) < 0.00001)
 		return (0);
-	if ((t = - ray.position.z / ray.direction.z) < 0)
+	if ((t = -ray.pos.z / ray.dir.z) < 0)
 		return (0);
 	*distance = t;
 	return (1);
 }
 
-void				get_nearest_plane(t_vector ray, t_object *plane, t_surface **surface)
+void				get_nearest_plane(t_vector ray, t_object *plane,
+	t_surface **surface)
 {
 	double			distance;
 

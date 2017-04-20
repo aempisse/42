@@ -1,22 +1,24 @@
 #include "../rtv1.h"
 
-static int			intersect_sphere(t_vector ray, t_object *sphere, double *distance)
+static int			intersect_sphere(t_vector ray, t_object *sphere,
+	double *distance)
 {
 	t_double3	center;
 	double		a;
 	double		b;
 	double		c;
 
-	center = v_minus_v(ray.position, sphere->position);
-	a = dot_product(ray.direction, ray.direction);
-	b = 2 * dot_product(ray.direction, center);
+	center = v_minus_v(ray.pos, sphere->pos);
+	a = dot_product(ray.dir, ray.dir);
+	b = 2 * dot_product(ray.dir, center);
 	c = dot_product(center, center) - sphere->radius * sphere->radius;
 	if (solve_quadratic(a, b, c, distance))
 		return (1);
 	return (0);
 }
 
-void				get_nearest_sphere(t_vector ray, t_object *sphere, t_surface **surface)
+void				get_nearest_sphere(t_vector ray, t_object *sphere,
+	t_surface **surface)
 {
 	double			distance;
 
