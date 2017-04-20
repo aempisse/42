@@ -4,13 +4,18 @@ GCC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -g -O0
 
-OBJ = obj/main.o obj/parser.o obj/object.o obj/raytracer.o obj/rotation.o obj/color.o obj/tools.o obj/path.o 
-OBJ += obj/sphere.o obj/plane.o obj/cylinder.o obj/cone.o
+OBJ = obj/main.o obj/tools.o obj/matrix.o obj/object.o obj/add_pars_value.o
+OBJ += obj/init_object.o obj/test_pars_tools.o obj/check_files.o
+OBJ += obj/check_color_obj.o obj/check_balise_line.o obj/add_param.o obj/pars_space_value.o
+OBJ += obj/test_pars_tools2.o obj/color.o obj/cone.o obj/cylinder.o obj/plane.o obj/sphere.o
+OBJ += obj/raytracer.o obj/rotation.o obj/render.o obj/intersect.o
+OBJ += obj/reflexion.o obj/refraction.o obj/hooks.o
+OBJ += obj/intersect_tools.o obj/math.o obj/vector.o
 
 LIBFT = ./libft/libft.a
 
-LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
-#LIBMLX = ./libmlx.a -framework OPENGL -framework Appkit
+#LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
+LIBMLX = ./libmlx.a -framework OPENGL -framework Appkit
 
 all: obj $(NAME)
 
