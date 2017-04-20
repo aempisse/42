@@ -66,7 +66,7 @@ t_double3			raytracer(t_vector ray, t_scene *scene, t_object *to_ignore, int dep
 		return ((t_double3){0.1, 0.1, 0.1});
 	else
 	{
-		// color_hit = surface->object->color;
+		// DIFFUSE AND MULTISPOT
 		color_hit = (t_double3){0, 0, 0};
 		light = scene->lights;
 		light_nb = 0;
@@ -92,6 +92,20 @@ t_double3			raytracer(t_vector ray, t_scene *scene, t_object *to_ignore, int dep
 		}
 		if (light_nb != 0)
 			color_hit = scale_v(color_hit, (1.0 / (double)light_nb));
+
+		//REFLEXION
+		if (surface->object->reflexion > 0.00001)
+		{
+			t_double3	reflected_ray;
+			t_double3	reflected_color;
+	
+			reflected_ray = reflect(ray.direction, surface->normal);
+			reflected_color = raytracer((t_vector){surface->point, reflected_ray}, scene,
+				surface->object, depth + 1);
+			color_hit = v_plus_v(scale_v(color_hit, 1 - surface->object->reflexion),
+			scale_v(reflected_color, surface->object->reflexion));
+		}
+
 		free(surface);
 		return (color_hit);
 	}

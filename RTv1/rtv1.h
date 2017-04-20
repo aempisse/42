@@ -113,7 +113,7 @@ t_surface			*intersect(t_vector ray, t_scene *scene, t_object *to_ignore);
 void				color_standard(t_env *env, t_double3 color, int x, int y);
 
 
-// t_double3		reflect(t_double3 incidence, t_double3 normal);
+t_double3			reflect(t_double3 incidence, t_double3 normal);
 // t_double3		refract(t_double3 incidence, t_double3 normal, double ior);
 // void			fresnel(t_double3 incidence, t_double3 normal, double ior, double *kr);
 
