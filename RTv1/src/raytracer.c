@@ -59,7 +59,7 @@ t_double3			raytracer(t_vector ray, t_scene *scene, t_object *to_ignore, int dep
 	int				light_nb;
 	double			dot_light;
 
-	if (depth > DEPTH_MAX)
+	if (depth == DEPTH_MAX)
 		return ((t_double3){0.1, 0.1, 0.1});
 	surface = intersect(ray, scene, to_ignore);
 	if (surface == NULL)
@@ -94,7 +94,7 @@ t_double3			raytracer(t_vector ray, t_scene *scene, t_object *to_ignore, int dep
 			color_hit = scale_v(color_hit, (1.0 / (double)light_nb));
 
 		//REFLEXION
-		if (surface->object->reflexion > 0.00001)
+		if (surface->object->reflexion > 0.01)
 		{
 			t_double3	reflected_ray;
 			t_double3	reflected_color;
@@ -106,6 +106,18 @@ t_double3			raytracer(t_vector ray, t_scene *scene, t_object *to_ignore, int dep
 			scale_v(reflected_color, surface->object->reflexion));
 		}
 
+		//REFRACTION
+		if (surface->object->transparency > 0.01)
+		{
+			t_double3	refracted_ray;
+			t_double3	refracted_color;
+
+			refracted_ray = refract(ray.direction, surface->normal, surface->object->refraction);
+			refracted_color = raytracer((t_vector){surface->point, refracted_ray}, scene,
+				surface->object, depth + 1);
+			color_hit = v_plus_v(scale_v(color_hit, 1 - surface->object->transparency),
+			scale_v(refracted_color, surface->object->transparency));
+		}
 		free(surface);
 		return (color_hit);
 	}
