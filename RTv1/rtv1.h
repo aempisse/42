@@ -2,8 +2,8 @@
 # define RTV1_H
 
 # include "libft/libft.h"
-# include <mlx.h>
-// # include "minilibx/mlx.h"
+// # include <mlx.h>
+# include "minilibx/mlx.h"
 # include <math.h>
 # include <stdio.h>
 
@@ -13,22 +13,20 @@
 # define DEPTH_MAX 5
 
 	 // Key pour Linux 
-// # define KEY_ESC 65307
+# define KEY_ESC 65307
 
 	// Key pour Mac 
-# define KEY_ESC 53
+// # define KEY_ESC 53
 
 # define PI 3.14159265
-
-# define DIFFUSE_GLOSSY 0
-# define REFLECTION 1
-# define REFLECTION_AND_REFRACTION 2
 
 # define SPHERE 0
 # define PLANE 1
 # define CYLINDER 2
 # define CONE 3
 # define SPOTLIGHT 4
+
+# define AMBIANT 0.1
 
 # define RED "ff0000"
 # define BLUE "0000ff"
@@ -41,8 +39,6 @@
 # define DARK_GREEN "006400"
 # define DARK_BLUE "00008b"
 # define DARK_RED "8b0000"
-
-# define BIAS 0.00001
 
 # define REGULAR_MATRIX	1
 # define INVERSE_MATRIX -1

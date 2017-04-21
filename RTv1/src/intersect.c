@@ -7,7 +7,7 @@ void				get_surface_normal(t_surface *surface)
 	if (surface->object->type == SPHERE)
 		surface->normal = v_minus_v(surface->point, surface->object->pos);
 	if (surface->object->type == PLANE)
-		surface->normal = rotation((t_double3){0, 0, -1},
+		surface->normal = rotation((t_double3){0, 0, 1},
 			surface->object->rotation, REGULAR_MATRIX);
 	if (surface->object->type == CYLINDER)
 		surface->normal = rotation((t_double3){surface->simple.x,

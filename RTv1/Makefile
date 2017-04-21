@@ -2,7 +2,7 @@ NAME = rtv1
 
 GCC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -g -O0
+CFLAGS = -Wall -Wextra -Werror -g -Wuninitialized -O0
 
 OBJ = obj/main.o obj/tools.o obj/matrix.o obj/object.o obj/add_pars_value.o
 OBJ += obj/init_object.o obj/test_pars_tools.o obj/check_files.o
@@ -14,8 +14,8 @@ OBJ += obj/intersect_tools.o obj/math.o obj/vector.o
 
 LIBFT = ./libft/libft.a
 
-#LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
-LIBMLX = ./libmlx.a -framework OPENGL -framework Appkit
+LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm
+#LIBMLX = ./libmlx.a -framework OPENGL -framework Appkit
 
 all: obj $(NAME)
 
