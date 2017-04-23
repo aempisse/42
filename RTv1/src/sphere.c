@@ -7,6 +7,7 @@ static int			intersect_sphere(t_vector ray, t_object *sphere,
 	double		a;
 	double		b;
 	double		c;
+	t_double3	cut;
 
 	center = v_minus_v(ray.pos, sphere->pos);
 	a = dot_product(ray.dir, ray.dir);

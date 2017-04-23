@@ -22,7 +22,7 @@ static int	search_param(char *line, char *type)
 	return (-1);
 }
 
-void		add_double_param(t_buff line, char *type, t_object **object)
+void		add_double_param(t_buff line, char *type, t_object **object, char *value)
 {
 	t_object	*tmp;
 
@@ -36,4 +36,6 @@ void		add_double_param(t_buff line, char *type, t_object **object)
 		tmp->refraction = ft_parse_double(&line);
 	else if (ft_strcmp(type, "reflex") == 0)
 		tmp->reflex = ft_parse_double(&line);
+	if (value != NULL)
+		free(value);
 }

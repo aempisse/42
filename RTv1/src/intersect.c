@@ -16,7 +16,7 @@ void				get_surface_normal(t_surface *surface)
 		surface->normal = rotation((t_double3){surface->simple.x,
 			surface->simple.y, -1 * surface->simple.z * surface->object->radius
 			* (M_PI / 180.0)}, surface->object->rotation, REGULAR_MATRIX);
-	normalize(surface->normal);
+	surface->normal = normalize(surface->normal);
 }
 
 t_surface			*intersect(t_vector ray, t_scene *scene,

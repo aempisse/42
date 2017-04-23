@@ -10,7 +10,7 @@ static t_double3	hex_to_double(char *str)
 	tmp = ft_strnew(ft_strlen(str));
 	tmp = ft_strcpy(tmp, str);
 	i = 0;
-	while (tmp[i] != '\0' && i < 7)
+	while (tmp[i] != '\0' && i < 6)
 	{
 		tmp[i] = ft_toupper(tmp[i]);
 		if (tmp[i] >= 48 && tmp[i] <= 57)
@@ -30,55 +30,53 @@ static t_double3	hex_to_double(char *str)
 void				check_color_light(t_light **light, char *value)
 {
 	t_light		*tmp;
-	char		*tmp_c;
 
-	tmp_c = ft_strnew(7);
-	tmp_c = ft_strcpy(tmp_c, value);
 	tmp = *light;
-	if (ft_strcmp(tmp_c, "red") == 0)
+	if (ft_strcmp(value, "red") == 0)
 		tmp->color = hex_to_double(RED);
-	else if (ft_strcmp(tmp_c, "blue") == 0)
+	else if (ft_strcmp(value, "blue") == 0)
 		tmp->color = hex_to_double(BLUE);
-	else if (ft_strcmp(tmp_c, "green") == 0)
+	else if (ft_strcmp(value, "green") == 0)
 		tmp->color = hex_to_double(GREEN);
-	else if (ft_strcmp(tmp_c, "lightblue") == 0)
+	else if (ft_strcmp(value, "lightblue") == 0)
 		tmp->color = hex_to_double(LIGHT_BLUE);
-	else if (ft_strcmp(tmp_c, "lightgreen") == 0)
+	else if (ft_strcmp(value, "lightgreen") == 0)
 		tmp->color = hex_to_double(LIGHT_GREEN);
-	else if (ft_strcmp(tmp_c, "orange") == 0)
+	else if (ft_strcmp(value, "orange") == 0)
 		tmp->color = hex_to_double(ORANGE);
-	else if (ft_strcmp(tmp_c, "pink") == 0)
+	else if (ft_strcmp(value, "pink") == 0)
 		tmp->color = hex_to_double(PINK);
-	else if (ft_strcmp(tmp_c, "purple") == 0)
+	else if (ft_strcmp(value, "purple") == 0)
 		tmp->color = hex_to_double(PURPLE);
 	else
-		tmp->color = hex_to_double(tmp_c);
+		tmp->color = hex_to_double(value);
+	if (value != NULL)
+		free(value);
 }
 
 void				check_color_obj(t_object **object, char *value)
 {
 	t_object	*tmp;
-	char		*tmp_c;
 
-	tmp_c = ft_strnew(7);
-	tmp_c = ft_strcpy(tmp_c, value);
 	tmp = *object;
-	if (ft_strcmp(tmp_c, "red") == 0)
+	if (ft_strcmp(value, "red") == 0)
 		tmp->color = hex_to_double(RED);
-	else if (ft_strcmp(tmp_c, "blue") == 0)
+	else if (ft_strcmp(value, "blue") == 0)
 		tmp->color = hex_to_double(BLUE);
-	else if (ft_strcmp(tmp_c, "green") == 0)
+	else if (ft_strcmp(value, "green") == 0)
 		tmp->color = hex_to_double(GREEN);
-	else if (ft_strcmp(tmp_c, "lightblue") == 0)
+	else if (ft_strcmp(value, "lightblue") == 0)
 		tmp->color = hex_to_double(LIGHT_BLUE);
-	else if (ft_strcmp(tmp_c, "lightgreen") == 0)
+	else if (ft_strcmp(value, "lightgreen") == 0)
 		tmp->color = hex_to_double(LIGHT_GREEN);
-	else if (ft_strcmp(tmp_c, "orange") == 0)
+	else if (ft_strcmp(value, "orange") == 0)
 		tmp->color = hex_to_double(ORANGE);
-	else if (ft_strcmp(tmp_c, "pink") == 0)
+	else if (ft_strcmp(value, "pink") == 0)
 		tmp->color = hex_to_double(PINK);
-	else if (ft_strcmp(tmp_c, "purple") == 0)
+	else if (ft_strcmp(value, "purple") == 0)
 		tmp->color = hex_to_double(PURPLE);
 	else
-		tmp->color = hex_to_double(tmp_c);
+		tmp->color = hex_to_double(value);
+	if (value != NULL)
+		free(value);
 }

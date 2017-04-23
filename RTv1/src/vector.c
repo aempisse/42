@@ -5,7 +5,7 @@ double			length_v(t_double3 vec)
 	double		square;
 
 	if ((square = sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z)) == 0)
-		ft_error("normal error");
+		return (0);
 	return (square);
 }
 

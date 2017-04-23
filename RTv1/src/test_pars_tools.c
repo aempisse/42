@@ -44,7 +44,8 @@ void			check_object_name(t_env *env, char *name, t_pars *pars)
 		init_light_obj(env, pars, SPOTLIGHT, &env->scene->light);
 	else
 		ft_error("Error : Wrong object name.\n");
-	free(name);
+	if (name != NULL)
+		free(name);
 }
 
 static int		check_pars_nbr_value2(char *line, int i)

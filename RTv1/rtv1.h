@@ -2,21 +2,21 @@
 # define RTV1_H
 
 # include "libft/libft.h"
-// # include <mlx.h>
-# include "minilibx/mlx.h"
+# include <mlx.h>
+// # include "minilibx/mlx.h"
 # include <math.h>
 # include <stdio.h>
 
 # define WIDTH 1200
-# define HEIGHT 800
+# define HEIGHT 900
 # define FOV 30
 # define DEPTH_MAX 5
 
 	 // Key pour Linux 
-# define KEY_ESC 65307
+// # define KEY_ESC 65307
 
 	// Key pour Mac 
-// # define KEY_ESC 53
+# define KEY_ESC 53
 
 # define PI 3.14159265
 
@@ -107,11 +107,6 @@ typedef struct			s_pars
 {
 	int					balise;
 	int					nbr_lign;
-	int					i_sphere;
-	int					i_plane;
-	int					i_cylinder;
-	int					i_cone;
-	int					i_light;
 	int					error;
 	char				**error_mess;
 }						t_pars;
@@ -134,7 +129,7 @@ void					check_pars_nbr_value(t_buff line, int nbr);
 void					empty_lign(t_buff line);
 
 void					add_light_value(t_env *env, t_double3 *values, int i);
-void					add_double_param(t_buff line, char *type, t_object **object);
+void					add_double_param(t_buff line, char *type, t_object **object, char *value);
 void					add_value(t_env *env, t_double3 *values, int i);
 
 void					check_object_balise(t_env *env, t_buff line, t_pars *pars);

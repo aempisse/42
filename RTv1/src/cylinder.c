@@ -6,6 +6,7 @@ static int		intersect_cylinder(t_vector ray, t_object *cylinder,
 	double		a;
 	double		b;
 	double		c;
+	t_double3	cut;
 
 	a = ray.dir.x * ray.dir.x + ray.dir.y * ray.dir.y;
 	b = 2 * (ray.pos.x * ray.dir.x + ray.pos.y *
@@ -13,7 +14,12 @@ static int		intersect_cylinder(t_vector ray, t_object *cylinder,
 	c = ray.pos.x * ray.pos.x + ray.pos.y * ray.pos.y -
 		cylinder->radius * cylinder->radius;
 	if (solve_quadratic(a, b, c, distance))
+	{
+		cut = find_point(ray.pos, ray.dir, *distance);
+		if (cut.z > 4)
+			return (0);
 		return (1);
+	}
 	return (0);
 }
 

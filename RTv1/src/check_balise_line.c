@@ -6,7 +6,7 @@ static char	*take_balise_value(char *line, int i)
 	char	*value;
 
 	j = 0;
-	value = (char*)malloc(sizeof(char) * ft_strlen(line));
+	value = (char*)malloc(sizeof(char) * (ft_strlen(line) + 1));
 	if (line[i - 1] == '=')
 	{
 		while (line[i] != '\0' && line[i] != ';')
@@ -69,25 +69,28 @@ static void	pars_balise_obj(t_env *env, t_buff line, t_pars *pars)
 	char	*value;
 
 	value = analyse_balise_lign(line.data, "name=");
-	check_object_name(env, value, pars);
+	if (value != NULL)
+		check_object_name(env, value, pars);
 	value = analyse_balise_lign(line.data, "color=");
 	if (value != NULL)
 		check_color_obj(&env->scene->object, value);
 	value = analyse_balise_lign(line.data, "gloss=");
 	if (value != NULL)
-		add_double_param(line, "gloss", &env->scene->object);
+		add_double_param(line, "gloss", &env->scene->object, value);
 	value = analyse_balise_lign(line.data, "transp=");
 	if (value != NULL)
-		add_double_param(line, "transp", &env->scene->object);
+		add_double_param(line, "transp", &env->scene->object, value);
 	value = analyse_balise_lign(line.data, "reflex=");
 	if (value != NULL)
-		add_double_param(line, "reflex", &env->scene->object);
+		add_double_param(line, "reflex", &env->scene->object, value);
 	value = analyse_balise_lign(line.data, "refraction=");
 	if (value != NULL)
-		add_double_param(line, "refraction", &env->scene->object);
+		add_double_param(line, "refraction", &env->scene->object, value);
 	value = analyse_balise_lign(line.data, "decoupe=");
 	if (value != NULL && ft_strcmp(value, "On") == 0)
 		pars->nbr_lign = 7;
+	if (value != NULL)
+		free(value);
 }
 
 void		check_object_balise(t_env *env, t_buff line, t_pars *pars)
@@ -102,19 +105,18 @@ void		check_object_balise(t_env *env, t_buff line, t_pars *pars)
 	}
 	else if (ft_strstr(line.data, "<LightObj>") != NULL)
 	{
-		pars->nbr_lign = 2;
 		value = analyse_balise_lign(line.data, "name=");
-		check_object_name(env, value, pars);
+		if (value != NULL)
+			check_object_name(env, value, pars);
 		value = analyse_balise_lign(line.data, "color=");
 		if (value != NULL)
 			check_color_light(&env->scene->light, value);
 		pars->balise = 2;
 	}
 	else if (ft_strstr(line.data, "<Camera>") != NULL)
-	{
-		pars->nbr_lign = 2;
 		pars->balise = 3;
-	}
 	else
 		empty_lign(line);
+	if (pars->balise == 2 || pars->balise == 3)
+		pars->nbr_lign = 2;
 }

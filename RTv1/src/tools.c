@@ -4,8 +4,12 @@ t_double3		normalize(t_double3 vec)
 {
 	t_double3	normalized;
 	double		norm;
+	double		length;
 
-	norm = 1.0 / length_v(vec);
+	length = length_v(vec);
+	if (abs_double(length) < 0.00001)
+		return ((t_double3){0, 0, 0});
+	norm = 1.0 / length;
 	normalized.x = vec.x * norm;
 	normalized.y = vec.y * norm;
 	normalized.z = vec.z * norm;

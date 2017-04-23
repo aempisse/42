@@ -4,6 +4,7 @@ static int			intersect_plane(t_vector ray, t_object *plane,
 	double *distance)
 {
 	double			t;
+	t_double3		cut;
 
 	ray = transform_ray(ray, plane);
 	if (abs_double(ray.dir.z) < 0.00001)
@@ -11,6 +12,10 @@ static int			intersect_plane(t_vector ray, t_object *plane,
 	if ((t = -ray.pos.z / ray.dir.z) < 0)
 		return (0);
 	*distance = t;
+	cut = find_point(ray.pos, ray.dir, *distance);
+	if (cut.x > plane->dcp_max.x || cut.x < plane->dcp_min.x ||
+		cut.y > plane->dcp_max.y || cut.y < plane->dcp_min.y)
+		return (0);
 	return (1);
 }
 

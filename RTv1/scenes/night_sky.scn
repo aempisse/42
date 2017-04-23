@@ -1,0 +1,81 @@
+<Object> name=Sphere; color=FEFCD7;
+	Pos 		{2.0 	1.0 	-15.0}
+	Rot			{0.0	0.0		0.0}
+	Radius 		{2.0}
+<Object/>
+
+<Object> name=Sphere; color=FEFCD7;
+	Pos 		{-60.0 	-30.0 	-300.0}
+	Rot			{0.0	0.0		0.0}
+	Radius 		{0.5}
+<Object/>
+
+<Object> name=Sphere; color=FEFCD7;
+	Pos 		{-30.0 	10.0 	-300.0}
+	Rot			{0.0	0.0		0.0}
+	Radius 		{0.5}
+<Object/>
+
+<Object> name=Sphere; color=FEFCD7;
+	Pos 		{20.0 	-60.0 	-300.0}
+	Rot			{0.0	0.0		0.0}
+	Radius 		{0.5}
+<Object/>
+
+<Object> name=Sphere; color=FEFCD7;
+	Pos 		{10.0 	30.0 	-300.0}
+	Rot			{0.0	0.0		0.0}
+	Radius 		{0.5}
+<Object/>
+
+<Object> name=Sphere; color=FEFCD7;
+	Pos 		{4.0 	-20.0 	-300.0}
+	Rot			{0.0	0.0		0.0}
+	Radius 		{0.5}
+<Object/>
+
+<Object> name=Sphere; color=FEFCD7;
+	Pos 		{70.0 	40.0 	-300.0}
+	Rot			{0.0	0.0		0.0}
+	Radius 		{0.5}
+<Object/>
+
+<Object> name=Sphere; color=FEFCD7;
+	Pos 		{-80.0 	-3.0 	-300.0}
+	Rot			{0.0	0.0		0.0}
+	Radius 		{0.5}
+<Object/>
+
+<Object> name=Sphere; color=FEFCD7;
+	Pos 		{85.0 	-43.0 	-300.0}
+	Rot			{0.0	0.0		0.0}
+	Radius 		{0.5}
+<Object/>
+
+<Object> name=Sphere; color=FEFCD7;
+	Pos 		{-10.0 	32.5 	-300.0}
+	Rot			{0.0	0.0		0.0}
+	Radius 		{0.5}
+<Object/>
+
+<Object> name=Sphere; color=FEFCD7;
+	Pos 		{-60.0 	32.0 	-300.0}
+	Rot			{0.0	0.0		0.0}
+	Radius 		{0.5}
+<Object/>
+
+<Object> name=Sphere; color=FEFCD7;
+	Pos 		{56.0 	-24.0 	-300.0}
+	Rot			{0.0	0.0		0.0}
+	Radius 		{0.5}
+<Object/>
+
+<LightObj> name=Spotlight; color=FFFFFF;
+	Pos 		{7.0 	3.0 	-17.0}
+	Dir			{0.0	0.0		-1.0}
+<LightObj/>
+
+<Camera>
+	Pos			{0.0	-0.5		0.0}
+	Dir			{0.0	0.0		0.0}
+<Camera/>

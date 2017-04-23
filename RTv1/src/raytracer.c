@@ -25,9 +25,8 @@ t_surface			*is_in_light(t_surface *surface, t_scene *scene,
 	*dot_light = max_double(0, *dot_light);
 	if (length_v(light->dir) > 0.01)
 	{
-		dot_light_dir = dot_product(light_ray.dir, normalize(light->dir));
-		dot_light_dir = max_double(0, -dot_light_dir);
-		// *dot_light = (*dot_light + dot_light_dir) / 2.0;
+		dot_light_dir = abs_double(dot_product(light_ray.dir, normalize(light->dir)));
+		dot_light_dir = max_double(0, dot_light_dir);
 		*dot_light *= dot_light_dir;
 	}
 	light_intersect = intersect(light_ray, scene, surface->object);
@@ -50,7 +49,7 @@ t_double3			color_diffused(t_scene *scene, t_surface *surface)
 	while (light)
 	{
 		light_intersect = is_in_light(surface, scene, light, &dot_light);
-		if (light_intersect != NULL && light_intersect->distance > 0)
+		if (light_intersect == NULL || light_intersect->distance > 0)
 		{
 			color_hit = v_plus_v(color_hit, color_mix(scale_v(light->color,
 				dot_light), surface->object->gloss,
@@ -60,7 +59,40 @@ t_double3			color_diffused(t_scene *scene, t_surface *surface)
 		light_nb++;
 		light = light->next;
 	}
-	if (light_nb != 0)
+	if (light_nb > 1)
+		color_hit = scale_v(color_hit, (1.0 / (double)light_nb));
+	return (color_hit);
+}
+
+t_double3			direct_light(t_vector ray, t_scene *scene,
+	t_double3 color_hit)
+{
+	t_light			*light;
+	t_double3		light_vector;
+	t_surface		*light_intersect;
+	double			dot_light;
+	int				light_nb;
+
+	light = scene->light;
+	light_nb = 0;
+	while (light)
+	{
+		light_vector = v_minus_v(light->pos, ray.pos);
+		dot_light = dot_product(normalize(light_vector), ray.dir);
+		dot_light = max_double(0, exp(dot_light +  7.51745) -5000);
+		// dot_light = max_double(0.9, dot_light);
+		light_intersect = intersect((t_vector){scene->camera.pos,
+			normalize(light_vector)}, scene, NULL);
+		if (light_intersect == NULL || (light_intersect->distance >
+			length_v(light_vector)))
+		{
+			color_hit = color_mix(light->color, dot_light, color_hit);
+			free(light_intersect);
+		}
+		light_nb++;
+		light = light->next;
+	}
+	if (light_nb > 1)
 		color_hit = scale_v(color_hit, (1.0 / (double)light_nb));
 	return (color_hit);
 }
@@ -72,10 +104,9 @@ t_double3			raytracer(t_vector ray, t_scene *scene,
 	t_double3		color_hit;
 
 	if (depth == DEPTH_MAX)
-		return ((t_double3){0, 0, 0});
-	surface = intersect(ray, scene, to_ignore);
-	if (surface == NULL)
-		return ((t_double3){0, 0, 0});
+		color_hit = (t_double3){0, 0, 0};
+	else if ((surface = intersect(ray, scene, to_ignore) )== NULL)
+		color_hit = (t_double3){0, 0, 0};
 	else
 	{
 		color_hit = (t_double3){0, 0, 0};
@@ -87,6 +118,7 @@ t_double3			raytracer(t_vector ray, t_scene *scene,
 			color_hit = color_mix(color_refracted(ray, scene, surface, depth),
 				surface->object->transparency, color_hit);
 		free(surface);
-		return (color_hit);
 	}
+	color_hit = direct_light(ray, scene, color_hit);
+	return (color_hit);
 }

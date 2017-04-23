@@ -5,7 +5,8 @@ static t_double3	refract(t_double3 incidence, t_double3 normal, double ior)
 	t_double3		refract;
 	double			dot_incidence;
 
-	dot_incidence = dot_product(incidence, normal);
+	ior = 1 / ior;
+	dot_incidence = dot_product(normalize(incidence), normalize(normal));
 	refract.x = ior * incidence.x + (ior * dot_incidence -
 		sqrt(1 + ior * ior * (dot_incidence * dot_incidence - 1))) * normal.x;
 	refract.y = ior * incidence.y + (ior * dot_incidence -
