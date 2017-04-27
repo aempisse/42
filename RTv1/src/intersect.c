@@ -47,7 +47,10 @@ t_surface			*intersect(t_vector ray, t_scene *scene,
 	if (surface->object != NULL)
 	{
 		surface->point = find_point(ray.pos, ray.dir, surface->distance);
-		get_surface_normal(surface, ray.dir);
+		surface->normal = rotation(surface->normal, surface->object->rotation, REGULAR_MATRIX);
+		surface->normal = normalize(surface->normal);
+		if (dot_product(surface->normal, ray.dir) > 0)
+			surface->normal = scale_v(surface->normal, -1);
 	}
 	return (surface);
 }

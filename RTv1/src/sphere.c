@@ -24,15 +24,12 @@ void				get_nearest_sphere(t_vector ray, t_object *sphere,
 	if (intersect_sphere(ray, sphere, &distance))
 	{
 		if (sphere->dcp)
+			cut_object(ray, sphere, surface, &distance);
+		else
 		{
-			if (cut_object(ray, sphere, surface, &distance))
-			{
-
-			}
-			return ;
+			surface->object = sphere;
+			surface->distance = min_positive(distance.x, distance.y);
+			surface->normal = find_point(ray.pos, ray.dir, surface->distance);
 		}
-		surface->object = sphere;
-		surface->distance = min_positive(distance.x, distance.y);
-		surface->simple = find_point(ray.pos, ray.dir, surface->distance);
 	}
 }

@@ -57,8 +57,8 @@ t_double3			color_diffused(t_scene *scene, t_surface *surface, t_vector ray)
 				scale_v(surface->object->color, dot_light)));
 			reflected = reflect(scale_v(normalize(v_minus_v(light->pos, surface->point)), -1), surface->normal);
 			color_hit = v_plus_v(color_hit, scale_v(light->color, pow(max_double(0, -dot_product(reflected, ray.dir)), 100)));
-			free(light_intersect);
 		}
+		free(light_intersect);
 		light_nb++;
 		light = light->next;
 	}
@@ -88,10 +88,8 @@ t_double3			direct_light(t_vector ray, t_scene *scene,
 			normalize(light_vector)}, scene, NULL);
 		if (light_intersect->object == NULL || (light_intersect->distance >
 			length_v(light_vector)))
-		{
 			color_hit = color_mix(light->color, dot_light, color_hit);
-			free(light_intersect);
-		}
+		free(light_intersect);
 		light_nb++;
 		light = light->next;
 	}
@@ -121,8 +119,8 @@ t_double3			raytracer(t_vector ray, t_scene *scene,
 		if (surface->object->transparency > 0.01)
 			color_hit = color_mix(color_refracted(ray, scene, surface, depth),
 				surface->object->transparency, color_hit);
-		free(surface);
 	}
 	color_hit = direct_light(ray, scene, color_hit);
+	free(surface);
 	return (color_hit);
 }

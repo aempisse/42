@@ -16,8 +16,8 @@ OBJ += obj/ft_new_image.o obj/cut.o
 
 LIBFT = ./libft/libft.a
 
-LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm -lpthread
-#LIBMLX = ./libmlx.a -framework OPENGL -framework Appkit -lpthread
+#LIBMLX = -L./minilibx/ -lmlx_Linux -L/usr/lib/x86_64-linux-gnu/ -lXext -lX11 -lm -lpthread
+LIBMLX = ./libmlx.a -framework OPENGL -framework Appkit -lpthread
 
 all: obj $(NAME)
 

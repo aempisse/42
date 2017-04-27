@@ -23,5 +23,6 @@ void			get_nearest_plane(t_vector ray, t_object *plane,
 	{
 		surface->object = plane;
 		surface->distance = distance;
+		surface->normal = (t_double3){0, 0, 1};
 	}
 }
