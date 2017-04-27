@@ -1,5 +1,21 @@
 #include "../rtv1.h"
 
+void			add_OnOff_value(t_object **object, char *value, t_pars *pars)
+{
+	t_object	*tmp;
+
+	tmp = *object;
+	if (strcmp(value, "On") == 0)
+	{
+		pars->nbr_lign = 7;
+		tmp->dcp = 1;
+	}
+	else if (strcmp(value, "Off") == 0)
+		tmp->dcp = 0;
+	else
+		ft_error("Error : Wrong Off/On Value.\n");
+}
+
 static int	search_param(char *line, char *type)
 {
 	int		i;

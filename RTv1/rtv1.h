@@ -2,21 +2,27 @@
 # define RTV1_H
 
 # include "libft/libft.h"
-# include <mlx.h>
-// # include "minilibx/mlx.h"
+// # include <mlx.h>
+# include "minilibx/mlx.h"
 # include <math.h>
 # include <stdio.h>
+# include <pthread.h>
 
 # define WIDTH 1200
-# define HEIGHT 900
+# define HEIGHT 800
 # define FOV 30
 # define DEPTH_MAX 5
+# define THREAD 4
 
 	 // Key pour Linux 
-// # define KEY_ESC 65307
+# define KEY_ESC 65307
 
 	// Key pour Mac 
-# define KEY_ESC 53
+// # define KEY_ESC 53
+# define L_ARROW 123
+# define U_ARROW 126
+# define R_ARROW 124
+# define D_ARROW 125
 
 # define PI 3.14159265
 
@@ -26,7 +32,7 @@
 # define CONE 3
 # define SPOTLIGHT 4
 
-# define AMBIANT 0.1
+# define AMBIANT 0.05
 
 # define RED "ff0000"
 # define BLUE "0000ff"
@@ -82,6 +88,7 @@ typedef struct			s_object
 	double				refraction;
 	double				reflex;
 	double				transparency;
+	int					dcp;
 	t_double3			dcp_min;
 	t_double3			dcp_max;
 	struct	s_object	*next;
@@ -101,6 +108,9 @@ typedef struct			s_scene
 	t_object			*object;
 	t_light				*light;
 	t_vector			camera;
+	double				ambiant;
+	int					aliaising;
+	int					direct_light;
 }						t_scene;
 
 typedef struct			s_pars
@@ -110,16 +120,28 @@ typedef struct			s_pars
 	int					error;
 	char				**error_mess;
 }						t_pars;
-
-typedef struct			s_env
+ 
+typedef struct 			s_menu
 {
-	void				*mlx;
-	void				*win_scene;
-	t_image				*img;
-	t_scene				*scene;
-	int					nbr_obj;
-	int					render;
-}						t_env;
+	int 				menu_lvl;
+	int 				index;
+}						t_menu;
+
+typedef struct          s_env
+{
+    void                *mlx;
+    void                *win_scene;
+    void				*win_menu;
+    t_image             *img[THREAD];
+    t_image				*img_menu;
+    t_scene             *scene;
+    t_menu				*menu;
+    pthread_mutex_t		my_mutex;
+    pthread_cond_t		cond;
+    int                 nbr_obj;
+    int                 render;
+    int                 count;
+}                       t_env;
 
 int						loop_hook(t_env *env);
 int						key_hook(int keycode, t_env *env);
@@ -130,6 +152,7 @@ void					empty_lign(t_buff line);
 
 void					add_light_value(t_env *env, t_double3 *values, int i);
 void					add_double_param(t_buff line, char *type, t_object **object, char *value);
+void					add_OnOff_value(t_object **object, char *value, t_pars *pars);
 void					add_value(t_env *env, t_double3 *values, int i);
 
 void					check_object_balise(t_env *env, t_buff line, t_pars *pars);
@@ -146,6 +169,7 @@ void					check_plane_obj(t_env *env, t_buff line, int i);
 void					print_object(t_object **first, t_light **first_l);
 void					pars_camera_line(t_env *env, t_buff line, int i);
 void					pars_light_line(t_env *env, t_buff line, int i);
+void					pars_head_value(t_env *env, t_buff line);
 void					test_decoup_balise(char *line, int i);
 void					pars_object_line(t_env *env, t_buff line, int i);
 
@@ -175,23 +199,42 @@ t_vector				transform_ray(t_vector ray, t_object *object);
 double					length_v(t_double3 vec);
 double					max_double(double a, double b);
 double					min_double(double a, double b);
+double					min_positive(double a, double b);
 double					abs_double(double n);
-int						solve_quadratic(double a, double b, double c, double *distance);
+int						solve_quadratic(double a, double b, double c, t_double2 *distance);
 
 t_double3				rotation(t_double3 point, t_double3 angles, int inverse);
 
 t_double3				color_reflected(t_vector ray, t_scene *scene, t_surface *surface, int depth);
+t_double3				reflect(t_double3 incidence, t_double3 normal);
 t_double3				color_refracted(t_vector ray, t_scene *scene,t_surface *surface, int depth);
 t_double3				raytracer(t_vector ray, t_scene *scene, t_object *to_ignore, int depth);
 t_surface				*intersect(t_vector ray, t_scene *scene, t_object *to_ignore);
-void					render(t_env *env);
-void					color_standard(t_env *env, t_double3 color, int x, int y);
-void					get_surface_normal(t_surface *surface);
+void					*render(void *env);
+void					color_standard(t_env *env, t_double3 color, int x, int y, int index);
+void					get_surface_normal(t_surface *surface, t_double3 ray_dir);
 
-void					get_nearest_sphere(t_vector ray, t_object *sphere, t_surface **surface);
-void					get_nearest_plane(t_vector ray, t_object *plane, t_surface **surface);
-void					get_nearest_cylinder(t_vector ray, t_object *cylinder, t_surface **surface);
-void					get_nearest_cone(t_vector ray, t_object *cone, t_surface **surface);
+void					get_nearest_sphere(t_vector ray, t_object *sphere, t_surface *surface);
+void					get_nearest_plane(t_vector ray, t_object *plane, t_surface *surface);
+// void					get_nearest_cylinder(t_vector ray, t_object *cylinder, t_surface **surface);
+// void					get_nearest_cone(t_vector ray, t_object *cone, t_surface **surface);
+
+int						intersect_plane(t_vector ray, t_object *plane, double *distance);
+
+t_image					*ft_new_image(void *mlx, int width, int height, int thread);
+
+/*
+** Fonction multi_thread
+*/
+
+void    				multi_threading(t_env *env);
+
+/*
+** Fonction menu
+*/
+
+int						key_menu(int keycode, t_env *env);
+void					init_menu(t_env *env);
 
 #endif
 

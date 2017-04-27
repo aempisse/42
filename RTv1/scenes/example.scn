@@ -1,4 +1,4 @@
-<Object> name=Sphere; color=red; refraction=1;
+<Object> name=Sphere; name=Sphere1; color=red; refraction=1;
 	Pos 		{0.0 	0.0 	-15.0}
 	Rot			{0.0	0.0		0.0}
 	Radius 		{2.0}
@@ -13,7 +13,7 @@
 <Object> name=Sphere; color=red;
 	Pos 		{-1.0 	1.0 	-20.0}
 	Rot			{0.0	0.0		0.0}
-	Radius 		{-2.0}
+	Radius 		{2.0}
 <Object/>
 
 <Object> name=Plane; color=blue;
@@ -48,12 +48,12 @@
 
 <LightObj> name=Spotlight; color=FFFFFF;
 	Pos 		{2.0 	5.0 	-5.0}
-	Dir			{1.0	0.0		0.0}
+	Dir			{0.0	0.0		0.0}
 <LightObj/>
 
 <LightObj> name=Spotlight; color=FFFFFF;
 	Pos 		{-5.5 	-1.0 	-12.0}
-	Dir			{0.0	0.0		1.0}
+	Dir			{0.0	0.0		0.0}
 <LightObj/>
 
 <Camera>

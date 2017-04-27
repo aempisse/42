@@ -1,17 +1,21 @@
-<Object> name=Sphere; color=FFFFFF; gloss=0.8;
+<Object> name=Cylinder; color=FFFFFF; gloss=0.8; decoupe=On;
 	Pos 		{0.0 	0.0 	-15.0}
-	Rot			{0.0	0.0		0.0}
+	Rot			{-50.0	0.0		0.0}
 	Radius 		{2.0}
+	<decoupe>
+	Min			{0.15 	0.0		0.0}
+	Max			{0.0 	0.0		0.0}
+	<decoupe/>
 <Object/>
 
-<Object> name=Plane; color=blue; gloss=0.3;
+<Object> name=Pane; color=blue; gloss=0.3;
 	Pos 		{0.0 	0.0 	-20.0}
 	Rot			{-45.0	0.0		0.0}
 	Radius 		{0.0}
 <Object/>
 
 <LightObj> name=Spotlight; color=FFFFFF;
-	Pos 		{-5.0 	0.0 	-5.0}
+	Pos 		{0.0 	0.0 	-5.0}
 	Dir			{0.0	0.0		0.0}
 <LightObj/>
 
@@ -19,3 +23,10 @@
 	Pos			{0.0	0.0		30.0}
 	Dir			{0.0	0.0		0.0}
 <Camera/>
+
+<HEAD>
+	<Ambiant>			{0.1}
+	<Aliaising> 	 	OFF;
+	<Direct Light>  	ON;
+	<Color Effect>		Cartoon;
+<HEAD/>

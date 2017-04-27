@@ -1,6 +1,6 @@
 #include "../rtv1.h"
 
-static t_double3	reflect(t_double3 incidence, t_double3 normal)
+t_double3	reflect(t_double3 incidence, t_double3 normal)
 {
 	t_double3		reflect;
 

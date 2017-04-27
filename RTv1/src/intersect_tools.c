@@ -10,26 +10,28 @@ t_vector		transform_ray(t_vector ray, t_object *object)
 	return (new_ray);
 }
 
-int				solve_quadratic(double a, double b, double c, double *distance)
+int				solve_quadratic(double a, double b, double c, t_double2 *distance)
 {
 	double		delta;
-	double		t0;
-	double		t1;
+	// double		t0;
+	// double		t1;
 
 	delta = b * b - 4 * a * c;
 	if (delta < 0)
 		return (0);
-	t0 = (-b - sqrt(delta)) / (2 * a);
-	t1 = (-b + sqrt(delta)) / (2 * a);
-	if (t0 > t1)
-		swap(&t0, &t1);
-	if (t0 < 0)
-	{
-		t0 = t1;
-		if (t0 < 0)
-			return (0);
-	}
-	*distance = t0;
+	distance->x = (-b - sqrt(delta)) / (2 * a);
+	distance->y = (-b + sqrt(delta)) / (2 * a);
+	if (distance->x < 0 && distance->y < 0)
+		return (0);
+	// if (t0 > t1)
+	// 	swap(&t0, &t1);
+	// if (t0 < 0)
+	// {
+	// 	t0 = t1;
+	// 	if (t0 < 0)
+	// 		return (0);
+	// }
+	// *distance = t0;
 	return (1);
 }
 

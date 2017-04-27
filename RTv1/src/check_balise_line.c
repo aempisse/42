@@ -87,8 +87,8 @@ static void	pars_balise_obj(t_env *env, t_buff line, t_pars *pars)
 	if (value != NULL)
 		add_double_param(line, "refraction", &env->scene->object, value);
 	value = analyse_balise_lign(line.data, "decoupe=");
-	if (value != NULL && ft_strcmp(value, "On") == 0)
-		pars->nbr_lign = 7;
+	if (value != NULL)
+		add_OnOff_value(&env->scene->object, value, pars);
 	if (value != NULL)
 		free(value);
 }
@@ -113,10 +113,12 @@ void		check_object_balise(t_env *env, t_buff line, t_pars *pars)
 			check_color_light(&env->scene->light, value);
 		pars->balise = 2;
 	}
-	else if (ft_strstr(line.data, "<Camera>") != NULL)
+	else if (ft_strstr(line.data, "<HEAD>") != NULL)
 		pars->balise = 3;
+	else if (ft_strstr(line.data, "<Camera>") != NULL)
+		pars->balise = 4;
 	else
 		empty_lign(line);
-	if (pars->balise == 2 || pars->balise == 3)
+	if (pars->balise == 2 || pars->balise == 4)
 		pars->nbr_lign = 2;
 }

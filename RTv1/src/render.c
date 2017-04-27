@@ -1,6 +1,6 @@
 #include "../rtv1.h"
 
-t_double3		pixel_ray_init(t_double3 camera_dir, int x, int y)
+static t_double3		pixel_ray_init(t_double3 camera_dir, int x, int y)
 {
 	t_double3	pixel_ray;
 	double		aspect_ratio;
@@ -16,23 +16,37 @@ t_double3		pixel_ray_init(t_double3 camera_dir, int x, int y)
 	return (pixel_ray);
 }
 
-void			render(t_env *env)
+static void            init_de_merde(void *env, int *index)
 {
-	int			x;
-	int			y;
-	t_double3	pixel_ray;
-	t_double3	color;
+    pthread_mutex_lock(&((t_env*)env)->my_mutex);
+    *index = ((t_env*)env)->count;
+    pthread_cond_signal(&((t_env*)env)->cond);
+    pthread_mutex_unlock(&((t_env*)env)->my_mutex);
+}
 
-	y = -1;
-	while (++y < HEIGHT)
-	{
-		x = -1;
-		while (++x < WIDTH)
-		{
-			pixel_ray = pixel_ray_init(env->scene->camera.dir, x, y);
-			color = raytracer((t_vector){env->scene->camera.pos, pixel_ray},
-				env->scene, NULL, 0);
-			color_standard(env, color, x, y);
-		}
-	}
+void            *render(void *env)
+{
+    t_double3   pixel_ray;
+    t_double3   color;
+    int         x;
+    int         y;
+    int         index;
+ 
+    init_de_merde(env, &index);
+    y = 0;
+    while (y < HEIGHT / THREAD)
+    {
+        x = 0;
+        while (x < WIDTH)
+        {
+            pixel_ray = pixel_ray_init(((t_env*)env)->scene->camera.dir, x,
+                y + ((HEIGHT / THREAD) * (index)));
+            color = raytracer((t_vector){((t_env*)env)->scene->camera.pos, 
+                pixel_ray}, ((t_env*)env)->scene, NULL, 0);
+            color_standard((t_env*)env, color, x, y, index);
+            x++;
+        }
+        y++;
+    }
+    pthread_exit(0);
 }

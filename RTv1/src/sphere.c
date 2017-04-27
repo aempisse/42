@@ -1,42 +1,38 @@
 #include "../rtv1.h"
 
 static int			intersect_sphere(t_vector ray, t_object *sphere,
-	double *distance)
+	t_double2 *distance)
 {
-	t_double3	center;
 	double		a;
 	double		b;
 	double		c;
-	t_double3	cut;
 
-	center = v_minus_v(ray.pos, sphere->pos);
 	a = dot_product(ray.dir, ray.dir);
-	b = 2 * dot_product(ray.dir, center);
-	c = dot_product(center, center) - sphere->radius * sphere->radius;
+	b = 2 * (ray.pos.x * ray.dir.x + ray.pos.y * ray.dir.y + ray.pos.z * ray.dir.z);
+	c = dot_product(ray.pos, ray.pos) - sphere->radius * sphere->radius;
 	if (solve_quadratic(a, b, c, distance))
 		return (1);
 	return (0);
 }
 
 void				get_nearest_sphere(t_vector ray, t_object *sphere,
-	t_surface **surface)
+	t_surface *surface)
 {
-	double			distance;
+	t_double2		distance;
 
-	distance = 0;
+	ray = transform_ray(ray, sphere);
 	if (intersect_sphere(ray, sphere, &distance))
 	{
-		if (*surface == NULL)
+		if (sphere->dcp)
 		{
-			if ((*surface = (t_surface*)malloc(sizeof(t_surface))) == NULL)
-				ft_error("Error : malloc() failed.\n");
-			(*surface)->object = sphere;
-			(*surface)->distance = distance;
+			if (cut_object(ray, sphere, surface, &distance))
+			{
+
+			}
+			return ;
 		}
-		else if ((*surface)->distance > distance)
-		{
-			(*surface)->object = sphere;
-			(*surface)->distance = distance;
-		}
+		surface->object = sphere;
+		surface->distance = min_positive(distance.x, distance.y);
+		surface->simple = find_point(ray.pos, ray.dir, surface->distance);
 	}
 }

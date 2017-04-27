@@ -30,18 +30,19 @@ t_surface			*is_in_light(t_surface *surface, t_scene *scene,
 		*dot_light *= dot_light_dir;
 	}
 	light_intersect = intersect(light_ray, scene, surface->object);
-	if (light_intersect != NULL)
+	if (light_intersect->object != NULL)
 		light_intersect->distance -= length_v(light_distance);
 	return (light_intersect);
 }
 
-t_double3			color_diffused(t_scene *scene, t_surface *surface)
+t_double3			color_diffused(t_scene *scene, t_surface *surface, t_vector ray)
 {
 	t_double3		color_hit;
 	t_light			*light;
 	int				light_nb;
 	double			dot_light;
 	t_surface		*light_intersect;
+	t_double3		reflected;
 
 	color_hit = (t_double3){0, 0, 0};
 	light = scene->light;
@@ -49,11 +50,13 @@ t_double3			color_diffused(t_scene *scene, t_surface *surface)
 	while (light)
 	{
 		light_intersect = is_in_light(surface, scene, light, &dot_light);
-		if (light_intersect == NULL || light_intersect->distance > 0)
+		if (light_intersect->object == NULL || light_intersect->distance > 0)
 		{
 			color_hit = v_plus_v(color_hit, color_mix(scale_v(light->color,
 				dot_light), surface->object->gloss,
 				scale_v(surface->object->color, dot_light)));
+			reflected = reflect(scale_v(normalize(v_minus_v(light->pos, surface->point)), -1), surface->normal);
+			color_hit = v_plus_v(color_hit, scale_v(light->color, pow(max_double(0, -dot_product(reflected, ray.dir)), 100)));
 			free(light_intersect);
 		}
 		light_nb++;
@@ -83,7 +86,7 @@ t_double3			direct_light(t_vector ray, t_scene *scene,
 		// dot_light = max_double(0.9, dot_light);
 		light_intersect = intersect((t_vector){scene->camera.pos,
 			normalize(light_vector)}, scene, NULL);
-		if (light_intersect == NULL || (light_intersect->distance >
+		if (light_intersect->object == NULL || (light_intersect->distance >
 			length_v(light_vector)))
 		{
 			color_hit = color_mix(light->color, dot_light, color_hit);
@@ -105,12 +108,13 @@ t_double3			raytracer(t_vector ray, t_scene *scene,
 
 	if (depth == DEPTH_MAX)
 		color_hit = (t_double3){0, 0, 0};
-	else if ((surface = intersect(ray, scene, to_ignore) )== NULL)
+	surface = intersect(ray, scene, to_ignore);
+	if (surface->object == NULL)
 		color_hit = (t_double3){0, 0, 0};
 	else
 	{
 		color_hit = (t_double3){0, 0, 0};
-		color_hit = color_mix(surface->object->color, AMBIANT, color_diffused(scene, surface));
+		color_hit = color_mix(surface->object->color, scene->ambiant, color_diffused(scene, surface, ray));
 		if (surface->object->reflex > 0.01)
 			color_hit = color_mix(color_reflected(ray, scene, surface, depth),
 				surface->object->reflex, color_hit);

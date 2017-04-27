@@ -8,7 +8,9 @@ static int		end_balise(t_buff line, t_pars *pars)
 		return (1);
 	else if (pars->balise == 2 && ft_strcmp(line.data, "<LightObj/>") == 0)
 		return (1);
-	else if (pars->balise == 3 && ft_strcmp(line.data, "<Camera/>") == 0)
+	else if (pars->balise == 3 && ft_strcmp(line.data, "<HEAD/>") == 0)
+		return (1);
+	else if (pars->balise == 4 && ft_strcmp(line.data, "<Camera/>") == 0)
 		return (1);
 	return (0);
 }
@@ -18,7 +20,9 @@ static int		check_object_line_value(t_env *env, t_buff line,
 {
 	if (end_balise(line, pars) == 1)
 	{
-		if (j == pars->nbr_lign)
+		if (pars->balise == 3)
+			pars->balise = 0;
+		else if (j == pars->nbr_lign)
 		{
 			pars->balise = 0;
 			j = 0;
@@ -31,6 +35,8 @@ static int		check_object_line_value(t_env *env, t_buff line,
 	else if (pars->balise == 2)
 		pars_light_line(env, line, j++);
 	else if (pars->balise == 3)
+		pars_head_value(env, line);
+	else if (pars->balise == 4)
 		pars_camera_line(env, line, j++);
 	if (j > pars->nbr_lign)
 		ft_error("Error : Too Much of Values Lines, Close the Object.\n");
@@ -58,7 +64,7 @@ void			check_files(int fd, t_env *env)
 	pars = init_parser();
 	while (get_next_line(fd, &line) > 0)
 	{
-		ft_putendl(line.data);
+		// ft_putendl(line.data);
 		if (pars->balise == 0)
 			check_object_balise(env, line, pars);
 		else if (pars->balise >= 1)

@@ -37,6 +37,7 @@ t_object		*object_new(int type)
 	object->gloss = 0;
 	object->refraction = 1.2;
 	object->next = NULL;
+	object->dcp = 0;
 	return (object);
 }
 
@@ -76,6 +77,7 @@ void			print_object(t_object **first, t_light **first_l)
 		printf("\tREFRACTION :\t%.2f\n\n", tmp->refraction);
 		printf("\tDCP_MIN :\t(%.2f, %.2f, %.2f)\n", tmp->dcp_min.x, tmp->dcp_min.y, tmp->dcp_min.z);
 		printf("\tDCP_MAX :\t(%.2f, %.2f, %.2f)\n", tmp->dcp_max.x, tmp->dcp_max.y, tmp->dcp_max.z);
+		printf("\tDCP_BOOL :\t%i\n", tmp->dcp);
 		tmp = tmp->next;
 	}
 	i = 0;
