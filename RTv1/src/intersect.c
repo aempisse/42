@@ -31,6 +31,7 @@ t_surface			*intersect(t_vector ray, t_scene *scene,
 	if ((surface = (t_surface*)malloc(sizeof(t_surface))) == NULL)
 		ft_error("Error : malloc() failed.\n");
 	surface->object = NULL;
+	surface->distance = -1;
 	tmp = scene->object;
 	while (tmp)
 	{

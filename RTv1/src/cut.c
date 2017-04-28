@@ -53,26 +53,30 @@ int				get_cut_object(t_vector ray, t_object *object, double *valid, char axis)
 		if (distance.y > 0 && is_inside_sphere(find_point(ray.pos, ray.dir, distance.y), object))
 			*valid = min_positive(distance.y, *valid);
 	}
+	free(cut_plane_min);
+	free(cut_plane_max);
 	return (*valid > 0 ? 1 : 0);
 }
 
-void			cut_object(t_vector ray, t_object *object, t_surface *surface, t_double2 *distance)
+t_surface		*cut_object(t_vector ray, t_object *object, t_double2 *distance)
 {
 	double		valid;
 	double		distance_cut;
+	t_surface	*tmp;
 
+	tmp = (t_surface*)malloc(sizeof(t_surface));
 	valid = -1;
 	if (distance->x > 0 && is_between_cuts(find_point(ray.pos, ray.dir, distance->x), object))
 	{
 		valid = distance->x;
-		surface->distance = valid;
-		surface->normal = find_point(ray.pos, ray.dir, valid);	//sphere
+		tmp->distance = valid;
+		tmp->normal = find_point(ray.pos, ray.dir, valid);	//sphere
 	}
 	if (distance->y > 0 && is_between_cuts(find_point(ray.pos, ray.dir, distance->y), object))
 	{
 		valid = min_positive(distance->y, valid);
-		surface->distance = valid;
-		surface->normal = find_point(ray.pos, ray.dir, valid);	//sphere
+		tmp->distance = valid;
+		tmp->normal = find_point(ray.pos, ray.dir, valid);	//sphere
 	}
 	distance_cut = -1;
 	if (get_cut_object(ray, object, &distance_cut, 'x'))		// X axis cut
@@ -80,9 +84,10 @@ void			cut_object(t_vector ray, t_object *object, t_surface *surface, t_double2 
 		if (min_positive(distance_cut, valid) == distance_cut)
 		{
 			valid = distance_cut;
-			surface->distance = valid;
-			surface->normal = (t_double3){1, 0, 0};			// normal for an X axis cut
+			tmp->distance = valid;
+			tmp->normal = (t_double3){1, 0, 0};			// normal for an X axis cut
 		}
 	}
-	surface->object = valid > 0 ? object : NULL;
+	tmp->object = (valid > 0 ? object : NULL);
+	return (tmp);
 }

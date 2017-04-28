@@ -21,8 +21,11 @@ void			get_nearest_plane(t_vector ray, t_object *plane,
 	ray = transform_ray(ray, plane);
 	if (intersect_plane(ray, plane, &distance))
 	{
-		surface->object = plane;
-		surface->distance = distance;
-		surface->normal = (t_double3){0, 0, 1};
+		if (surface->distance == -1 || surface->distance > distance)
+		{
+			surface->object = plane;
+			surface->distance = distance;
+			surface->normal = (t_double3){0, 0, 1};
+		}
 	}
 }
