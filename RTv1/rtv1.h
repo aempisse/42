@@ -2,8 +2,8 @@
 # define RTV1_H
 
 # include "libft/libft.h"
-// # include <mlx.h>
-# include "minilibx/mlx.h"
+# include <mlx.h>
+// # include "minilibx/mlx.h"
 # include <math.h>
 # include <stdio.h>
 # include <pthread.h>
@@ -15,10 +15,10 @@
 # define THREAD 4
 
 	 // Key pour Linux 
-# define KEY_ESC 65307
+// # define KEY_ESC 65307
 
 	// Key pour Mac 
-// # define KEY_ESC 53
+# define KEY_ESC 53
 # define L_ARROW 123
 # define U_ARROW 126
 # define R_ARROW 124
@@ -220,7 +220,7 @@ void					get_nearest_plane(t_vector ray, t_object *plane, t_surface *surface);
 // void					get_nearest_cone(t_vector ray, t_object *cone, t_surface **surface);
 
 int						intersect_plane(t_vector ray, t_object *plane, double *distance);
-t_surface				*cut_object(t_vector ray, t_object *object, t_double2 *distance);
+t_surface				*cut_object(t_vector ray_s, t_vector ray_r, t_object *object, t_double2 *distance);
 
 t_image					*ft_new_image(void *mlx, int width, int height, int thread);
 
