@@ -19,6 +19,24 @@ void			light_add(t_light **first, t_light *new)
 	*first = new;
 }
 
+void			neg_obj_add(t_negobj **first, t_negobj *new)
+{
+	new->next = *first;
+	*first = new;
+}
+
+t_negobj		*neg_obj_new()
+{
+	t_negobj	*object;
+
+	if ((object = (t_negobj*)malloc(sizeof(t_negobj))) == NULL)
+		ft_error("Error : malloc() failed.\n");
+	object->pos = (t_double3){0, 0, 0};
+	object->rotation = (t_double3){0, 0, 0};
+	object->radius = 0;
+	return (object);
+}
+
 t_object		*object_new(int type)
 {
 	t_object	*object;
@@ -29,8 +47,9 @@ t_object		*object_new(int type)
 	object->pos = (t_double3){0, 0, 0};
 	object->rotation = (t_double3){0, 0, 0};
 	object->radius = 0;
-	object->dcp_min = (t_double3){0, 0, 0};
-	object->dcp_max = (t_double3){0, 0, 0};
+	object->dcp_x = (t_double2){0, 0};
+	object->dcp_y = (t_double2){0, 0};
+	object->dcp_z = (t_double2){0, 0};
 	object->color = (t_double3){1, 1, 1};
 	object->reflex = 0;
 	object->transparency = 0;
@@ -47,14 +66,16 @@ void			object_add(t_object **first, t_object *new)
 	*first = new;
 }
 
-void			print_object(t_object **first, t_light **first_l)
+void			print_object(t_object **first, t_light **first_l, t_negobj **first_n)
 {
 	t_object	*tmp;
 	t_light		*tmp_l;
+	t_negobj	*tmp_n;
 	int			i;
 
 	tmp = *first;
 	tmp_l = *first_l;
+	tmp_n = *first_n;
 	i = 0;
 	while (tmp)
 	{
@@ -75,8 +96,9 @@ void			print_object(t_object **first, t_light **first_l)
 		printf("\tTRANSPARENCY :\t%.2f\n", tmp->transparency);
 		printf("\tGLOSS :\t\t%.2f\n", tmp->gloss);
 		printf("\tREFRACTION :\t%.2f\n\n", tmp->refraction);
-		printf("\tDCP_MIN :\t(%.2f, %.2f, %.2f)\n", tmp->dcp_min.x, tmp->dcp_min.y, tmp->dcp_min.z);
-		printf("\tDCP_MAX :\t(%.2f, %.2f, %.2f)\n", tmp->dcp_max.x, tmp->dcp_max.y, tmp->dcp_max.z);
+		printf("\tDCP_X :\t(%.2f, %.2f)\n", tmp->dcp_x.x, tmp->dcp_x.y);
+		printf("\tDCP_Y :\t(%.2f, %.2f)\n", tmp->dcp_y.x, tmp->dcp_y.y);
+		printf("\tDCP_Z :\t(%.2f, %.2f)\n", tmp->dcp_z.x, tmp->dcp_z.y);
 		printf("\tDCP_BOOL :\t%i\n", tmp->dcp);
 		tmp = tmp->next;
 	}
@@ -90,5 +112,14 @@ void			print_object(t_object **first, t_light **first_l)
 		printf("\tROTATION :\t(%.2f, %.2f, %.2f)\n", tmp_l->dir.x, tmp_l->dir.y, tmp_l->dir.z);
 		printf("\tCOLOR :\t\t(%.2f, %.2f, %.2f)\n", tmp_l->color.x, tmp_l->color.y, tmp_l->color.z);
 		tmp_l = tmp_l->next;
+	}
+	i = 0;
+	while (tmp_n)
+	{
+		printf("NEG_OBJ %d :\n", i++);		
+		printf("\tPOSITION :\t(%.2f, %.2f, %.2f)\n", tmp_n->pos.x, tmp_n->pos.y, tmp_n->pos.z);
+		printf("\tROTATION :\t(%.2f, %.2f, %.2f)\n", tmp_n->rotation.x, tmp_n->rotation.y, tmp_n->rotation.z);
+		printf("\tRADIUS :\t%.2f\n", tmp_n->radius);
+		tmp_n = tmp_n->next;
 	}
 }

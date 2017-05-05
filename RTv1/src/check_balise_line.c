@@ -1,6 +1,6 @@
 #include "../rtv1.h"
 
-static char	*take_balise_value(char *line, int i)
+static char	*take_balise_value(t_env *env, t_pars *pars, char *line, int i)
 {
 	int		j;
 	char	*value;
@@ -17,16 +17,16 @@ static char	*take_balise_value(char *line, int i)
 		}
 		value[j] = '\0';
 		if (line[i] != ';')
-			ft_error("Syntax Error : Close type value with ';'.\n");
+			pars_error(env, pars, "Syntax Error : Close type value with ';'.", 1);
 		else
 			return (value);
 	}
 	else
-		ft_error("Syntax Error.\n");
-	return (value);
+		pars_error(env, pars, "Syntax Error.\n", 1);
+	return (NULL);
 }
 
-static char	*value_of_balise(char *line, char *type)
+static char	*value_of_balise(t_env *env, t_pars *pars, char *line, char *type)
 {
 	int		i;
 	int		j;
@@ -41,22 +41,22 @@ static char	*value_of_balise(char *line, char *type)
 		if (type[j] == '\0')
 		{
 			i++;
-			value = take_balise_value(line, i);
+			value = take_balise_value(env, pars, line, i);
 			return (value);
 		}
 		i++;
 	}
-	ft_putendl("Error : Bad Type Value.");
+	pars_error(env, pars, "Error : Bad Type Value.", 1);
 	return (NULL);
 }
 
-static char	*analyse_balise_lign(char *line, char *type)
+static char	*analyse_balise_lign(t_env *env, t_pars *pars, char *line, char *type)
 {
 	char	*value;
 
 	if (ft_strstr(line, type) != NULL)
 	{
-		if ((value = value_of_balise(line, type)) == NULL)
+		if ((value = value_of_balise(env, pars, line, type)) == NULL)
 			return (NULL);
 		else
 			return (value);
@@ -68,25 +68,25 @@ static void	pars_balise_obj(t_env *env, t_buff line, t_pars *pars)
 {
 	char	*value;
 
-	value = analyse_balise_lign(line.data, "name=");
+	value = analyse_balise_lign(env, pars, line.data, "name=");
 	if (value != NULL)
 		check_object_name(env, value, pars);
-	value = analyse_balise_lign(line.data, "color=");
+	value = analyse_balise_lign(env, pars, line.data, "color=");
 	if (value != NULL)
-		check_color_obj(&env->scene->object, value);
-	value = analyse_balise_lign(line.data, "gloss=");
+		check_color_obj(env, pars, &env->scene->object, value);
+	value = analyse_balise_lign(env, pars, line.data, "gloss=");
 	if (value != NULL)
 		add_double_param(line, "gloss", &env->scene->object, value);
-	value = analyse_balise_lign(line.data, "transp=");
+	value = analyse_balise_lign(env, pars, line.data, "transp=");
 	if (value != NULL)
 		add_double_param(line, "transp", &env->scene->object, value);
-	value = analyse_balise_lign(line.data, "reflex=");
+	value = analyse_balise_lign(env, pars, line.data, "reflex=");
 	if (value != NULL)
 		add_double_param(line, "reflex", &env->scene->object, value);
-	value = analyse_balise_lign(line.data, "refraction=");
+	value = analyse_balise_lign(env, pars, line.data, "refraction=");
 	if (value != NULL)
 		add_double_param(line, "refraction", &env->scene->object, value);
-	value = analyse_balise_lign(line.data, "decoupe=");
+	value = analyse_balise_lign(env, pars, line.data, "decoupe=");
 	if (value != NULL)
 		add_OnOff_value(&env->scene->object, value, pars);
 	if (value != NULL)
@@ -105,18 +105,24 @@ void		check_object_balise(t_env *env, t_buff line, t_pars *pars)
 	}
 	else if (ft_strstr(line.data, "<LightObj>") != NULL)
 	{
-		value = analyse_balise_lign(line.data, "name=");
+		value = analyse_balise_lign(env, pars, line.data, "name=");
 		if (value != NULL)
 			check_object_name(env, value, pars);
-		value = analyse_balise_lign(line.data, "color=");
+		value = analyse_balise_lign(env, pars, line.data, "color=");
 		if (value != NULL)
-			check_color_light(&env->scene->light, value);
+			check_color_light(env, pars, &env->scene->light, value);
 		pars->balise = 2;
 	}
 	else if (ft_strstr(line.data, "<HEAD>") != NULL)
 		pars->balise = 3;
 	else if (ft_strstr(line.data, "<Camera>") != NULL)
 		pars->balise = 4;
+	else if (ft_strstr(line.data, "<NegObj>") != NULL)
+	{
+		init_neg_obj(env, pars, &env->scene->negobj);
+		pars->nbr_lign = 3;
+		pars->balise = 5;
+	}
 	else
 		empty_lign(line);
 	if (pars->balise == 2 || pars->balise == 4)

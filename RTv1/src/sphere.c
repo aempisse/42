@@ -16,30 +16,24 @@ static int			intersect_sphere(t_vector ray, t_object *sphere,
 }
 
 void				get_nearest_sphere(t_vector ray, t_object *sphere,
-	t_surface *surface)
+	t_surface *surface, t_scene *scene)
 {
 	t_double2		distance;
 	t_surface		*tmp;
 	t_vector		ray_s;
 
 	ray_s = transform_ray(ray, sphere);
-	if (intersect_sphere(ray_s, sphere, &distance))
+	if (intersect_sphere(transform_ray(ray, sphere), sphere, &distance))
 	{
-		if (sphere->dcp)
+		tmp = cut_object(ray, sphere, distance, scene);
+		if (tmp->object != NULL && (surface->distance == -1 || surface->distance > tmp->distance))
 		{
-			tmp = cut_object(ray_s, ray, sphere, &distance);
-			if (tmp->object != NULL && (surface->distance == -1 || surface->distance > tmp->distance))
-			{
-				surface->object = tmp->object;
-				surface->distance = tmp->distance;
-				surface->normal = tmp->normal;
-			}
+			surface->object = tmp->object;
+			surface->distance = tmp->distance;
+			surface->normal = tmp->normal;
+			free(tmp);
 		}
-		else if (surface->distance == -1 || surface->distance > min_positive(distance.x, distance.y))
-		{
-			surface->object = sphere;
-			surface->distance = min_positive(distance.x, distance.y);
-			surface->normal = find_point(ray_s.pos, ray_s.dir, surface->distance);
-		}
+		surface->color = get_texture(scene, surface, ray_s);
 	}
 }
+

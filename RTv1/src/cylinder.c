@@ -1,7 +1,7 @@
 #include "../rtv1.h"
 
 static int		intersect_cylinder(t_vector ray, t_object *cylinder,
-	double *distance)
+	t_double2 *distance)
 {
 	double		a;
 	double		b;
@@ -18,26 +18,24 @@ static int		intersect_cylinder(t_vector ray, t_object *cylinder,
 }
 
 void			get_nearest_cylinder(t_vector ray, t_object *cylinder,
-	t_surface **surface)
+	t_surface *surface, t_scene *scene)
 {
-	double		distance;
+	t_double2		distance;
+	t_surface		*tmp;
+	t_vector		ray_s;
 
-	ray = transform_ray(ray, cylinder);
-	if (intersect_cylinder(ray, cylinder, &distance))
+	ray_s = transform_ray(ray, cylinder);
+	if (intersect_cylinder(ray_s, cylinder, &distance))
 	{
-		if (*surface == NULL)
+		tmp = cut_object(ray, cylinder, distance, scene);
+		if (tmp->object != NULL && (surface->distance == -1 || surface->distance > tmp->distance))
 		{
-			if ((*surface = (t_surface*)malloc(sizeof(t_surface))) == NULL)
-				ft_error("Error : malloc() failed.\n");
-			(*surface)->object = cylinder;
-			(*surface)->distance = distance;
-			(*surface)->simple = find_point(ray.pos, ray.dir, distance);
-		}
-		else if ((*surface)->distance > distance)
-		{
-			(*surface)->object = cylinder;
-			(*surface)->distance = distance;
-			(*surface)->simple = find_point(ray.pos, ray.dir, distance);
+			surface->object = tmp->object;
+			surface->distance = tmp->distance;
+			surface->normal = tmp->normal;
+			// surface->color = tmp->object->color;
+			surface->color = get_texture(scene, surface, ray_s);
+			free(tmp);
 		}
 	}
 }

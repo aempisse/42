@@ -18,10 +18,20 @@ t_double3		normalize(t_double3 vec)
 
 double			dot_product(t_double3 vec1, t_double3 vec2)
 {
-	double		product;
+	double		dot;
 
-	product = vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
-	return (product);
+	dot = vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
+	return (dot);
+}
+
+t_double3		cross_product(t_double3 vec1, t_double3 vec2)
+{
+	t_double3	cross;
+
+	cross.x = vec1.y * vec2.z - vec1.z * vec2.y;
+	cross.y = vec1.z * vec2.x - vec1.x * vec2.z;
+	cross.z = vec1.x * vec2.y - vec1.y * vec2.x;
+	return (cross);
 }
 
 t_double3		find_point(t_double3 origin, t_double3 dir, double scalar)

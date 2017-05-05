@@ -16,7 +16,7 @@
 	Radius 		{0.0}
 <Object/>
 
-<LightObj> name=Spotlight; color=blue;
+<LightObj> name=Spotlight; color=red;
 	Pos 		{-3.0 	0.0 	-5.0}
 	Dir			{0.0	0.0		0.0}
 <LightObj/>

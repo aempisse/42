@@ -1,25 +1,17 @@
 #include "../rtv1.h"
 
-void				get_surface_normal(t_surface *surface, t_double3 ray_dir)
+t_double3			get_normal(t_object *object, t_double3 point)
 {
 	t_double3		normal;
 
-	if (surface->object->type == SPHERE)
-		surface->normal = rotation(surface->simple,
-			surface->object->rotation, REGULAR_MATRIX);
-	if (surface->object->type == PLANE)
-		surface->normal = rotation((t_double3){0, 0, 1},
-			surface->object->rotation, REGULAR_MATRIX);
-	// if (surface->object->type == CYLINDER)
-	// 	surface->normal = rotation((t_double3){surface->simple.x,
-	// 		surface->simple.y, 0}, surface->object->rotation, REGULAR_MATRIX);
-	// if (surface->object->type == CONE)
-	// 	surface->normal = rotation((t_double3){surface->simple.x,
-	// 		surface->simple.y, -1 * surface->simple.z * surface->object->radius
-	// 		* (M_PI / 180.0)}, surface->object->rotation, REGULAR_MATRIX);
-	surface->normal = normalize(surface->normal);
-	if (dot_product(surface->normal, ray_dir) > 0)
-		surface->normal = scale_v(surface->normal, -1);
+	normal = (t_double3){0, 0, 1};
+	if (object->type == SPHERE)
+		normal = point;
+	if (object->type == CYLINDER)
+		normal = (t_double3){point.x, point.y, 0};
+	if (object->type == CONE)
+		normal = (t_double3){point.x, point.y, -1 * point.z * object->radius * (M_PI / 180.0)};
+	return (normalize(normal));
 }
 
 t_surface			*intersect(t_vector ray, t_scene *scene,
@@ -36,13 +28,13 @@ t_surface			*intersect(t_vector ray, t_scene *scene,
 	while (tmp)
 	{
 		if (tmp != to_ignore && tmp->type == SPHERE)
-			get_nearest_sphere(ray, tmp, surface);
+			get_nearest_sphere(ray, tmp, surface, scene);
 		if (tmp != to_ignore && tmp->type == PLANE)
-			get_nearest_plane(ray, tmp, surface);
-		// if (tmp != to_ignore && tmp->type == CYLINDER)
-		// 	get_nearest_cylinder(ray, tmp, surface);
-		// if (tmp != to_ignore && tmp->type == CONE)
-		// 	get_nearest_cone(ray, tmp, surface);
+			get_nearest_plane(ray, tmp, surface, scene);
+		if (tmp != to_ignore && tmp->type == CYLINDER)
+			get_nearest_cylinder(ray, tmp, surface, scene);
+		if (tmp != to_ignore && tmp->type == CONE)
+			get_nearest_cone(ray, tmp, surface, scene);
 		tmp = tmp->next;
 	}
 	if (surface->object != NULL)

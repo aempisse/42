@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aempisse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jbahus <jbahus@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/09 20:04:27 by aempisse          #+#    #+#             */
-/*   Updated: 2015/11/24 18:51:46 by aempisse         ###   ########.fr       */
+/*   Updated: 2017/05/02 12:40:11 by jbahus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <sys/uio.h>
 # include <fcntl.h>
 # include <errno.h>
+
+# define OPEN_FLAG S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
 
 # define GNL_BUFF_SIZE 64
 
@@ -81,7 +83,7 @@ typedef struct	s_list
 typedef struct	s_image
 {
 	unsigned char	*data;
-	void			*img;
+	char			*img;
 	int				width;
 	int				height;
 	int				l_size;

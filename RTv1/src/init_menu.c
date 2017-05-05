@@ -1,41 +1,18 @@
 #include "../rtv1.h"
 
-static void		draw_menu(t_color color, int pixel_start, t_image *image)
+void			init_menu(t_env *env, const char *argv)
 {
-	int 	pixel_end;
-
-	pixel_end = pixel_start + image->opp;
-	while (pixel_start < pixel_end)
-	{
-		image->data[pixel_start] = color.b.b;
-		color.u >>= 8;
-		pixel_start++;
-	}
-}
-
-void			init_menu(t_env *env)
-{
-	int 		x;
-	int 		y;
-	t_color		rgb_color;
-
-	rgb_color.b.a = 0x00;
-	rgb_color.b.r = 255;
-	rgb_color.b.g = 255;
-	rgb_color.b.b = 255;
-	env->win_menu = mlx_new_window(env->mlx, 800, 1200, "Menu");
-	mlx_key_hook(env->win_menu, &key_menu, env);
-	env->img_menu = ft_new_image(env->mlx, 800, 1200, 1);
-	x = 0;
-	while(x < 800)
-	{
-		y = 0 ;
-		while(y < 1200)
-		{
-			if (y <= 50 || x <= 50 || y >= 1150 || x >= 750)
-				mlx_pixel_put(env->mlx, env->win_menu, x, y, 0xF0000ff);
-			y++;
-		}
-		x++;
-	}
+	env->win_menu = mlx_new_window(env->mlx, 500, 600, "Menu");
+	mlx_key_hook(env->win_menu, &key_hook, env);
+	env->menu = (t_menu*)malloc(sizeof(t_menu));
+	env->menu->index = 0;
+	env->menu->render = 1;
+	env->menu->menu_lvl = 0;
+	env->menu->i_page = 0;
+	env->menu->page_max = 0;
+	env->menu->nbr_scn = 0;
+	env->menu->path = (char*)malloc(sizeof(char) * strlen("./scenes/") + strlen(argv));
+	env->menu->path = ft_strcpy(env->menu->path, argv);
+	env->menu->img = ft_new_image(env->mlx, 800, 1200, 1);
+	render_menu(env);
 }

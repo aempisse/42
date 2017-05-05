@@ -7,7 +7,7 @@ void			add_OnOff_value(t_object **object, char *value, t_pars *pars)
 	tmp = *object;
 	if (strcmp(value, "On") == 0)
 	{
-		pars->nbr_lign = 7;
+		pars->nbr_lign = 8;
 		tmp->dcp = 1;
 	}
 	else if (strcmp(value, "Off") == 0)

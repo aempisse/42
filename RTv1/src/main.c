@@ -1,5 +1,22 @@
 #include "../rtv1.h"
 
+t_image			*init_texture(void *mlx, char *file)
+{
+	t_image		*texture;
+	int			width;
+	int			height;
+
+	if ((texture = (t_image*)malloc(sizeof(t_image))) == NULL)
+		ft_error("Error: malloc failed.\n");
+	texture->img = mlx_xpm_file_to_image(mlx, file, &width, &height);
+	texture->data = (unsigned char*)mlx_get_data_addr(texture->img, &texture->opp,
+		&texture->l_size, &texture->endian);
+	texture->opp = texture->opp / 8;
+	texture->width = width;
+	texture->height = height;
+	return (texture);
+}
+
 static t_env	*env_init(void)
 {
 	t_env		*env;
@@ -18,10 +35,13 @@ static t_env	*env_init(void)
 	env->scene->camera = (t_vector){(t_double3){0, 0, 0}, (t_double3){0, 0, 0}};
 	env->scene->object = NULL;
 	env->scene->light = NULL;
+	env->scene->negobj = NULL;
 	env->scene->ambiant = 0.02;
 	env->scene->aliaising = 0;
 	env->scene->direct_light = 1;
-	env->render = 1;
+	env->scene->texture = init_texture(env->mlx, "./meluche.xpm");
+	pthread_mutex_init(&env->my_mutex, NULL);
+    pthread_cond_init(&env->cond, NULL);
 	mlx_key_hook(env->win_scene, &key_hook, env);
 	mlx_loop_hook(env->mlx, &loop_hook, env);
 	return (env);
@@ -65,9 +85,12 @@ int				main(int argc, char const **argv)
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 		ft_error("Error : File not found.\n");
 	env = env_init();
-	// init_menu(env);
+	init_menu(env, argv[1]);
+	printf("texture width :\t\t%d\ntexture height :\t%d\ntexture opp :\t\t%d\ntexture l_size :\t%d\n",
+		env->scene->texture->width, env->scene->texture->height, env->scene->texture->opp, env->scene->texture->l_size);
 	check_files(fd, env);
-	print_object(&env->scene->object, &env->scene->light);
+	// print_object(&env->scene->object, &env->scene->light, &env->scene->negobj);
+	mlx_string_put(((t_env*)env)->mlx, ((t_env*)env)->win_scene, 100, 100, 0xF00D532, "Loading...");
 	close(fd);
 	mlx_loop(env->mlx);
 	return (0);

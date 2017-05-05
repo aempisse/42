@@ -7,8 +7,6 @@ void    multi_threading(t_env *env)
     env->count = 0;
     if (HEIGHT % THREAD != 0)
         ft_error("Wrong thread number.");
-    pthread_mutex_init(&env->my_mutex, NULL);
-    pthread_cond_init(&env->cond, NULL);
     while(env->count < THREAD)
     {
         if (pthread_create(&th[env->count], NULL, render, env) != 0)

@@ -1,0 +1,32 @@
+<Object> name=Sphere; color=FFFFFF; gloss=0.2;
+	Pos 		{0.0 	0.0 	-10.0}
+	Rot			{-90.0	0.0		0.0}
+	Radius 		{1.5}
+<Object/>
+
+<Object> name=Cone; color=FFFFFF; gloss=0.2;
+	Pos 		{-5.0 	-2.0 	-10.0}
+	Rot			{-90.0	0.0		0.0}
+	Radius 		{12.0}
+<Object/>
+
+<Object> name=Cylinder; color=FFFFFF; gloss=0.2;
+	Pos 		{5.0 	0.0 	-10.0}
+	Rot			{-90.0	0.0		0.0}
+	Radius 		{1.5}
+<Object/>
+
+<LightObj> name=Spotlight; color=FFD700;
+	Pos 		{0.0 	0.0 	5.0}
+	Dir			{0.0	0.0		0.0}
+<LightObj/>
+
+<Camera>
+	Pos			{0.0	0.0		10.0}
+	Dir			{0.0	0.0		0.0}
+<Camera/>
+
+<HEAD>
+	<Direct Light>		OFF;
+	<Ambiant>			{0.1}
+<HEAD/>

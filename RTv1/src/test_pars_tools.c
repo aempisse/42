@@ -20,10 +20,13 @@ t_double3		pick_values(t_buff line, int nbr)
 	ft_parse_not(&line, "{");
 	line.i++;
 	values.x = ft_parse_double(&line);
-	if (nbr == 3)
+	if (nbr >= 2)
 	{
 		ft_parse_not(&line, "-0123456789");
 		values.y = ft_parse_double(&line);
+	}
+	if (nbr == 3)
+	{
 		ft_parse_not(&line, "-0123456789");
 		values.z = ft_parse_double(&line);
 	}

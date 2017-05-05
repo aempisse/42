@@ -17,3 +17,11 @@ void			init_object(t_env *env, t_pars *pars, int obj,
 	new_obj = object_new(obj);
 	object_add(object, new_obj);
 }
+
+void			init_neg_obj(t_env *env, t_pars *pars, t_negobj **neg_obj)
+{
+	t_negobj	*new_obj;
+
+	new_obj = neg_obj_new();
+	neg_obj_add(neg_obj, new_obj);
+}
