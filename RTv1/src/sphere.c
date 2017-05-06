@@ -33,7 +33,7 @@ void				get_nearest_sphere(t_vector ray, t_object *sphere,
 			surface->normal = tmp->normal;
 			free(tmp);
 		}
-		surface->color = get_texture(scene, surface, ray_s);
+		surface->color = spherical_mapping(scene, surface, ray_s);
 	}
 }
 

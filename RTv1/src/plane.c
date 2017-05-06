@@ -31,7 +31,8 @@ void			get_nearest_plane(t_vector ray, t_object *plane,
 			surface->object = tmp->object;
 			surface->distance = tmp->distance;
 			surface->normal = tmp->normal;
-			surface->color = tmp->object->color;
+			// surface->color = tmp->object->color;
+			surface->color = planar_mapping(scene, surface, ray_s, plane);
 			free(tmp);
 		}
 	}

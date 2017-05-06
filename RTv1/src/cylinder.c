@@ -34,7 +34,7 @@ void			get_nearest_cylinder(t_vector ray, t_object *cylinder,
 			surface->distance = tmp->distance;
 			surface->normal = tmp->normal;
 			// surface->color = tmp->object->color;
-			surface->color = get_texture(scene, surface, ray_s);
+			surface->color = cylindrical_mapping(scene, surface, ray_s, cylinder);
 			free(tmp);
 		}
 	}

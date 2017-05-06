@@ -277,7 +277,9 @@ t_double3				get_normal(t_object *object, t_double3 point);
 
 t_image					*ft_new_image(void *mlx, int width, int height, int thread);
 
-t_double3				get_texture(t_scene *scene, t_surface *surface, t_vector ray);
+t_double3				cylindrical_mapping(t_scene *scene, t_surface *surface, t_vector ray, t_object *object);
+t_double3				spherical_mapping(t_scene *scene, t_surface *surface, t_vector ray);
+t_double3				planar_mapping(t_scene *scene, t_surface *surface, t_vector ray, t_object *object);
 
 /*
 ** Fonction multi_thread
